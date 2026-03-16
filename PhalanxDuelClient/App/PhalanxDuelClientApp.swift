@@ -1,10 +1,3 @@
-//
-//  PhalanxDuelClientApp.swift
-//  PhalanxDuelClient
-//
-//  Created by Mike Hall on 3/16/26.
-//
-
 import SwiftUI
 
 @main
