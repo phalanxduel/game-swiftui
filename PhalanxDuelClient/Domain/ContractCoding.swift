@@ -46,3 +46,21 @@ public nonisolated enum ContractCoding {
         return encoder
     }
 }
+
+public protocol Clock: Sendable {
+    var now: Date { get }
+}
+
+public struct SystemClock: Clock {
+    public init() {}
+    public var now: Date { Date() }
+}
+
+public protocol UUIDGenerator: Sendable {
+    func makeUUID() -> UUID
+}
+
+public struct SystemUUIDGenerator: UUIDGenerator {
+    public init() {}
+    public func makeUUID() -> UUID { UUID() }
+}

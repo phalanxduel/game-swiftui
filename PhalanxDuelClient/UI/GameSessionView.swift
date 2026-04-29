@@ -40,8 +40,13 @@ public struct GameSessionView: View {
                     }
                 }
                 if let recentError = sessionStore.recentError {
-                    Text(recentError)
-                        .foregroundStyle(.red)
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(recentError.title)
+                            .font(.headline)
+                        Text(recentError.message)
+                            .font(.subheadline)
+                    }
+                    .foregroundStyle(.red)
                 }
 
                 if let state = sessionStore.currentState {
@@ -71,7 +76,10 @@ public struct GameSessionView: View {
                     GameTableView(
                         gameState: state,
                         localPlayerIndex: sessionStore.localPlayerIndex,
-                        sessionRole: sessionStore.sessionRole
+                        sessionRole: sessionStore.sessionRole,
+                        onAction: { action in
+                            sessionStore.sendAction(action)
+                        }
                     )
                 } else {
                     ContentUnavailableView(

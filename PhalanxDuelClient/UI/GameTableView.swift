@@ -4,15 +4,25 @@ public struct GameTableView: View {
     public let gameState: GameState
     public let localPlayerIndex: Int?
     public let sessionRole: SessionStore.SessionRole?
+    public let onAction: (Action) -> Void
 
-    public init(gameState: GameState, localPlayerIndex: Int?, sessionRole: SessionStore.SessionRole?) {
+    @State private var selectedCardId: String?
+    @State private var selectedAttackerColumn: Int?
+
+    public init(
+        gameState: GameState,
+        localPlayerIndex: Int?,
+        sessionRole: SessionStore.SessionRole?,
+        onAction: @escaping (Action) -> Void
+    ) {
         self.gameState = gameState
         self.localPlayerIndex = localPlayerIndex
         self.sessionRole = sessionRole
+        self.onAction = onAction
     }
 
     public var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: AppSpacing.medium) {
             ForEach(displayOrder, id: \.self) { playerIndex in
                 if let playerState = gameState.players[safe: playerIndex] {
                     PlayerFieldView(
@@ -21,10 +31,72 @@ public struct GameTableView: View {
                         rows: gameState.rows,
                         columns: gameState.columns,
                         isActivePlayer: gameState.activePlayerIndex == playerIndex,
-                        revealHand: shouldRevealHand(for: playerIndex)
+                        revealHand: shouldRevealHand(for: playerIndex),
+                        selectedCardId: selectedCardId,
+                        selectedAttackerColumn: selectedAttackerColumn,
+                        onCardSelected: { cardId in
+                            if selectedCardId == cardId {
+                                selectedCardId = nil
+                            } else {
+                                selectedCardId = cardId
+                                selectedAttackerColumn = nil
+                            }
+                        },
+                        onSlotSelected: { row, col in
+                            handleSlotSelection(playerIndex: playerIndex, row: row, col: col)
+                        }
                     )
                 }
             }
+        }
+    }
+
+    private func handleSlotSelection(playerIndex: Int, row: Int, col: Int) {
+        guard let localPlayerIndex else { return }
+        
+        // 1. Deployment (to local board)
+        if let selectedCardId, playerIndex == localPlayerIndex {
+            if case .turnPhase(.DeploymentPhase) = gameState.phase {
+                let action = Action(
+                    type: .deploy,
+                    playerIndex: localPlayerIndex,
+                    column: col,
+                    cardId: selectedCardId
+                )
+                onAction(action)
+                self.selectedCardId = nil
+                return
+            }
+        }
+        
+        // 2. Attack Selection (from local board rank 0)
+        if playerIndex == localPlayerIndex && row == 0 {
+            if case .turnPhase(.AttackPhase) = gameState.phase {
+                if let _ = gameState.battlefieldCard(playerIndex: localPlayerIndex, row: 0, column: col) {
+                    if selectedAttackerColumn == col {
+                        selectedAttackerColumn = nil
+                    } else {
+                        selectedAttackerColumn = col
+                        selectedCardId = nil
+                    }
+                    return
+                }
+            }
+        }
+        
+        // 3. Attack Execution (to opponent board)
+        if let attackerCol = selectedAttackerColumn, playerIndex != localPlayerIndex {
+             if case .turnPhase(.AttackPhase) = gameState.phase {
+                 let action = Action(
+                    type: .attack,
+                    playerIndex: localPlayerIndex,
+                    attackingColumn: attackerCol,
+                    defendingColumn: col
+                 )
+                 onAction(action)
+                 selectedAttackerColumn = nil
+                 return
+             }
         }
     }
 
@@ -65,15 +137,19 @@ private struct PlayerFieldView: View {
     let columns: Int
     let isActivePlayer: Bool
     let revealHand: Bool
+    let selectedCardId: String?
+    let selectedAttackerColumn: Int?
+    let onCardSelected: (String) -> Void
+    let onSlotSelected: (Int, Int) -> Void
 
     private var gridColumns: [GridItem] {
-        Array(repeating: GridItem(.flexible(), spacing: 8), count: max(columns, 1))
+        Array(repeating: GridItem(.flexible(), spacing: AppSpacing.small), count: max(columns, 1))
     }
 
     var body: some View {
         GroupBox {
-            VStack(alignment: .leading, spacing: 12) {
-                VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: AppSpacing.medium) {
+                VStack(alignment: .leading, spacing: AppSpacing.tiny) {
                     HStack {
                         Text("\(title): \(playerState.player.name)")
                             .font(.headline)
@@ -81,9 +157,9 @@ private struct PlayerFieldView: View {
                         if isActivePlayer {
                             Text("Active")
                                 .font(.caption)
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 4)
-                                .background(Color.green.opacity(0.15))
+                                .padding(.horizontal, AppSpacing.small)
+                                .padding(.vertical, AppSpacing.tiny)
+                                .background(Color.successStatus.opacity(0.15))
                                 .clipShape(Capsule())
                         }
                     }
@@ -93,18 +169,27 @@ private struct PlayerFieldView: View {
                         .foregroundStyle(.secondary)
                 }
 
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: AppSpacing.small) {
                     Text("Battlefield")
                         .font(.subheadline.weight(.semibold))
 
-                    LazyVGrid(columns: gridColumns, spacing: 8) {
+                    LazyVGrid(columns: gridColumns, spacing: AppSpacing.small) {
                         ForEach(0..<(rows * columns), id: \.self) { index in
-                            BattlefieldSlotView(slot: playerState.battlefield[safe: index] ?? nil)
+                            let row = index / columns
+                            let col = index % columns
+                            let isAttacker = row == 0 && selectedAttackerColumn == col && isActivePlayer
+                            BattlefieldSlotView(
+                                slot: playerState.battlefield[safe: index] ?? nil,
+                                isSelected: isAttacker
+                            )
+                            .onTapGesture {
+                                onSlotSelected(row, col)
+                            }
                         }
                     }
                 }
 
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: AppSpacing.small) {
                     Text("Hand")
                         .font(.subheadline.weight(.semibold))
 
@@ -115,12 +200,18 @@ private struct PlayerFieldView: View {
                                 .foregroundStyle(.secondary)
                         } else {
                             ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 8) {
+                                HStack(spacing: AppSpacing.small) {
                                     ForEach(playerState.hand) { card in
-                                        VisibleHandCardView(card: card)
+                                        VisibleHandCardView(
+                                            card: card,
+                                            isSelected: selectedCardId == card.id
+                                        )
+                                        .onTapGesture {
+                                            onCardSelected(card.id)
+                                        }
                                     }
                                 }
-                                .padding(.vertical, 2)
+                                .padding(.vertical, AppSpacing.tiny / 2)
                             }
                         }
                     } else {
@@ -138,21 +229,22 @@ private struct PlayerFieldView: View {
 
 private struct BattlefieldSlotView: View {
     let slot: BattlefieldCard?
+    let isSelected: Bool
 
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
-            .fill(slot == nil ? Color.gray.opacity(0.08) : Color.white)
+            .fill(slot == nil ? Color.slotBackground : Color.white)
             .overlay {
                 RoundedRectangle(cornerRadius: 10)
-                    .strokeBorder(slotBorderColor, lineWidth: 1.5)
+                    .strokeBorder(isSelected ? Color.primaryAction : slotBorderColor, lineWidth: isSelected ? 3 : 1.5)
             }
             .frame(minHeight: 96)
             .overlay(alignment: .center) {
                 if let slot {
-                    VStack(spacing: 4) {
+                    VStack(spacing: AppSpacing.tiny) {
                         Text(slot.faceDown ? "Face Down" : slot.card.shortLabel)
                             .font(.headline)
-                            .foregroundStyle(slot.card.suit.isRed ? Color.red : Color.primary)
+                            .foregroundStyle(slot.card.suit.isRed ? Color.suitRed : Color.suitBlack)
 
                         Text("HP \(slot.currentHp)")
                             .font(.caption)
@@ -162,43 +254,54 @@ private struct BattlefieldSlotView: View {
                             .font(.caption2)
                             .foregroundStyle(.tertiary)
                     }
-                    .padding(6)
+                    .padding(AppSpacing.small - 2)
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("\(slot.card.face) of \(slot.card.suit.rawValue)")
+                    .accessibilityValue("\(slot.currentHp) health points")
                 } else {
                     Text("Empty")
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                        .accessibilityLabel("Empty slot")
                 }
             }
+            .accessibilityAddTraits(.isButton)
+            .accessibilityHint(slot == nil ? "Tap to deploy selected card here" : "Tap to select as attacker")
     }
 
     private var slotBorderColor: Color {
         guard let slot else {
-            return Color.gray.opacity(0.35)
+            return Color.cardBorder
         }
 
-        return slot.card.suit.isRed ? .red : .primary
+        return slot.card.suit.isRed ? Color.suitRed : Color.suitBlack
     }
 }
 
 private struct VisibleHandCardView: View {
     let card: Card
+    let isSelected: Bool
 
     var body: some View {
-        VStack(spacing: 4) {
+        VStack(spacing: AppSpacing.tiny) {
             Text(card.face)
                 .font(.headline)
             Text(card.suit.symbol)
-                .foregroundStyle(card.suit.isRed ? Color.red : Color.primary)
+                .foregroundStyle(card.suit.isRed ? Color.suitRed : Color.suitBlack)
             Text(card.type.rawValue)
                 .font(.caption2)
                 .foregroundStyle(.secondary)
         }
         .frame(width: 64, height: 92)
-        .background(Color(.secondarySystemBackground))
+        .background(isSelected ? Color.primaryAction.opacity(0.15) : Color(.secondarySystemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .overlay {
             RoundedRectangle(cornerRadius: 10)
-                .strokeBorder(Color.gray.opacity(0.35), lineWidth: 1)
+                .strokeBorder(isSelected ? Color.primaryAction : Color.cardBorder, lineWidth: isSelected ? 2 : 1)
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(card.face) of \(card.suit.rawValue)")
+        .accessibilityAddTraits(.isButton)
+        .accessibilityHint("Tap to select this card for deployment")
     }
 }

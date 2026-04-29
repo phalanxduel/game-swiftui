@@ -271,3 +271,45 @@ public extension Collection {
         indices.contains(index) ? self[index] : nil
     }
 }
+
+public nonisolated struct UserFacingError: Codable, Equatable, Sendable {
+    public let title: String
+    public let message: String
+
+    public init(title: String, message: String) {
+        self.title = title
+        self.message = message
+    }
+
+    public static func from(_ error: Error) -> UserFacingError {
+        UserFacingError(title: "Error", message: error.localizedDescription)
+    }
+}
+
+public nonisolated enum LoadState<T: Codable & Equatable & Sendable>: Codable, Equatable, Sendable {
+    case idle
+    case loading
+    case loaded(T)
+    case failed(UserFacingError)
+
+    public var value: T? {
+        if case .loaded(let val) = self {
+            return val
+        }
+        return nil
+    }
+
+    public var error: UserFacingError? {
+        if case .failed(let err) = self {
+            return err
+        }
+        return nil
+    }
+
+    public var isLoading: Bool {
+        if case .loading = self {
+            return true
+        }
+        return false
+    }
+}

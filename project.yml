@@ -1,6 +1,10 @@
 name: PhalanxDuelClient
 options:
   bundleIdPrefix: com.phalanxduel
+packages:
+  SnapshotTesting:
+    url: https://github.com/pointfreeco/swift-snapshot-testing.git
+    from: 1.17.5
 targets:
   PhalanxDuelClient:
     type: application
@@ -23,3 +27,4 @@ targets:
       - path: PhalanxDuelClientTests
     dependencies:
       - target: PhalanxDuelClient
+      - package: SnapshotTesting

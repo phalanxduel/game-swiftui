@@ -132,9 +132,16 @@ public struct ServerConnectView: View {
             }
 
             if let recentError = sessionStore.recentError {
-                Section("Last Error") {
-                    Text(recentError)
-                        .foregroundStyle(.red)
+                Section {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(recentError.title)
+                            .font(.headline)
+                        Text(recentError.message)
+                            .font(.subheadline)
+                    }
+                    .foregroundStyle(.red)
+                } header: {
+                    Text("Last Error")
                 }
             }
 

@@ -8,6 +8,22 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         case spectator
     }
 
+    public struct ServerSnapshot: Codable, Equatable, Sendable {
+        public var health: ServerHealthResponse?
+        public var defaults: ServerDefaultsResponse?
+        public var activeMatches: [ActiveMatchSummary] = []
+
+        public init(
+            health: ServerHealthResponse? = nil,
+            defaults: ServerDefaultsResponse? = nil,
+            activeMatches: [ActiveMatchSummary] = []
+        ) {
+            self.health = health
+            self.defaults = defaults
+            self.activeMatches = activeMatches
+        }
+    }
+
     private enum PendingConnectionAction: Equatable {
         case join(matchId: String, playerName: String)
         case watch(matchId: String)
@@ -19,9 +35,9 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
 
     @Published public private(set) var environment: AppEnvironment
     @Published public private(set) var connectionState: WebSocketClient.ConnectionState = .disconnected
-    @Published public private(set) var serverHealth: ServerHealthResponse?
-    @Published public private(set) var serverDefaults: ServerDefaultsResponse?
-    @Published public private(set) var activeMatches: [ActiveMatchSummary] = []
+    @Published public private(set) var snapshot: ServerSnapshot = ServerSnapshot()
+    @Published public private(set) var snapshotLoadState: LoadState<Void> = .idle
+
     @Published public private(set) var sessionRole: SessionRole?
     @Published public private(set) var currentState: GameState?
     @Published public private(set) var latestTurnResult: PhalanxTurnResult?
@@ -30,12 +46,11 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
     @Published public var localPlayerIndex: Int?
     @Published public var activeMatchId: String?
     @Published public private(set) var spectatorCount: Int = 0
-    @Published public var recentError: String?
+    @Published public var recentError: UserFacingError?
     @Published public private(set) var debugLog: [DebugLogEntry] = []
-    @Published public private(set) var isRefreshingSnapshot: Bool = false
     @Published public private(set) var lastSnapshotRefreshAt: Date?
 
-    @Published public private(set) var isBooting: Bool = true
+    @Published public private(set) var bootState: LoadState<Void> = .idle
     @Published public private(set) var bootTasks: [BootTask] = [
         BootTask(id: "env", name: "Initializing Environment"),
         BootTask(id: "health", name: "Probing Server Health"),
@@ -47,9 +62,18 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
     private var restClient: RestClient
     private var pendingConnectionAction: PendingConnectionAction?
 
-    public init(environment: AppEnvironment? = nil) {
+    private let clock: any Clock
+    private let uuidGenerator: any UUIDGenerator
+
+    public init(
+        environment: AppEnvironment? = nil,
+        clock: any Clock = SystemClock(),
+        uuidGenerator: any UUIDGenerator = SystemUUIDGenerator()
+    ) {
         let environment = environment ?? .current
         self.environment = environment
+        self.clock = clock
+        self.uuidGenerator = uuidGenerator
         self.serverBaseURLText = environment.apiBaseURL.absoluteString
         self.documentationBaseURLText = environment.documentationBaseURL.absoluteString
         self.webSocketClient = WebSocketClient(environment: environment)
@@ -61,6 +85,18 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
             detail: "api=\(environment.apiBaseURL.absoluteString), ws=\(environment.webSocketURL.absoluteString), docs=\(environment.openAPIURL.absoluteString)"
         )
     }
+
+    public var isBooting: Bool {
+        bootState.isLoading
+    }
+
+    public var isRefreshingSnapshot: Bool {
+        snapshotLoadState.isLoading
+    }
+
+    public var serverHealth: ServerHealthResponse? { snapshot.health }
+    public var serverDefaults: ServerDefaultsResponse? { snapshot.defaults }
+    public var activeMatches: [ActiveMatchSummary] { snapshot.activeMatches }
 
     public var hasActiveSession: Bool {
         activeMatchId != nil || sessionRole != nil || connectionState == .connecting
@@ -84,22 +120,22 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
     }
 
     public func refreshServerSnapshot() async {
-        isRefreshingSnapshot = true
+        snapshotLoadState = .loading
         recentError = nil
         appendLog(category: .rest, title: "Refreshing server snapshot", detail: environment.apiBaseURL.absoluteString)
 
         defer {
-            isRefreshingSnapshot = false
-            lastSnapshotRefreshAt = Date()
+            snapshotLoadState = .loaded(())
+            lastSnapshotRefreshAt = clock.now
         }
 
         do {
-            serverHealth = try await restClient.fetchHealth()
-            if let serverHealth {
+            snapshot.health = try await restClient.fetchHealth()
+            if let health = snapshot.health {
                 appendLog(
                     category: .rest,
                     title: "Fetched /health",
-                    detail: "status=\(serverHealth.status), version=\(serverHealth.version), region=\(serverHealth.observability.region)"
+                    detail: "status=\(health.status), version=\(health.version), region=\(health.observability.region)"
                 )
             }
         } catch {
@@ -107,12 +143,12 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         }
 
         do {
-            serverDefaults = try await restClient.fetchDefaults()
-            if let serverDefaults {
+            snapshot.defaults = try await restClient.fetchDefaults()
+            if let defaults = snapshot.defaults {
                 appendLog(
                     category: .rest,
                     title: "Fetched /api/defaults",
-                    detail: "rows=\(serverDefaults.rows), columns=\(serverDefaults.columns), hand=\(serverDefaults.maxHandSize), LP=\(serverDefaults.startingLifepoints)"
+                    detail: "rows=\(defaults.rows), columns=\(defaults.columns), hand=\(defaults.maxHandSize), LP=\(defaults.startingLifepoints)"
                 )
             }
         } catch {
@@ -120,11 +156,11 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         }
 
         do {
-            activeMatches = try await restClient.fetchMatches()
+            snapshot.activeMatches = try await restClient.fetchMatches()
             appendLog(
                 category: .rest,
                 title: "Fetched /matches",
-                detail: "activeMatches=\(activeMatches.count)"
+                detail: "activeMatches=\(snapshot.activeMatches.count)"
             )
         } catch {
             handle(error, context: "Failed to fetch /matches")
@@ -132,7 +168,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
     }
 
     public func runBootSequence() async {
-        isBooting = true
+        bootState = .loading
         appendLog(category: .session, title: "Starting Boot Sequence")
 
         // 1. Initializing Environment (already done in init, but we'll mark it success)
@@ -143,7 +179,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         // 2. Health
         updateBootTask(id: "health", status: .loading)
         do {
-            serverHealth = try await restClient.fetchHealth()
+            snapshot.health = try await restClient.fetchHealth()
             updateBootTask(id: "health", status: .success)
         } catch {
             updateBootTask(id: "health", status: .failure, error: "Server unreachable")
@@ -153,7 +189,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         // 3. Defaults
         updateBootTask(id: "defaults", status: .loading)
         do {
-            serverDefaults = try await restClient.fetchDefaults()
+            snapshot.defaults = try await restClient.fetchDefaults()
             updateBootTask(id: "defaults", status: .success)
         } catch {
             updateBootTask(id: "defaults", status: .failure, error: "Failed to get config")
@@ -163,7 +199,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         // 4. Matches
         updateBootTask(id: "matches", status: .loading)
         do {
-            activeMatches = try await restClient.fetchMatches()
+            snapshot.activeMatches = try await restClient.fetchMatches()
             updateBootTask(id: "matches", status: .success)
         } catch {
             updateBootTask(id: "matches", status: .failure, error: "Discovery failed")
@@ -171,7 +207,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         }
 
         try? await Task.sleep(nanoseconds: 800_000_000) // Let user see the completion
-        isBooting = false
+        bootState = .loaded(())
         appendLog(category: .session, title: "Boot Sequence Complete")
     }
 
@@ -185,7 +221,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
     public func connectAndCreateMatch() async {
         let trimmedName = localPlayerName.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedName.isEmpty else {
-            recentError = "Player name is required before creating a match."
+            recentError = UserFacingError(title: "Required", message: "Player name is required before creating a match.")
             return
         }
 
@@ -204,12 +240,12 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         let trimmedName = localPlayerName.trimmingCharacters(in: .whitespacesAndNewlines)
 
         guard !trimmedMatchID.isEmpty else {
-            recentError = "A match ID is required to join."
+            recentError = UserFacingError(title: "Required", message: "A match ID is required to join.")
             return
         }
 
         guard !trimmedName.isEmpty else {
-            recentError = "Player name is required before joining a match."
+            recentError = UserFacingError(title: "Required", message: "Player name is required before joining a match.")
             return
         }
 
@@ -219,7 +255,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
     public func connectAndWatchMatch(matchId: String) async {
         let trimmedMatchID = matchId.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedMatchID.isEmpty else {
-            recentError = "A match ID is required to watch."
+            recentError = UserFacingError(title: "Required", message: "A match ID is required to watch.")
             return
         }
 
@@ -228,7 +264,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
 
     public func sendPassAction() {
         guard let localPlayerIndex else {
-            recentError = "Pass is unavailable until the server assigns a player index."
+            recentError = UserFacingError(title: "Unavailable", message: "Pass is unavailable until the server assigns a player index.")
             return
         }
 
@@ -237,7 +273,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
 
     public func sendAction(_ action: Action) {
         guard let activeMatchId else {
-            recentError = "No active match is connected."
+            recentError = UserFacingError(title: "No Session", message: "No active match is connected.")
             return
         }
 
@@ -354,7 +390,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
     }
 
     private func handle(_ error: Error, context: String) {
-        recentError = context + ": " + error.localizedDescription
+        recentError = UserFacingError(title: context, message: error.localizedDescription)
         appendLog(category: .error, title: context, detail: error.localizedDescription)
     }
 
@@ -392,10 +428,10 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
             recentError = nil
 
         case .actionError(let error, let code), .matchError(let error, let code):
-            recentError = "[\(code)] \(error)"
+            recentError = UserFacingError(title: "Server Error [\(code)]", message: error)
 
         case .opponentDisconnected:
-            recentError = "Opponent disconnected."
+            recentError = UserFacingError(title: "Disconnected", message: "Opponent disconnected.")
 
         case .opponentReconnected:
             recentError = nil
@@ -404,10 +440,10 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
             recentError = nil
 
         case .authError(let error):
-            recentError = error
+            recentError = UserFacingError(title: "Authentication Error", message: error)
 
         case .unknown(let type):
-            recentError = "Unknown server message type: \(type)"
+            recentError = UserFacingError(title: "Protocol Error", message: "Unknown server message type: \(type)")
         }
     }
 
