@@ -23,7 +23,7 @@ echo "🏗️  Building Target..."
 # Note: This requires the full Xcode SDK to be available in the local environment.
 xcodebuild build \
   -scheme PhalanxDuelClient \
-  -destination 'platform=iOS Simulator,name=iPhone 16' \
+  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
   -quiet
 
 echo "✅ Check Complete."
