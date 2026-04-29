@@ -55,7 +55,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         BootTask(id: "env", name: "Initializing Environment"),
         BootTask(id: "health", name: "Probing Server Health"),
         BootTask(id: "defaults", name: "Fetching Game Defaults"),
-        BootTask(id: "matches", name: "Finding Active Matches"),
+        BootTask(id: "matches", name: "Finding Active Matches")
     ]
 
     private var webSocketClient: WebSocketClient

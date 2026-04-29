@@ -179,16 +179,14 @@ public nonisolated enum JSONValue: Codable, Equatable, Sendable {
                 withJSONObject: value.mapValues(\.jsonObject),
                 options: [.sortedKeys]
             ),
-                let string = String(data: data, encoding: .utf8)
-            {
+                let string = String(data: data, encoding: .utf8) {
                 string
             } else {
                 "{…}"
             }
         case let .array(value):
             if let data = try? JSONSerialization.data(withJSONObject: value.map(\.jsonObject)),
-               let string = String(data: data, encoding: .utf8)
-            {
+               let string = String(data: data, encoding: .utf8) {
                 string
             } else {
                 "[…]"
