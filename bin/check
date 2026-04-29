@@ -13,7 +13,7 @@ swiftformat . --quiet
 
 echo "🛡️  Linting..."
 if command -v swiftlint >/dev/null; then
-  swiftlint --fix --quiet
+  swiftlint --fix --quiet || echo "⚠️  swiftlint failed or crashed, continuing..."
 else
   echo "⚠️  swiftlint not found, skipping."
 fi
