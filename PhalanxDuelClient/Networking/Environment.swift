@@ -134,11 +134,12 @@ public nonisolated struct AppEnvironment: Equatable, Sendable {
         }
 
         guard var components = URLComponents(string: trimmed), let scheme = components.scheme?.lowercased(),
-              scheme == "http" || scheme == "https" || scheme == "ws" || scheme == "wss" else {
+              scheme == "http" || scheme == "https" || scheme == "ws" || scheme == "wss"
+        else {
             return nil
         }
 
-        if components.path.hasSuffix("/") && components.path.count > 1 {
+        if components.path.hasSuffix("/"), components.path.count > 1 {
             components.path.removeLast()
         }
 
@@ -153,11 +154,11 @@ public nonisolated enum AppEnvironmentError: LocalizedError {
 
     public var errorDescription: String? {
         switch self {
-        case .invalidBaseURL(let value):
+        case let .invalidBaseURL(value):
             "Invalid API base URL: \(value)"
-        case .invalidWebSocketURL(let value):
+        case let .invalidWebSocketURL(value):
             "Invalid WebSocket URL: \(value)"
-        case .invalidDocumentationURL(let value):
+        case let .invalidDocumentationURL(value):
             "Invalid documentation base URL: \(value)"
         }
     }

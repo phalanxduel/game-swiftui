@@ -53,7 +53,9 @@ public protocol Clock: Sendable {
 
 public struct SystemClock: Clock {
     public init() {}
-    public var now: Date { Date() }
+    public var now: Date {
+        Date()
+    }
 }
 
 public protocol UUIDGenerator: Sendable {
@@ -62,5 +64,7 @@ public protocol UUIDGenerator: Sendable {
 
 public struct SystemUUIDGenerator: UUIDGenerator {
     public init() {}
-    public func makeUUID() -> UUID { UUID() }
+    public func makeUUID() -> UUID {
+        UUID()
+    }
 }

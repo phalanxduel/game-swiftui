@@ -53,7 +53,7 @@ public struct GameTableView: View {
 
     private func handleSlotSelection(playerIndex: Int, row: Int, col: Int) {
         guard let localPlayerIndex else { return }
-        
+
         // 1. Deployment (to local board)
         if let selectedCardId, playerIndex == localPlayerIndex {
             if case .turnPhase(.DeploymentPhase) = gameState.phase {
@@ -68,9 +68,9 @@ public struct GameTableView: View {
                 return
             }
         }
-        
+
         // 2. Attack Selection (from local board rank 0)
-        if playerIndex == localPlayerIndex && row == 0 {
+        if playerIndex == localPlayerIndex, row == 0 {
             if case .turnPhase(.AttackPhase) = gameState.phase {
                 if let _ = gameState.battlefieldCard(playerIndex: localPlayerIndex, row: 0, column: col) {
                     if selectedAttackerColumn == col {
@@ -83,20 +83,20 @@ public struct GameTableView: View {
                 }
             }
         }
-        
+
         // 3. Attack Execution (to opponent board)
         if let attackerCol = selectedAttackerColumn, playerIndex != localPlayerIndex {
-             if case .turnPhase(.AttackPhase) = gameState.phase {
-                 let action = Action(
+            if case .turnPhase(.AttackPhase) = gameState.phase {
+                let action = Action(
                     type: .attack,
                     playerIndex: localPlayerIndex,
                     attackingColumn: attackerCol,
                     defendingColumn: col
-                 )
-                 onAction(action)
-                 selectedAttackerColumn = nil
-                 return
-             }
+                )
+                onAction(action)
+                selectedAttackerColumn = nil
+                return
+            }
         }
     }
 
@@ -174,7 +174,7 @@ private struct PlayerFieldView: View {
                         .font(.subheadline.weight(.semibold))
 
                     LazyVGrid(columns: gridColumns, spacing: AppSpacing.small) {
-                        ForEach(0..<(rows * columns), id: \.self) { index in
+                        ForEach(0 ..< (rows * columns), id: \.self) { index in
                             let row = index / columns
                             let col = index % columns
                             let isAttacker = row == 0 && selectedAttackerColumn == col && isActivePlayer

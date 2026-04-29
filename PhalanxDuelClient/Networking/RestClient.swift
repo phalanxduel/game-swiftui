@@ -12,15 +12,15 @@ public nonisolated enum PhalanxError: Error, LocalizedError {
         switch self {
         case .invalidURL:
             "The configured server URL is invalid."
-        case .networkError(let error):
+        case let .networkError(error):
             error.localizedDescription
-        case .decodingError(let error):
+        case let .decodingError(error):
             "Failed to decode server response: \(error.localizedDescription)"
-        case .encodingError(let error):
+        case let .encodingError(error):
             "Failed to encode request: \(error.localizedDescription)"
         case .unauthenticated:
             "Authentication is required for this request."
-        case .serverError(let code, let message):
+        case let .serverError(code, message):
             "[\(code)] \(message)"
         }
     }

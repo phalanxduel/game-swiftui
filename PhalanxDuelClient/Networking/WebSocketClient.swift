@@ -21,7 +21,7 @@ public final class WebSocketClient: NSObject, URLSessionWebSocketDelegate {
                 "Connecting"
             case .connected:
                 "Connected"
-            case .failed(let message):
+            case let .failed(message):
                 "Failed: \(message)"
             }
         }
@@ -33,6 +33,7 @@ public final class WebSocketClient: NSObject, URLSessionWebSocketDelegate {
         configuration.waitsForConnectivity = false
         return URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
     }()
+
     private var webSocketTask: URLSessionWebSocketTask?
     private var pendingMessages: [ClientMessage] = []
 
@@ -53,7 +54,7 @@ public final class WebSocketClient: NSObject, URLSessionWebSocketDelegate {
     }
 
     public func connect() {
-        guard state != .connected && state != .connecting else { return }
+        guard state != .connected, state != .connecting else { return }
 
         state = .connecting
 
@@ -138,10 +139,10 @@ public final class WebSocketClient: NSObject, URLSessionWebSocketDelegate {
             guard let self = self else { return }
 
             switch result {
-            case .success(let message):
+            case let .success(message):
                 self.handleIncomingMessage(message)
                 self.listen()
-            case .failure(let error):
+            case let .failure(error):
                 if let error = error as? URLError, error.code == .cancelled {
                     self.state = .disconnected
                     return
@@ -157,10 +158,10 @@ public final class WebSocketClient: NSObject, URLSessionWebSocketDelegate {
         let dataToDecode: Data
 
         switch message {
-        case .string(let string):
+        case let .string(string):
             guard let data = string.data(using: .utf8) else { return }
             dataToDecode = data
-        case .data(let data):
+        case let .data(data):
             dataToDecode = data
         @unknown default:
             return
@@ -177,9 +178,9 @@ public final class WebSocketClient: NSObject, URLSessionWebSocketDelegate {
     }
 
     public func urlSession(
-        _ session: URLSession,
-        webSocketTask: URLSessionWebSocketTask,
-        didOpenWithProtocol protocol: String?
+        _: URLSession,
+        webSocketTask _: URLSessionWebSocketTask,
+        didOpenWithProtocol _: String?
     ) {
         state = .connected
         flushPendingMessages()
@@ -187,10 +188,10 @@ public final class WebSocketClient: NSObject, URLSessionWebSocketDelegate {
     }
 
     public func urlSession(
-        _ session: URLSession,
-        webSocketTask: URLSessionWebSocketTask,
-        didCloseWith closeCode: URLSessionWebSocketTask.CloseCode,
-        reason: Data?
+        _: URLSession,
+        webSocketTask _: URLSessionWebSocketTask,
+        didCloseWith _: URLSessionWebSocketTask.CloseCode,
+        reason _: Data?
     ) {
         if state != .disconnected {
             state = .disconnected

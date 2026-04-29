@@ -1,6 +1,6 @@
 import Foundation
-import Testing
 @testable import PhalanxDuelClient
+import Testing
 
 @Suite("Phalanx Duel Client Contract Tests")
 struct PhalanxDuelClientTests {
@@ -242,7 +242,7 @@ struct PhalanxDuelClientTests {
 
         let message = try ContractCoding.makeDecoder().decode(ServerMessage.self, from: Data(json.utf8))
 
-        guard case .gameState(let matchID, let result, let spectatorCount) = message else {
+        guard case let .gameState(matchID, result, spectatorCount) = message else {
             Issue.record("Expected a gameState message")
             return
         }

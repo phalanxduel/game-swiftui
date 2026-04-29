@@ -70,25 +70,25 @@ public nonisolated enum ClientMessage: Encodable, Sendable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         switch self {
-        case .createMatch(let playerName, let gameOptions, let rngSeed, let opponent, let matchParams):
+        case let .createMatch(playerName, gameOptions, rngSeed, opponent, matchParams):
             try container.encode("createMatch", forKey: .type)
             try container.encode(playerName, forKey: .playerName)
             try container.encodeIfPresent(gameOptions, forKey: .gameOptions)
             try container.encodeIfPresent(rngSeed, forKey: .rngSeed)
             try container.encodeIfPresent(opponent, forKey: .opponent)
             try container.encodeIfPresent(matchParams, forKey: .matchParams)
-        case .joinMatch(let matchId, let playerName):
+        case let .joinMatch(matchId, playerName):
             try container.encode("joinMatch", forKey: .type)
             try container.encode(matchId, forKey: .matchId)
             try container.encode(playerName, forKey: .playerName)
-        case .watchMatch(let matchId):
+        case let .watchMatch(matchId):
             try container.encode("watchMatch", forKey: .type)
             try container.encode(matchId, forKey: .matchId)
-        case .action(let matchId, let action):
+        case let .action(matchId, action):
             try container.encode("action", forKey: .type)
             try container.encode(matchId, forKey: .matchId)
             try container.encode(action, forKey: .action)
-        case .authenticate(let token):
+        case let .authenticate(token):
             try container.encode("authenticate", forKey: .type)
             try container.encode(token, forKey: .token)
         }
@@ -135,46 +135,46 @@ public nonisolated enum ServerMessage: Decodable, Sendable {
 
         switch type {
         case "matchCreated":
-            self = .matchCreated(
-                matchId: try container.decode(String.self, forKey: .matchId),
-                playerId: try container.decode(String.self, forKey: .playerId),
-                playerIndex: try container.decode(Int.self, forKey: .playerIndex)
+            self = try .matchCreated(
+                matchId: container.decode(String.self, forKey: .matchId),
+                playerId: container.decode(String.self, forKey: .playerId),
+                playerIndex: container.decode(Int.self, forKey: .playerIndex)
             )
         case "gameState":
-            self = .gameState(
-                matchId: try container.decode(String.self, forKey: .matchId),
-                result: try container.decode(PhalanxTurnResult.self, forKey: .result),
-                spectatorCount: try container.decodeIfPresent(Int.self, forKey: .spectatorCount)
+            self = try .gameState(
+                matchId: container.decode(String.self, forKey: .matchId),
+                result: container.decode(PhalanxTurnResult.self, forKey: .result),
+                spectatorCount: container.decodeIfPresent(Int.self, forKey: .spectatorCount)
             )
         case "actionError":
-            self = .actionError(
-                error: try container.decode(String.self, forKey: .error),
-                code: try container.decode(String.self, forKey: .code)
+            self = try .actionError(
+                error: container.decode(String.self, forKey: .error),
+                code: container.decode(String.self, forKey: .code)
             )
         case "matchError":
-            self = .matchError(
-                error: try container.decode(String.self, forKey: .error),
-                code: try container.decode(String.self, forKey: .code)
+            self = try .matchError(
+                error: container.decode(String.self, forKey: .error),
+                code: container.decode(String.self, forKey: .code)
             )
         case "matchJoined":
-            self = .matchJoined(
-                matchId: try container.decode(String.self, forKey: .matchId),
-                playerId: try container.decode(String.self, forKey: .playerId),
-                playerIndex: try container.decode(Int.self, forKey: .playerIndex)
+            self = try .matchJoined(
+                matchId: container.decode(String.self, forKey: .matchId),
+                playerId: container.decode(String.self, forKey: .playerId),
+                playerIndex: container.decode(Int.self, forKey: .playerIndex)
             )
         case "spectatorJoined":
-            self = .spectatorJoined(
-                matchId: try container.decode(String.self, forKey: .matchId),
-                spectatorId: try container.decode(String.self, forKey: .spectatorId)
+            self = try .spectatorJoined(
+                matchId: container.decode(String.self, forKey: .matchId),
+                spectatorId: container.decode(String.self, forKey: .spectatorId)
             )
         case "opponentDisconnected":
-            self = .opponentDisconnected(matchId: try container.decode(String.self, forKey: .matchId))
+            self = try .opponentDisconnected(matchId: container.decode(String.self, forKey: .matchId))
         case "opponentReconnected":
-            self = .opponentReconnected(matchId: try container.decode(String.self, forKey: .matchId))
+            self = try .opponentReconnected(matchId: container.decode(String.self, forKey: .matchId))
         case "authenticated":
-            self = .authenticated(user: try container.decode(AuthenticatedUser.self, forKey: .user))
+            self = try .authenticated(user: container.decode(AuthenticatedUser.self, forKey: .user))
         case "auth_error":
-            self = .authError(error: try container.decode(String.self, forKey: .error))
+            self = try .authError(error: container.decode(String.self, forKey: .error))
         default:
             self = .unknown(type: type)
         }
@@ -202,33 +202,33 @@ public nonisolated enum ServerMessage: Decodable, Sendable {
             "authenticated"
         case .authError:
             "auth_error"
-        case .unknown(let type):
+        case let .unknown(type):
             type
         }
     }
 
     public var debugSummary: String {
         switch self {
-        case .matchCreated(let matchId, _, let playerIndex):
+        case let .matchCreated(matchId, _, playerIndex):
             "matchId=\(matchId), playerIndex=\(playerIndex)"
-        case .matchJoined(let matchId, _, let playerIndex):
+        case let .matchJoined(matchId, _, playerIndex):
             "matchId=\(matchId), playerIndex=\(playerIndex)"
-        case .spectatorJoined(let matchId, let spectatorId):
+        case let .spectatorJoined(matchId, spectatorId):
             "matchId=\(matchId), spectatorId=\(spectatorId)"
-        case .gameState(let matchId, let result, let spectatorCount):
+        case let .gameState(matchId, result, spectatorCount):
             "matchId=\(matchId), phase=\(result.postState.phase.displayName), turn=\(result.postState.turnNumber), spectatorCount=\(spectatorCount ?? 0)"
-        case .actionError(let error, let code),
-             .matchError(let error, let code):
+        case let .actionError(error, code),
+             let .matchError(error, code):
             "[\(code)] \(error)"
-        case .opponentDisconnected(let matchId):
+        case let .opponentDisconnected(matchId):
             "matchId=\(matchId)"
-        case .opponentReconnected(let matchId):
+        case let .opponentReconnected(matchId):
             "matchId=\(matchId)"
-        case .authenticated(let user):
+        case let .authenticated(user):
             "user=\(user.name), elo=\(user.elo)"
-        case .authError(let error):
+        case let .authError(error):
             error
-        case .unknown(let type):
+        case let .unknown(type):
             "type=\(type)"
         }
     }

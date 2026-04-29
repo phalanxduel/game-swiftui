@@ -65,22 +65,22 @@ public nonisolated enum GamePhase: Codable, Equatable, Sendable {
 
     public var rawValue: String {
         switch self {
-        case .turnPhase(let phase):
+        case let .turnPhase(phase):
             phase.rawValue
         case .gameOver:
             "gameOver"
-        case .unknown(let value):
+        case let .unknown(value):
             value
         }
     }
 
     public var displayName: String {
         switch self {
-        case .turnPhase(let phase):
+        case let .turnPhase(phase):
             phase.rawValue
         case .gameOver:
             "gameOver"
-        case .unknown(let value):
+        case let .unknown(value):
             value
         }
     }
@@ -147,15 +147,15 @@ public nonisolated enum JSONValue: Codable, Equatable, Sendable {
         var container = encoder.singleValueContainer()
 
         switch self {
-        case .string(let value):
+        case let .string(value):
             try container.encode(value)
-        case .number(let value):
+        case let .number(value):
             try container.encode(value)
-        case .boolean(let value):
+        case let .boolean(value):
             try container.encode(value)
-        case .object(let value):
+        case let .object(value):
             try container.encode(value)
-        case .array(let value):
+        case let .array(value):
             try container.encode(value)
         case .null:
             try container.encodeNil()
@@ -164,29 +164,31 @@ public nonisolated enum JSONValue: Codable, Equatable, Sendable {
 
     public var displayString: String {
         switch self {
-        case .string(let value):
+        case let .string(value):
             value
-        case .number(let value):
+        case let .number(value):
             if value.rounded() == value {
                 String(Int(value))
             } else {
                 String(value)
             }
-        case .boolean(let value):
+        case let .boolean(value):
             value ? "true" : "false"
-        case .object(let value):
+        case let .object(value):
             if let data = try? JSONSerialization.data(
                 withJSONObject: value.mapValues(\.jsonObject),
                 options: [.sortedKeys]
             ),
-               let string = String(data: data, encoding: .utf8) {
+                let string = String(data: data, encoding: .utf8)
+            {
                 string
             } else {
                 "{…}"
             }
-        case .array(let value):
+        case let .array(value):
             if let data = try? JSONSerialization.data(withJSONObject: value.map(\.jsonObject)),
-               let string = String(data: data, encoding: .utf8) {
+               let string = String(data: data, encoding: .utf8)
+            {
                 string
             } else {
                 "[…]"
@@ -198,15 +200,15 @@ public nonisolated enum JSONValue: Codable, Equatable, Sendable {
 
     fileprivate var jsonObject: Any {
         switch self {
-        case .string(let value):
+        case let .string(value):
             value
-        case .number(let value):
+        case let .number(value):
             value
-        case .boolean(let value):
+        case let .boolean(value):
             value
-        case .object(let value):
+        case let .object(value):
             value.mapValues(\.jsonObject)
-        case .array(let value):
+        case let .array(value):
             value.map(\.jsonObject)
         case .null:
             NSNull()
@@ -297,14 +299,14 @@ public nonisolated enum LoadState<T: Codable & Equatable & Sendable>: Codable, E
     case failed(UserFacingError)
 
     public var value: T? {
-        if case .loaded(let val) = self {
+        if case let .loaded(val) = self {
             return val
         }
         return nil
     }
 
     public var error: UserFacingError? {
-        if case .failed(let err) = self {
+        if case let .failed(err) = self {
             return err
         }
         return nil

@@ -13,15 +13,20 @@ public extension Color {
     static let destructiveAction = Color.red
     static let successStatus = Color.green
     static let warningStatus = Color.orange
-    
+
     static let cardBorder = Color.gray.opacity(0.35)
     static let slotBackground = Color.gray.opacity(0.08)
-    
+
     static let suitRed = Color.red
     static let suitBlack = Color.primary
 }
 
 public extension ShapeStyle where Self == Color {
-    static var primaryAction: Color { .blue }
-    static var suitRed: Color { .red }
+    static var primaryAction: Color {
+        .blue
+    }
+
+    static var suitRed: Color {
+        .red
+    }
 }

@@ -35,7 +35,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
 
     @Published public private(set) var environment: AppEnvironment
     @Published public private(set) var connectionState: WebSocketClient.ConnectionState = .disconnected
-    @Published public private(set) var snapshot: ServerSnapshot = ServerSnapshot()
+    @Published public private(set) var snapshot: ServerSnapshot = .init()
     @Published public private(set) var snapshotLoadState: LoadState<NoData> = .idle
 
     @Published public private(set) var sessionRole: SessionRole?
@@ -55,7 +55,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         BootTask(id: "env", name: "Initializing Environment"),
         BootTask(id: "health", name: "Probing Server Health"),
         BootTask(id: "defaults", name: "Fetching Game Defaults"),
-        BootTask(id: "matches", name: "Finding Active Matches")
+        BootTask(id: "matches", name: "Finding Active Matches"),
     ]
 
     private var webSocketClient: WebSocketClient
@@ -74,11 +74,11 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         self.environment = environment
         self.clock = clock
         self.uuidGenerator = uuidGenerator
-        self.serverBaseURLText = environment.apiBaseURL.absoluteString
-        self.documentationBaseURLText = environment.documentationBaseURL.absoluteString
-        self.webSocketClient = WebSocketClient(environment: environment)
-        self.restClient = RestClient(environment: environment)
-        self.webSocketClient.delegate = self
+        serverBaseURLText = environment.apiBaseURL.absoluteString
+        documentationBaseURLText = environment.documentationBaseURL.absoluteString
+        webSocketClient = WebSocketClient(environment: environment)
+        restClient = RestClient(environment: environment)
+        webSocketClient.delegate = self
         appendLog(
             category: .session,
             title: "Configured \(environment.name)",
@@ -94,9 +94,17 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         snapshotLoadState.isLoading
     }
 
-    public var serverHealth: ServerHealthResponse? { snapshot.health }
-    public var serverDefaults: ServerDefaultsResponse? { snapshot.defaults }
-    public var activeMatches: [ActiveMatchSummary] { snapshot.activeMatches }
+    public var serverHealth: ServerHealthResponse? {
+        snapshot.health
+    }
+
+    public var serverDefaults: ServerDefaultsResponse? {
+        snapshot.defaults
+    }
+
+    public var activeMatches: [ActiveMatchSummary] {
+        snapshot.activeMatches
+    }
 
     public var hasActiveSession: Bool {
         activeMatchId != nil || sessionRole != nil || connectionState == .connecting
@@ -299,12 +307,12 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         }
 
         self.environment = environment
-        self.serverBaseURLText = environment.apiBaseURL.absoluteString
-        self.documentationBaseURLText = environment.documentationBaseURL.absoluteString
-        self.restClient = RestClient(environment: environment)
-        self.webSocketClient = WebSocketClient(environment: environment)
-        self.webSocketClient.delegate = self
-        self.recentError = nil
+        serverBaseURLText = environment.apiBaseURL.absoluteString
+        documentationBaseURLText = environment.documentationBaseURL.absoluteString
+        restClient = RestClient(environment: environment)
+        webSocketClient = WebSocketClient(environment: environment)
+        webSocketClient.delegate = self
+        recentError = nil
         resetSessionState(clearMatchID: true)
 
         appendLog(
@@ -319,7 +327,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         resetSessionState(clearMatchID: true)
 
         switch action {
-        case .join(let matchId, _), .watch(let matchId):
+        case let .join(matchId, _), let .watch(matchId):
             activeMatchId = matchId
         }
 
@@ -337,12 +345,12 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         }
 
         switch pendingConnectionAction {
-        case .join(let matchId, let playerName):
+        case let .join(matchId, playerName):
             sessionRole = .player
             activeMatchId = matchId
             webSocketClient.send(message: .joinMatch(matchId: matchId, playerName: playerName))
             appendLog(category: .websocket, title: "Sent joinMatch", detail: "matchId=\(matchId), playerName=\(playerName)")
-        case .watch(let matchId):
+        case let .watch(matchId):
             sessionRole = .spectator
             activeMatchId = matchId
             webSocketClient.send(message: .watchMatch(matchId: matchId))
@@ -398,28 +406,28 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         appendLog(category: .serverMessage, title: "Received \(message.messageType)", detail: message.debugSummary)
 
         switch message {
-        case .matchCreated(let matchId, let playerId, let playerIndex):
+        case let .matchCreated(matchId, playerId, playerIndex):
             activeMatchId = matchId
             localPlayerId = playerId
             localPlayerIndex = playerIndex
             sessionRole = .player
             recentError = nil
 
-        case .matchJoined(let matchId, let playerId, let playerIndex):
+        case let .matchJoined(matchId, playerId, playerIndex):
             activeMatchId = matchId
             localPlayerId = playerId
             localPlayerIndex = playerIndex
             sessionRole = .player
             recentError = nil
 
-        case .spectatorJoined(let matchId, _):
+        case let .spectatorJoined(matchId, _):
             activeMatchId = matchId
             sessionRole = .spectator
             localPlayerId = nil
             localPlayerIndex = nil
             recentError = nil
 
-        case .gameState(let matchId, let result, let spectatorCount):
+        case let .gameState(matchId, result, spectatorCount):
             activeMatchId = matchId
             latestTurnResult = result
             currentState = result.postState
@@ -427,7 +435,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
             appendEvents(result.events ?? [])
             recentError = nil
 
-        case .actionError(let error, let code), .matchError(let error, let code):
+        case let .actionError(error, code), let .matchError(error, code):
             recentError = UserFacingError(title: "Server Error [\(code)]", message: error)
 
         case .opponentDisconnected:
@@ -439,15 +447,15 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         case .authenticated:
             recentError = nil
 
-        case .authError(let error):
+        case let .authError(error):
             recentError = UserFacingError(title: "Authentication Error", message: error)
 
-        case .unknown(let type):
+        case let .unknown(type):
             recentError = UserFacingError(title: "Protocol Error", message: "Unknown server message type: \(type)")
         }
     }
 
-    nonisolated public func webSocketClient(_ client: WebSocketClient, didUpdateState state: WebSocketClient.ConnectionState) {
+    public nonisolated func webSocketClient(_: WebSocketClient, didUpdateState state: WebSocketClient.ConnectionState) {
         Task { @MainActor in
             self.connectionState = state
             self.appendLog(category: .websocket, title: "WebSocket state changed", detail: state.label)
@@ -458,13 +466,13 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         }
     }
 
-    nonisolated public func webSocketClient(_ client: WebSocketClient, didReceiveMessage message: ServerMessage) {
+    public nonisolated func webSocketClient(_: WebSocketClient, didReceiveMessage message: ServerMessage) {
         Task { @MainActor in
             self.handleServerMessage(message)
         }
     }
 
-    nonisolated public func webSocketClient(_ client: WebSocketClient, didEncounterError error: Error) {
+    public nonisolated func webSocketClient(_: WebSocketClient, didEncounterError error: Error) {
         Task { @MainActor in
             self.handle(error, context: "WebSocket error")
         }
