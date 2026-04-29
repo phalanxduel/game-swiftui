@@ -26,17 +26,17 @@ public nonisolated enum PhalanxError: Error, LocalizedError {
     }
 }
 
-public nonisolated struct CreateMatchResponse: Codable, Equatable {
+public nonisolated struct CreateMatchResponse: Codable, Equatable, Sendable {
     public let matchId: String
 }
 
-public nonisolated struct StandardErrorResponse: Codable, Equatable {
+public nonisolated struct StandardErrorResponse: Codable, Equatable, Sendable {
     public let error: String
     public let code: String
 }
 
-public nonisolated struct ServerHealthResponse: Codable, Equatable {
-    public nonisolated struct Observability: Codable, Equatable {
+public nonisolated struct ServerHealthResponse: Codable, Equatable, Sendable {
+    public nonisolated struct Observability: Codable, Equatable, Sendable {
         public let sentryInitialized: Bool
         public let region: String
 
@@ -63,10 +63,10 @@ public nonisolated struct ServerHealthResponse: Codable, Equatable {
     }
 }
 
-public nonisolated struct ServerDefaultsResponse: Codable, Equatable {
-    public nonisolated struct Metadata: Codable, Equatable {
-        public nonisolated struct Constraints: Codable, Equatable {
-            public nonisolated struct NumericConstraint: Codable, Equatable {
+public nonisolated struct ServerDefaultsResponse: Codable, Equatable, Sendable {
+    public nonisolated struct Metadata: Codable, Equatable, Sendable {
+        public nonisolated struct Constraints: Codable, Equatable, Sendable {
+            public nonisolated struct NumericConstraint: Codable, Equatable, Sendable {
                 public let min: Int?
                 public let max: Int?
                 public let note: String?

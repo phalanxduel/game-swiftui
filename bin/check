@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Phalanx Duel Client - Local Validation Loop
+# This script ensures the project is in a clean, buildable state.
+
+set -e
+
+echo "⚙️  Regenerating Project..."
+xcodegen generate
+
+echo "🎨 Formatting Code..."
+swiftformat . --quiet
+
+echo "🛡️  Linting..."
+if command -v swiftlint >/dev/null; then
+  swiftlint --fix --quiet
+else
+  echo "⚠️  swiftlint not found, skipping."
+fi
+
+echo "🏗️  Building Target..."
+# We use xcodebuild for the app target. 
+# Note: This requires the full Xcode SDK to be available in the local environment.
+xcodebuild build \
+  -scheme PhalanxDuelClient \
+  -destination 'platform=iOS Simulator,name=iPhone 16' \
+  -quiet
+
+echo "✅ Check Complete."
