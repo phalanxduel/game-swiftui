@@ -6,341 +6,361 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		0376C447F1F5878D76EB5BD2 /* DebugLogEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742F243CE9C0E3C706FB9615 /* DebugLogEntry.swift */; };
+		103934629DB5D24B7B2DCCE7 /* PhalanxDuelClientApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA71DCF521E63383064EE42 /* PhalanxDuelClientApp.swift */; };
+		2AF55F6E8236114C36CC170C /* ServerConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B0DE50FFB8336A7B3CCF9D /* ServerConnectView.swift */; };
+		4EAAF29C459E32DFF921D18B /* BootViewSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D1D2B039C2D26143826F36 /* BootViewSnapshotTests.swift */; };
+		5AF23B257E0490ADE2318EC9 /* PhalanxDuelClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9765EC158FBF894EC74266 /* PhalanxDuelClientTests.swift */; };
+		5B4D26B6E2197006875877F5 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA5F6EC93CB58EC6E20B337 /* AppTheme.swift */; };
+		620D4865512C8FB08E3E06B2 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93085BE6B8AEA17D145A6B86 /* SessionStore.swift */; };
+		6F3047914B51CE015B969BF8 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D80A6563C130CD30B84AF58 /* Models.swift */; };
+		7C8E3016D2D157074635979E /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BDAA448BCF85ED461BA914 /* Messages.swift */; };
+		7E453CA9246C5F0345475BC9 /* RestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C0D880C5CCA25AAD686CA0 /* RestClient.swift */; };
+		97661C541BCFB0DE2384877C /* BootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F9C9C140E543462833311D /* BootView.swift */; };
+		99C4D3335695972B91050FF7 /* DebugLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5015C0B9C012FFEB6681B6 /* DebugLogView.swift */; };
+		BD2BD8C3B8C25E9E4B814E11 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C172E323249F7A3C112DF481 /* Environment.swift */; };
+		C176B577B839C4FFEEA164D5 /* GameSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC1C65724125A7564235075 /* GameSessionView.swift */; };
+		C710E2297D2D2FD2ABA1175E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAA62E8F8CBBC9178DFCCA24 /* Assets.xcassets */; };
+		C9A346C63A988D4BCF413B51 /* WebSocketClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE40BD2333B3F349CCCDCDA /* WebSocketClient.swift */; };
+		CADD77873ADE7A2EE5764CCB /* GameTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14CA0883EBC2B1CBC4EA897 /* GameTableView.swift */; };
+		CFB5906A833B90120ED17F74 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 476C4094C223A550BE5C7743 /* SnapshotTesting */; };
+		D55E56A7B9C0407BB2E063AC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86350352A91B17BF0E3DD1AF /* ContentView.swift */; };
+		DB4FC9EAE04A63501F3BB246 /* ContractCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070A7A62DEE25FF83A1E9A72 /* ContractCoding.swift */; };
+		FC68161CF99773DF67BC6AB0 /* GameStateModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED6D6700B6E565DB0DFB9D6 /* GameStateModels.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
-		274AAA6C2F67D25F001FE6D7 /* PBXContainerItemProxy */ = {
+		4D154F5DF7178A02004F8771 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 274AAA562F67D25A001FE6D7 /* Project object */;
+			containerPortal = 036ACBE9AEBE9135C65E687F /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 274AAA5D2F67D25A001FE6D7;
-			remoteInfo = PhalanxDuelClient;
-		};
-		274AAA762F67D25F001FE6D7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 274AAA562F67D25A001FE6D7 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 274AAA5D2F67D25A001FE6D7;
+			remoteGlobalIDString = 8680488DE01308A768C29F65;
 			remoteInfo = PhalanxDuelClient;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		274AAA5E2F67D25B001FE6D7 /* PhalanxDuelClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhalanxDuelClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		274AAA6B2F67D25F001FE6D7 /* PhalanxDuelClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhalanxDuelClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		274AAA752F67D25F001FE6D7 /* PhalanxDuelClientUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhalanxDuelClientUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		070A7A62DEE25FF83A1E9A72 /* ContractCoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractCoding.swift; sourceTree = "<group>"; };
+		1D80A6563C130CD30B84AF58 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		30BDAA448BCF85ED461BA914 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
+		39B0DE50FFB8336A7B3CCF9D /* ServerConnectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConnectView.swift; sourceTree = "<group>"; };
+		3DA5F6EC93CB58EC6E20B337 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
+		4DE40BD2333B3F349CCCDCDA /* WebSocketClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketClient.swift; sourceTree = "<group>"; };
+		5ED6D6700B6E565DB0DFB9D6 /* GameStateModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateModels.swift; sourceTree = "<group>"; };
+		67C0D880C5CCA25AAD686CA0 /* RestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestClient.swift; sourceTree = "<group>"; };
+		742F243CE9C0E3C706FB9615 /* DebugLogEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugLogEntry.swift; sourceTree = "<group>"; };
+		86350352A91B17BF0E3DD1AF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		8A9765EC158FBF894EC74266 /* PhalanxDuelClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhalanxDuelClientTests.swift; sourceTree = "<group>"; };
+		8FC1C65724125A7564235075 /* GameSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSessionView.swift; sourceTree = "<group>"; };
+		93085BE6B8AEA17D145A6B86 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
+		AA31817998A4CD49E5B5081F /* PhalanxDuelClient.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PhalanxDuelClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAA62E8F8CBBC9178DFCCA24 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AC5015C0B9C012FFEB6681B6 /* DebugLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugLogView.swift; sourceTree = "<group>"; };
+		B14CA0883EBC2B1CBC4EA897 /* GameTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTableView.swift; sourceTree = "<group>"; };
+		C172E323249F7A3C112DF481 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		C6D1D2B039C2D26143826F36 /* BootViewSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootViewSnapshotTests.swift; sourceTree = "<group>"; };
+		D0F9C9C140E543462833311D /* BootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootView.swift; sourceTree = "<group>"; };
+		D9E1233DFC6A64CECC0F82A8 /* PhalanxDuelClientTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = PhalanxDuelClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DBA71DCF521E63383064EE42 /* PhalanxDuelClientApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhalanxDuelClientApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		274AAA602F67D25B001FE6D7 /* PhalanxDuelClient */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = PhalanxDuelClient;
-			sourceTree = "<group>";
-		};
-		274AAA6E2F67D25F001FE6D7 /* PhalanxDuelClientTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = PhalanxDuelClientTests;
-			sourceTree = "<group>";
-		};
-		274AAA782F67D25F001FE6D7 /* PhalanxDuelClientUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = PhalanxDuelClientUITests;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
-
 /* Begin PBXFrameworksBuildPhase section */
-		274AAA5B2F67D25A001FE6D7 /* Frameworks */ = {
+		975A7A8D76B036556860EB9F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		274AAA682F67D25F001FE6D7 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		274AAA722F67D25F001FE6D7 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				CFB5906A833B90120ED17F74 /* SnapshotTesting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		274AAA552F67D25A001FE6D7 = {
+		0F4965E0E0BF5D26110415E6 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				274AAA602F67D25B001FE6D7 /* PhalanxDuelClient */,
-				274AAA6E2F67D25F001FE6D7 /* PhalanxDuelClientTests */,
-				274AAA782F67D25F001FE6D7 /* PhalanxDuelClientUITests */,
-				274AAA5F2F67D25B001FE6D7 /* Products */,
+				DBA71DCF521E63383064EE42 /* PhalanxDuelClientApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		1A32FAD2B629CB4966893B02 /* PhalanxDuelClientTests */ = {
+			isa = PBXGroup;
+			children = (
+				C6D1D2B039C2D26143826F36 /* BootViewSnapshotTests.swift */,
+				8A9765EC158FBF894EC74266 /* PhalanxDuelClientTests.swift */,
+			);
+			path = PhalanxDuelClientTests;
+			sourceTree = "<group>";
+		};
+		230345AF6AAB6314D5A6696A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA31817998A4CD49E5B5081F /* PhalanxDuelClient.app */,
+				D9E1233DFC6A64CECC0F82A8 /* PhalanxDuelClientTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2B77844104C743A91FCE4553 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				C172E323249F7A3C112DF481 /* Environment.swift */,
+				67C0D880C5CCA25AAD686CA0 /* RestClient.swift */,
+				4DE40BD2333B3F349CCCDCDA /* WebSocketClient.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		3BF88168A8CC549BC2F8780C /* PhalanxDuelClient */ = {
+			isa = PBXGroup;
+			children = (
+				AAA62E8F8CBBC9178DFCCA24 /* Assets.xcassets */,
+				0F4965E0E0BF5D26110415E6 /* App */,
+				EBE20FD8D38AF165A2196FD1 /* Debug */,
+				B62A1374EE5C60C13245084E /* Domain */,
+				8DF0015B84815D86272BED23 /* GameState */,
+				2B77844104C743A91FCE4553 /* Networking */,
+				8E3A7E42CCF154FD78295CB1 /* UI */,
+			);
+			path = PhalanxDuelClient;
+			sourceTree = "<group>";
+		};
+		40911D016F9501EF2155AAB6 = {
+			isa = PBXGroup;
+			children = (
+				3BF88168A8CC549BC2F8780C /* PhalanxDuelClient */,
+				1A32FAD2B629CB4966893B02 /* PhalanxDuelClientTests */,
+				230345AF6AAB6314D5A6696A /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		274AAA5F2F67D25B001FE6D7 /* Products */ = {
+		8DF0015B84815D86272BED23 /* GameState */ = {
 			isa = PBXGroup;
 			children = (
-				274AAA5E2F67D25B001FE6D7 /* PhalanxDuelClient.app */,
-				274AAA6B2F67D25F001FE6D7 /* PhalanxDuelClientTests.xctest */,
-				274AAA752F67D25F001FE6D7 /* PhalanxDuelClientUITests.xctest */,
+				93085BE6B8AEA17D145A6B86 /* SessionStore.swift */,
 			);
-			name = Products;
+			path = GameState;
+			sourceTree = "<group>";
+		};
+		8E3A7E42CCF154FD78295CB1 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				3DA5F6EC93CB58EC6E20B337 /* AppTheme.swift */,
+				D0F9C9C140E543462833311D /* BootView.swift */,
+				86350352A91B17BF0E3DD1AF /* ContentView.swift */,
+				AC5015C0B9C012FFEB6681B6 /* DebugLogView.swift */,
+				8FC1C65724125A7564235075 /* GameSessionView.swift */,
+				B14CA0883EBC2B1CBC4EA897 /* GameTableView.swift */,
+				39B0DE50FFB8336A7B3CCF9D /* ServerConnectView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		B62A1374EE5C60C13245084E /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				070A7A62DEE25FF83A1E9A72 /* ContractCoding.swift */,
+				5ED6D6700B6E565DB0DFB9D6 /* GameStateModels.swift */,
+				30BDAA448BCF85ED461BA914 /* Messages.swift */,
+				1D80A6563C130CD30B84AF58 /* Models.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		EBE20FD8D38AF165A2196FD1 /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				742F243CE9C0E3C706FB9615 /* DebugLogEntry.swift */,
+			);
+			path = Debug;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		274AAA5D2F67D25A001FE6D7 /* PhalanxDuelClient */ = {
+		2DC50558D9341E65316BACDF /* PhalanxDuelClientTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 274AAA7F2F67D25F001FE6D7 /* Build configuration list for PBXNativeTarget "PhalanxDuelClient" */;
+			buildConfigurationList = 35B26D03B246CD7B591B6224 /* Build configuration list for PBXNativeTarget "PhalanxDuelClientTests" */;
 			buildPhases = (
-				274AAA5A2F67D25A001FE6D7 /* Sources */,
-				274AAA5B2F67D25A001FE6D7 /* Frameworks */,
-				274AAA5C2F67D25A001FE6D7 /* Resources */,
+				90617436EB994F305FA1E393 /* Sources */,
+				975A7A8D76B036556860EB9F /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C97446400088AD112C9C0BCB /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				274AAA602F67D25B001FE6D7 /* PhalanxDuelClient */,
+			name = PhalanxDuelClientTests;
+			packageProductDependencies = (
+				476C4094C223A550BE5C7743 /* SnapshotTesting */,
+			);
+			productName = PhalanxDuelClientTests;
+			productReference = D9E1233DFC6A64CECC0F82A8 /* PhalanxDuelClientTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		8680488DE01308A768C29F65 /* PhalanxDuelClient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9119E93084C3FCE1DA4B912D /* Build configuration list for PBXNativeTarget "PhalanxDuelClient" */;
+			buildPhases = (
+				7830FCFD9820EAEA935351AF /* Sources */,
+				4A3171027328E69565A55A0F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
 			);
 			name = PhalanxDuelClient;
 			packageProductDependencies = (
 			);
 			productName = PhalanxDuelClient;
-			productReference = 274AAA5E2F67D25B001FE6D7 /* PhalanxDuelClient.app */;
+			productReference = AA31817998A4CD49E5B5081F /* PhalanxDuelClient.app */;
 			productType = "com.apple.product-type.application";
-		};
-		274AAA6A2F67D25F001FE6D7 /* PhalanxDuelClientTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 274AAA822F67D25F001FE6D7 /* Build configuration list for PBXNativeTarget "PhalanxDuelClientTests" */;
-			buildPhases = (
-				274AAA672F67D25F001FE6D7 /* Sources */,
-				274AAA682F67D25F001FE6D7 /* Frameworks */,
-				274AAA692F67D25F001FE6D7 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				274AAA6D2F67D25F001FE6D7 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				274AAA6E2F67D25F001FE6D7 /* PhalanxDuelClientTests */,
-			);
-			name = PhalanxDuelClientTests;
-			packageProductDependencies = (
-			);
-			productName = PhalanxDuelClientTests;
-			productReference = 274AAA6B2F67D25F001FE6D7 /* PhalanxDuelClientTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		274AAA742F67D25F001FE6D7 /* PhalanxDuelClientUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 274AAA852F67D25F001FE6D7 /* Build configuration list for PBXNativeTarget "PhalanxDuelClientUITests" */;
-			buildPhases = (
-				274AAA712F67D25F001FE6D7 /* Sources */,
-				274AAA722F67D25F001FE6D7 /* Frameworks */,
-				274AAA732F67D25F001FE6D7 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				274AAA772F67D25F001FE6D7 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				274AAA782F67D25F001FE6D7 /* PhalanxDuelClientUITests */,
-			);
-			name = PhalanxDuelClientUITests;
-			packageProductDependencies = (
-			);
-			productName = PhalanxDuelClientUITests;
-			productReference = 274AAA752F67D25F001FE6D7 /* PhalanxDuelClientUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		274AAA562F67D25A001FE6D7 /* Project object */ = {
+		036ACBE9AEBE9135C65E687F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2630;
-				LastUpgradeCheck = 2630;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
-					274AAA5D2F67D25A001FE6D7 = {
-						CreatedOnToolsVersion = 26.3;
-					};
-					274AAA6A2F67D25F001FE6D7 = {
-						CreatedOnToolsVersion = 26.3;
-						TestTargetID = 274AAA5D2F67D25A001FE6D7;
-					};
-					274AAA742F67D25F001FE6D7 = {
-						CreatedOnToolsVersion = 26.3;
-						TestTargetID = 274AAA5D2F67D25A001FE6D7;
+					8680488DE01308A768C29F65 = {
+						DevelopmentTeam = "";
 					};
 				};
 			};
-			buildConfigurationList = 274AAA592F67D25A001FE6D7 /* Build configuration list for PBXProject "PhalanxDuelClient" */;
+			buildConfigurationList = E4A46F412B0E8B605CE55ED8 /* Build configuration list for PBXProject "PhalanxDuelClient" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				en,
 			);
-			mainGroup = 274AAA552F67D25A001FE6D7;
+			mainGroup = 40911D016F9501EF2155AAB6;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				316E0C05087ABDEC370582D7 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 274AAA5F2F67D25B001FE6D7 /* Products */;
+			productRefGroup = 230345AF6AAB6314D5A6696A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				274AAA5D2F67D25A001FE6D7 /* PhalanxDuelClient */,
-				274AAA6A2F67D25F001FE6D7 /* PhalanxDuelClientTests */,
-				274AAA742F67D25F001FE6D7 /* PhalanxDuelClientUITests */,
+				8680488DE01308A768C29F65 /* PhalanxDuelClient */,
+				2DC50558D9341E65316BACDF /* PhalanxDuelClientTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		274AAA5C2F67D25A001FE6D7 /* Resources */ = {
+		4A3171027328E69565A55A0F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		274AAA692F67D25F001FE6D7 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		274AAA732F67D25F001FE6D7 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				C710E2297D2D2FD2ABA1175E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		274AAA5A2F67D25A001FE6D7 /* Sources */ = {
+		7830FCFD9820EAEA935351AF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B4D26B6E2197006875877F5 /* AppTheme.swift in Sources */,
+				97661C541BCFB0DE2384877C /* BootView.swift in Sources */,
+				D55E56A7B9C0407BB2E063AC /* ContentView.swift in Sources */,
+				DB4FC9EAE04A63501F3BB246 /* ContractCoding.swift in Sources */,
+				0376C447F1F5878D76EB5BD2 /* DebugLogEntry.swift in Sources */,
+				99C4D3335695972B91050FF7 /* DebugLogView.swift in Sources */,
+				BD2BD8C3B8C25E9E4B814E11 /* Environment.swift in Sources */,
+				C176B577B839C4FFEEA164D5 /* GameSessionView.swift in Sources */,
+				FC68161CF99773DF67BC6AB0 /* GameStateModels.swift in Sources */,
+				CADD77873ADE7A2EE5764CCB /* GameTableView.swift in Sources */,
+				7C8E3016D2D157074635979E /* Messages.swift in Sources */,
+				6F3047914B51CE015B969BF8 /* Models.swift in Sources */,
+				103934629DB5D24B7B2DCCE7 /* PhalanxDuelClientApp.swift in Sources */,
+				7E453CA9246C5F0345475BC9 /* RestClient.swift in Sources */,
+				2AF55F6E8236114C36CC170C /* ServerConnectView.swift in Sources */,
+				620D4865512C8FB08E3E06B2 /* SessionStore.swift in Sources */,
+				C9A346C63A988D4BCF413B51 /* WebSocketClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		274AAA672F67D25F001FE6D7 /* Sources */ = {
+		90617436EB994F305FA1E393 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		274AAA712F67D25F001FE6D7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				4EAAF29C459E32DFF921D18B /* BootViewSnapshotTests.swift in Sources */,
+				5AF23B257E0490ADE2318EC9 /* PhalanxDuelClientTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		274AAA6D2F67D25F001FE6D7 /* PBXTargetDependency */ = {
+		C97446400088AD112C9C0BCB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 274AAA5D2F67D25A001FE6D7 /* PhalanxDuelClient */;
-			targetProxy = 274AAA6C2F67D25F001FE6D7 /* PBXContainerItemProxy */;
-		};
-		274AAA772F67D25F001FE6D7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 274AAA5D2F67D25A001FE6D7 /* PhalanxDuelClient */;
-			targetProxy = 274AAA762F67D25F001FE6D7 /* PBXContainerItemProxy */;
+			target = 8680488DE01308A768C29F65 /* PhalanxDuelClient */;
+			targetProxy = 4D154F5DF7178A02004F8771 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		274AAA7D2F67D25F001FE6D7 /* Debug */ = {
+		25071BC5D04677D24DE952B7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = SG665M4V4A;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
+					"@executable_path/Frameworks",
 				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.phalanxduel.PhalanxDuelClient;
 				SDKROOT = iphoneos;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		6DA8F7C9D881F1706AE88FAF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.phalanxduel.PhalanxDuelClient;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		274AAA7E2F67D25F001FE6D7 /* Release */ = {
+		79C2896248B3037CD11FF9E9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -368,11 +388,9 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = SG665M4V4A;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -380,204 +398,164 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				VALIDATE_PRODUCT = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
-		274AAA802F67D25F001FE6D7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SG665M4V4A;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.just3ws.PhalanxDuelClient;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		274AAA812F67D25F001FE6D7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SG665M4V4A;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.just3ws.PhalanxDuelClient;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		274AAA832F67D25F001FE6D7 /* Debug */ = {
+		8CE2022B65D80F398B88F439 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SG665M4V4A;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.just3ws.PhalanxDuelClientTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.phalanxduel.PhalanxDuelClientTests;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhalanxDuelClient.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PhalanxDuelClient";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhalanxDuelClient.app/PhalanxDuelClient";
+			};
+			name = Release;
+		};
+		99EE7BB7BAECBCA0F9652CC4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
-		274AAA842F67D25F001FE6D7 /* Release */ = {
+		F79BB294BD3CD416260C6B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SG665M4V4A;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.just3ws.PhalanxDuelClientTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.phalanxduel.PhalanxDuelClientTests;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhalanxDuelClient.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PhalanxDuelClient";
-			};
-			name = Release;
-		};
-		274AAA862F67D25F001FE6D7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SG665M4V4A;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.just3ws.PhalanxDuelClientUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = PhalanxDuelClient;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhalanxDuelClient.app/PhalanxDuelClient";
 			};
 			name = Debug;
-		};
-		274AAA872F67D25F001FE6D7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SG665M4V4A;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.just3ws.PhalanxDuelClientUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = PhalanxDuelClient;
-			};
-			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		274AAA592F67D25A001FE6D7 /* Build configuration list for PBXProject "PhalanxDuelClient" */ = {
+		35B26D03B246CD7B591B6224 /* Build configuration list for PBXNativeTarget "PhalanxDuelClientTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				274AAA7D2F67D25F001FE6D7 /* Debug */,
-				274AAA7E2F67D25F001FE6D7 /* Release */,
+				F79BB294BD3CD416260C6B9A /* Debug */,
+				8CE2022B65D80F398B88F439 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
-		274AAA7F2F67D25F001FE6D7 /* Build configuration list for PBXNativeTarget "PhalanxDuelClient" */ = {
+		9119E93084C3FCE1DA4B912D /* Build configuration list for PBXNativeTarget "PhalanxDuelClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				274AAA802F67D25F001FE6D7 /* Debug */,
-				274AAA812F67D25F001FE6D7 /* Release */,
+				6DA8F7C9D881F1706AE88FAF /* Debug */,
+				25071BC5D04677D24DE952B7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
-		274AAA822F67D25F001FE6D7 /* Build configuration list for PBXNativeTarget "PhalanxDuelClientTests" */ = {
+		E4A46F412B0E8B605CE55ED8 /* Build configuration list for PBXProject "PhalanxDuelClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				274AAA832F67D25F001FE6D7 /* Debug */,
-				274AAA842F67D25F001FE6D7 /* Release */,
+				99EE7BB7BAECBCA0F9652CC4 /* Debug */,
+				79C2896248B3037CD11FF9E9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		274AAA852F67D25F001FE6D7 /* Build configuration list for PBXNativeTarget "PhalanxDuelClientUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				274AAA862F67D25F001FE6D7 /* Debug */,
-				274AAA872F67D25F001FE6D7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		316E0C05087ABDEC370582D7 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.17.5;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		476C4094C223A550BE5C7743 /* SnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 316E0C05087ABDEC370582D7 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = SnapshotTesting;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = 274AAA562F67D25A001FE6D7 /* Project object */;
+	rootObject = 036ACBE9AEBE9135C65E687F /* Project object */;
 }

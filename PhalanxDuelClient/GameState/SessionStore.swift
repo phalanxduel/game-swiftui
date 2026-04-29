@@ -36,7 +36,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
     @Published public private(set) var environment: AppEnvironment
     @Published public private(set) var connectionState: WebSocketClient.ConnectionState = .disconnected
     @Published public private(set) var snapshot: ServerSnapshot = ServerSnapshot()
-    @Published public private(set) var snapshotLoadState: LoadState<Void> = .idle
+    @Published public private(set) var snapshotLoadState: LoadState<NoData> = .idle
 
     @Published public private(set) var sessionRole: SessionRole?
     @Published public private(set) var currentState: GameState?
@@ -50,7 +50,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
     @Published public private(set) var debugLog: [DebugLogEntry] = []
     @Published public private(set) var lastSnapshotRefreshAt: Date?
 
-    @Published public private(set) var bootState: LoadState<Void> = .idle
+    @Published public private(set) var bootState: LoadState<NoData> = .idle
     @Published public private(set) var bootTasks: [BootTask] = [
         BootTask(id: "env", name: "Initializing Environment"),
         BootTask(id: "health", name: "Probing Server Health"),
@@ -125,7 +125,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         appendLog(category: .rest, title: "Refreshing server snapshot", detail: environment.apiBaseURL.absoluteString)
 
         defer {
-            snapshotLoadState = .loaded(())
+            snapshotLoadState = .loaded(NoData())
             lastSnapshotRefreshAt = clock.now
         }
 
@@ -207,7 +207,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         }
 
         try? await Task.sleep(nanoseconds: 800_000_000) // Let user see the completion
-        bootState = .loaded(())
+        bootState = .loaded(NoData())
         appendLog(category: .session, title: "Boot Sequence Complete")
     }
 

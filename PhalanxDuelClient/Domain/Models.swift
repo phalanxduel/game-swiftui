@@ -286,6 +286,10 @@ public nonisolated struct UserFacingError: Codable, Equatable, Sendable {
     }
 }
 
+public struct NoData: Codable, Equatable, Sendable {
+    public init() {}
+}
+
 public nonisolated enum LoadState<T: Codable & Equatable & Sendable>: Codable, Equatable, Sendable {
     case idle
     case loading
