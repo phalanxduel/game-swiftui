@@ -14,6 +14,7 @@ targets:
       - path: PhalanxDuelClient
     settings:
       base:
+        GENERATE_INFOPLIST_FILE: YES
         DEVELOPMENT_TEAM: "" # Set this in local overrides or UI if needed
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
@@ -28,3 +29,6 @@ targets:
     dependencies:
       - target: PhalanxDuelClient
       - package: SnapshotTesting
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
