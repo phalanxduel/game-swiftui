@@ -114,6 +114,7 @@ public nonisolated enum ServerMessage: Decodable, Sendable {
     case opponentReconnected(matchId: String)
     case authenticated(user: AuthenticatedUser)
     case authError(error: String)
+    case ping
     case unknown(type: String)
 
     private enum CodingKeys: String, CodingKey {
@@ -173,8 +174,10 @@ public nonisolated enum ServerMessage: Decodable, Sendable {
             self = try .opponentReconnected(matchId: container.decode(String.self, forKey: .matchId))
         case "authenticated":
             self = try .authenticated(user: container.decode(AuthenticatedUser.self, forKey: .user))
-        case "auth_error":
+        case "auth_error", "authError":
             self = try .authError(error: container.decode(String.self, forKey: .error))
+        case "ping":
+            self = .ping
         default:
             self = .unknown(type: type)
         }
@@ -201,7 +204,9 @@ public nonisolated enum ServerMessage: Decodable, Sendable {
         case .authenticated:
             "authenticated"
         case .authError:
-            "auth_error"
+            "authError"
+        case .ping:
+            "ping"
         case let .unknown(type):
             type
         }
@@ -228,6 +233,8 @@ public nonisolated enum ServerMessage: Decodable, Sendable {
             "user=\(user.name), elo=\(user.elo)"
         case let .authError(error):
             error
+        case .ping:
+            "keep-alive"
         case let .unknown(type):
             "type=\(type)"
         }

@@ -469,10 +469,15 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         case .authenticated:
             recentError = nil
 
-        case let .authError(error):
+        case .authError(let error):
             recentError = UserFacingError(title: "Authentication Error", message: error)
 
-        case let .unknown(type):
+        case .ping:
+            // Heartbeat, just log silently or ignore
+            break
+
+        case .unknown(let type):
+
             recentError = UserFacingError(title: "Protocol Error", message: "Unknown server message type: \(type)")
         }
     }

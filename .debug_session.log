@@ -10,3 +10,8 @@
 [4/29/2026, 9:13 PM] [ERROR] Failed to fetch /health - Failed to decode server response: The data couldn’t be read because it is missing.
 [4/29/2026, 9:13 PM] [REST] Fetched /api/defaults - rows=2, columns=4, hand=4, LP=20
 [4/29/2026, 9:13 PM] [REST] Fetched /matches - activeMatches=0
+[4/29/2026, 9:17 PM] [SESSION] Applied Custom configuration - api=http://localhost:3001, ws=ws://localhost:3001/ws, docs=http://localhost:3001/docs/json
+[4/29/2026, 9:17 PM] [REST] Refreshing server snapshot - http://localhost:3001
+[4/29/2026, 9:17 PM] [ERROR] Failed to fetch /health - Failed to decode server response: The data couldn’t be read because it is missing.
+[4/29/2026, 9:17 PM] [REST] Fetched /api/defaults - rows=2, columns=4, hand=4, LP=20
+[4/29/2026, 9:17 PM] [REST] Fetched /matches - activeMatches=1
