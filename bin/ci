@@ -1,0 +1,77 @@
+#!/bin/bash
+
+# Phalanx Duel Client - Local CI Pipeline
+# Performs full validation: Regen -> Format -> Build -> Sim Management -> Test -> Log Analysis
+
+set -e
+
+# --- Configuration ---
+SCHEME="PhalanxDuelClient"
+DEVICE_NAME="iPhone 17 Pro"
+LOG_PATH="$(pwd)/.debug_session.log"
+export PHALANX_DEBUG_LOG_PATH="$LOG_PATH"
+export PHALANX_VERBOSE_LOGGING="true"
+
+echo "🚀 Starting Local CI Pipeline..."
+
+# 1. Preparation
+echo "⚙️  Regenerating Project..."
+xcodegen generate > /dev/null
+
+echo "🎨 Formatting Code..."
+swiftformat . --quiet
+
+echo "🛡️  Linting..."
+if command -v swiftlint >/dev/null; then
+  swiftlint --fix --quiet || echo "⚠️  swiftlint failed, continuing..."
+else
+  echo "⚠️  swiftlint not found, skipping."
+fi
+
+# 2. Simulator Management
+echo "📱 Preparing Simulator: $DEVICE_NAME..."
+
+# Find the device ID
+DEVICE_ID=$(xcrun simctl list devices | grep "$DEVICE_NAME" | grep -v "unavailable" | head -1 | sed -e 's/.*(\(.*\)).*/\1/')
+
+if [ -z "$DEVICE_ID" ]; then
+    echo "❌ Error: Could not find simulator '$DEVICE_NAME'. Please ensure it is installed."
+    exit 1
+fi
+
+echo "   [ID: $DEVICE_ID]"
+
+# Shutdown and Reset (Force a clean state)
+echo "   Cleaning simulator state..."
+xcrun simctl shutdown "$DEVICE_ID" 2>/dev/null || true
+xcrun simctl erase "$DEVICE_ID"
+
+# Boot
+echo "   Booting..."
+xcrun simctl boot "$DEVICE_ID"
+
+# 3. Test Execution
+echo "🏗️  Running Full Test Suite (Unit + UI)..."
+echo "   (This may take a minute, tailing $LOG_PATH on failure)"
+
+# Clean the debug log before starting
+> "$LOG_PATH"
+
+if xcodebuild test \
+  -scheme "$SCHEME" \
+  -destination "platform=iOS Simulator,id=$DEVICE_ID" \
+  -quiet; then
+    echo "✅ CI PASS: All tests passed."
+else
+    echo "❌ CI FAIL: Tests failed or build error."
+    echo "--- LAST 50 LINES OF DEBUG LOG ---"
+    tail -n 50 "$LOG_PATH"
+    echo "----------------------------------"
+    exit 1
+fi
+
+# 4. Optional: Keep logs tailing if requested
+if [ "$1" == "--tail" ]; then
+    echo "📋 Tailing logs... (Ctrl+C to stop)"
+    tail -f "$LOG_PATH"
+fi
