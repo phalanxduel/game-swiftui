@@ -55,7 +55,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         BootTask(id: "env", name: "Initializing Environment"),
         BootTask(id: "health", name: "Probing Server Health"),
         BootTask(id: "defaults", name: "Fetching Game Defaults"),
-        BootTask(id: "matches", name: "Finding Active Matches")
+        BootTask(id: "matches", name: "Finding Active Matches"),
     ]
 
     private var webSocketClient: WebSocketClient
@@ -382,11 +382,27 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         let entry = DebugLogEntry(category: category, title: title, detail: detail)
         debugLog.append(entry)
 
-        // Remote Debugging Bridge: Write to a predictable file for the agent to tail
-        let logLine = "[\(entry.timestamp.formatted())] [\(category.rawValue.uppercased())] \(title)\(detail.map { " - \($0)" } ?? "")\n"
+        let timestamp = entry.timestamp.formatted(date: .abbreviated, time: .standard)
+        let logLine = "[\(timestamp)] [\(category.rawValue.uppercased())] \(title)\(detail.map { " | \($0)" } ?? "")\n"
+
+        writeToExternalLog(logLine)
+
+        if debugLog.count > 200 {
+            debugLog.removeFirst(debugLog.count - 200)
+        }
+    }
+
+    private func verboseLog(_ message: String, context: [String: Any]? = nil) {
+        guard ProcessInfo.processInfo.environment["PHALANX_VERBOSE_LOGGING"] == "true" else { return }
+        let contextString = context?.map { "\($0.key)=\($0.value)" }.joined(separator: ", ") ?? ""
+        let line = "[VERBOSE] \(message) \(contextString.isEmpty ? "" : "[Context: \(contextString)]")\n"
+        writeToExternalLog(line)
+    }
+
+    private func writeToExternalLog(_ line: String) {
         if let logPath = ProcessInfo.processInfo.environment["PHALANX_DEBUG_LOG_PATH"] {
             let fileURL = URL(fileURLWithPath: logPath)
-            if let data = logLine.data(using: .utf8) {
+            if let data = line.data(using: .utf8) {
                 if let fileHandle = try? FileHandle(forWritingTo: fileURL) {
                     fileHandle.seekToEndOfFile()
                     fileHandle.write(data)
@@ -395,10 +411,6 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
                     try? data.write(to: fileURL)
                 }
             }
-        }
-
-        if debugLog.count > 200 {
-            debugLog.removeFirst(debugLog.count - 200)
         }
     }
 
@@ -420,8 +432,17 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
     }
 
     private func handle(_ error: Error, context: String) {
+        let fullDetail = "\(error.localizedDescription) (Type: \(type(of: error)))"
         recentError = UserFacingError(title: context, message: error.localizedDescription)
-        appendLog(category: .error, title: context, detail: error.localizedDescription)
+        appendLog(category: .error, title: context, detail: fullDetail)
+
+        // Log extra state context on error
+        verboseLog("Error Context Dump", context: [
+            "connectionState": connectionState.label,
+            "activeMatchId": activeMatchId ?? "nil",
+            "localPlayerIndex": localPlayerIndex.map(String.init) ?? "nil",
+            "phase": currentState?.phase.displayName ?? "nil",
+        ])
     }
 
     private func handleServerMessage(_ message: ServerMessage) {
@@ -469,15 +490,14 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         case .authenticated:
             recentError = nil
 
-        case .authError(let error):
+        case let .authError(error):
             recentError = UserFacingError(title: "Authentication Error", message: error)
 
         case .ping:
             // Heartbeat, just log silently or ignore
             break
 
-        case .unknown(let type):
-
+        case let .unknown(type):
             recentError = UserFacingError(title: "Protocol Error", message: "Unknown server message type: \(type)")
         }
     }

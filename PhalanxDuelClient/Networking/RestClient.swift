@@ -206,6 +206,10 @@ public final class RestClient {
         do {
             return try ContractCoding.makeDecoder().decode(T.self, from: data)
         } catch {
+            if ProcessInfo.processInfo.environment["PHALANX_VERBOSE_LOGGING"] == "true",
+               let json = String(data: data, encoding: .utf8) {
+                print("[REST DEBUG] Decoding failed for \(T.self). Raw JSON: \(json)")
+            }
             throw PhalanxError.decodingError(error)
         }
     }
