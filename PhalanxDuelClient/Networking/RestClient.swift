@@ -144,10 +144,13 @@ public final class RestClient {
         self.session = session
     }
 
-    public func createMatch() async throws -> String {
+    public func createMatch(playerName: String) async throws -> String {
         var request = URLRequest(url: environment.matchesURL)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let body = ["playerName": playerName]
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
 
         let response: CreateMatchResponse = try await perform(request, expectingStatusCodes: Set([201]))
         return response.matchId

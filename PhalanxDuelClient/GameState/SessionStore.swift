@@ -239,7 +239,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         }
 
         do {
-            let matchId = try await restClient.createMatch()
+            let matchId = try await restClient.createMatch(playerName: trimmedName)
             activeMatchId = matchId
             appendLog(category: .rest, title: "Created pending match", detail: matchId)
             connectForPendingAction(.join(matchId: matchId, playerName: trimmedName))
@@ -290,7 +290,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
             return
         }
 
-        webSocketClient.send(message: .action(matchId: activeMatchId, action: action))
+        webSocketClient.send(message: .action(matchId: activeMatchId, action: action, msgId: uuidGenerator.makeUUID().uuidString))
         appendLog(
             category: .websocket,
             title: "Sent action",
@@ -353,12 +353,12 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         case let .join(matchId, playerName):
             sessionRole = .player
             activeMatchId = matchId
-            webSocketClient.send(message: .joinMatch(matchId: matchId, playerName: playerName))
+            webSocketClient.send(message: .joinMatch(matchId: matchId, playerName: playerName, msgId: uuidGenerator.makeUUID().uuidString))
             appendLog(category: .websocket, title: "Sent joinMatch", detail: "matchId=\(matchId), playerName=\(playerName)")
         case let .watch(matchId):
             sessionRole = .spectator
             activeMatchId = matchId
-            webSocketClient.send(message: .watchMatch(matchId: matchId))
+            webSocketClient.send(message: .watchMatch(matchId: matchId, msgId: uuidGenerator.makeUUID().uuidString))
             appendLog(category: .websocket, title: "Sent watchMatch", detail: "matchId=\(matchId)")
         }
 

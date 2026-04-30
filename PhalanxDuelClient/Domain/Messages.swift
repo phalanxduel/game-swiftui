@@ -49,9 +49,9 @@ public nonisolated enum ClientMessage: Encodable, Sendable {
         opponent: String? = nil,
         matchParams: CreateMatchParamsPartial? = nil
     )
-    case joinMatch(matchId: String, playerName: String)
-    case watchMatch(matchId: String)
-    case action(matchId: String, action: Action)
+    case joinMatch(matchId: String, playerName: String, msgId: String)
+    case watchMatch(matchId: String, msgId: String)
+    case action(matchId: String, action: Action, msgId: String)
     case authenticate(token: String)
 
     private enum CodingKeys: String, CodingKey {
@@ -64,6 +64,7 @@ public nonisolated enum ClientMessage: Encodable, Sendable {
         case matchId
         case action
         case token
+        case msgId
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -77,16 +78,19 @@ public nonisolated enum ClientMessage: Encodable, Sendable {
             try container.encodeIfPresent(rngSeed, forKey: .rngSeed)
             try container.encodeIfPresent(opponent, forKey: .opponent)
             try container.encodeIfPresent(matchParams, forKey: .matchParams)
-        case let .joinMatch(matchId, playerName):
+        case let .joinMatch(matchId, playerName, msgId):
             try container.encode("joinMatch", forKey: .type)
             try container.encode(matchId, forKey: .matchId)
             try container.encode(playerName, forKey: .playerName)
-        case let .watchMatch(matchId):
+            try container.encode(msgId, forKey: .msgId)
+        case let .watchMatch(matchId, msgId):
             try container.encode("watchMatch", forKey: .type)
             try container.encode(matchId, forKey: .matchId)
-        case let .action(matchId, action):
+            try container.encode(msgId, forKey: .msgId)
+        case let .action(matchId, action, msgId):
             try container.encode("action", forKey: .type)
             try container.encode(matchId, forKey: .matchId)
+            try container.encode(msgId, forKey: .msgId)
 
             // Ensure action.type is used as the discriminant for the action object
             try container.encode(action, forKey: .action)
