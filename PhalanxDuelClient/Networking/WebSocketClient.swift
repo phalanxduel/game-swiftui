@@ -106,6 +106,13 @@ public final class WebSocketClient: NSObject, URLSessionWebSocketDelegate {
         do {
             let data = try encoder.encode(message)
 
+            if ProcessInfo.processInfo.environment["PHALANX_VERBOSE_LOGGING"] == "true",
+               let json = String(data: data, encoding: .utf8) {
+                print("[WS DEBUG] Sending message: \(json)")
+                // Also write to our diagnostic log
+                writeToExternalLog("[WS DEBUG] Sending message: \(json)\n")
+            }
+
             task.send(.data(data)) { [weak self] error in
                 guard let self else {
                     return
@@ -167,13 +174,38 @@ public final class WebSocketClient: NSObject, URLSessionWebSocketDelegate {
             return
         }
 
+        if ProcessInfo.processInfo.environment["PHALANX_VERBOSE_LOGGING"] == "true",
+           let json = String(data: dataToDecode, encoding: .utf8) {
+            print("[WS DEBUG] Received message: \(json)")
+            writeToExternalLog("[WS DEBUG] Received message: \(json)\n")
+        }
+
         do {
             let decodedMessage = try decoder.decode(ServerMessage.self, from: dataToDecode)
             Task { @MainActor in
                 delegate?.webSocketClient(self, didReceiveMessage: decodedMessage)
             }
         } catch {
+            if ProcessInfo.processInfo.environment["PHALANX_VERBOSE_LOGGING"] == "true",
+               let json = String(data: dataToDecode, encoding: .utf8) {
+                writeToExternalLog("[WS DEBUG] Decoding failed for ServerMessage. Raw JSON: \(json)\n")
+            }
             delegate?.webSocketClient(self, didEncounterError: PhalanxError.decodingError(error))
+        }
+    }
+
+    private func writeToExternalLog(_ line: String) {
+        if let logPath = ProcessInfo.processInfo.environment["PHALANX_DEBUG_LOG_PATH"] {
+            let fileURL = URL(fileURLWithPath: logPath)
+            if let data = line.data(using: .utf8) {
+                if let fileHandle = try? FileHandle(forWritingTo: fileURL) {
+                    fileHandle.seekToEndOfFile()
+                    fileHandle.write(data)
+                    try? fileHandle.close()
+                } else {
+                    try? data.write(to: fileURL)
+                }
+            }
         }
     }
 

@@ -87,6 +87,8 @@ public nonisolated enum ClientMessage: Encodable, Sendable {
         case let .action(matchId, action):
             try container.encode("action", forKey: .type)
             try container.encode(matchId, forKey: .matchId)
+
+            // Ensure action.type is used as the discriminant for the action object
             try container.encode(action, forKey: .action)
         case let .authenticate(token):
             try container.encode("authenticate", forKey: .type)

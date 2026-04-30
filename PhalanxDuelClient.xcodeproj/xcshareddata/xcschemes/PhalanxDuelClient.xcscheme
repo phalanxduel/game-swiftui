@@ -50,6 +50,17 @@
                ReferencedContainer = "container:PhalanxDuelClient.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "891C89FB998690CD9BE14C97"
+               BuildableName = "PhalanxDuelClientUITests.xctest"
+               BlueprintName = "PhalanxDuelClientUITests"
+               ReferencedContainer = "container:PhalanxDuelClient.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <CommandLineArguments>
       </CommandLineArguments>

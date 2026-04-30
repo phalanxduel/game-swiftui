@@ -32,6 +32,17 @@ targets:
     settings:
       base:
         GENERATE_INFOPLIST_FILE: YES
+  PhalanxDuelClientUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: PhalanxDuelClientUITests
+    dependencies:
+      - target: PhalanxDuelClient
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
 
 schemes:
   PhalanxDuelClient:
@@ -50,3 +61,4 @@ schemes:
         PHALANX_VERBOSE_LOGGING: "true"
       targets:
         - PhalanxDuelClientTests
+        - PhalanxDuelClientUITests
