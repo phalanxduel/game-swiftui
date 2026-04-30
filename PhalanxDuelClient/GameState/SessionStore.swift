@@ -432,16 +432,28 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
     }
 
     private func handle(_ error: Error, context: String) {
-        let fullDetail = "\(error.localizedDescription) (Type: \(type(of: error)))"
-        recentError = UserFacingError(title: context, message: error.localizedDescription)
+        let errorType = "\(type(of: error))"
+        let errorDescription = error.localizedDescription
+        let fullDetail = "\(errorDescription) (Type: \(errorType))"
+
+        recentError = UserFacingError(title: context, message: errorDescription)
         appendLog(category: .error, title: context, detail: fullDetail)
 
-        // Log extra state context on error
-        verboseLog("Error Context Dump", context: [
+        // Log exhaustive state context on error
+        verboseLog("EXHAUSTIVE ERROR CONTEXT", context: [
+            "context": context,
+            "errorType": errorType,
+            "errorDescription": errorDescription,
             "connectionState": connectionState.label,
             "activeMatchId": activeMatchId ?? "nil",
+            "localPlayerId": localPlayerId ?? "nil",
             "localPlayerIndex": localPlayerIndex.map(String.init) ?? "nil",
-            "phase": currentState?.phase.displayName ?? "nil"
+            "sessionRole": sessionRole?.rawValue ?? "nil",
+            "phase": currentState?.phase.displayName ?? "nil",
+            "turnNumber": currentState.map { String($0.turnNumber) } ?? "nil",
+            "environment": environment.name,
+            "apiBaseURL": environment.apiBaseURL.absoluteString,
+            "wsURL": environment.webSocketURL.absoluteString
         ])
     }
 
