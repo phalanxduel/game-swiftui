@@ -29,7 +29,8 @@ struct PhalanxDuelClientTests {
     func joinMatchEncoding() throws {
         let payload = ClientMessage.joinMatch(
             matchId: "00000000-0000-0000-0000-000000000001",
-            playerName: "Swift Tester"
+            playerName: "Swift Tester",
+            msgId: "test-msg-id-123"
         )
 
         let data = try ContractCoding.makeEncoder().encode(payload)
@@ -38,6 +39,7 @@ struct PhalanxDuelClientTests {
         #expect(object["type"] as? String == "joinMatch")
         #expect(object["matchId"] as? String == "00000000-0000-0000-0000-000000000001")
         #expect(object["playerName"] as? String == "Swift Tester")
+        #expect(object["msgId"] as? String == "test-msg-id-123")
     }
 
     @Test("gameState decodes row-major battlefield state and redacted opponent counts")
