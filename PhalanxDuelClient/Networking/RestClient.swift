@@ -37,11 +37,11 @@ public nonisolated struct StandardErrorResponse: Codable, Equatable, Sendable {
 
 public nonisolated struct ServerHealthResponse: Codable, Equatable, Sendable {
     public nonisolated struct Observability: Codable, Equatable, Sendable {
-        public let sentryInitialized: Bool
+        public let otelActive: Bool
         public let region: String
 
         enum CodingKeys: String, CodingKey {
-            case sentryInitialized = "sentry_initialized"
+            case otelActive = "otel_active"
             case region
         }
     }

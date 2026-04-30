@@ -32,3 +32,15 @@ targets:
     settings:
       base:
         GENERATE_INFOPLIST_FILE: YES
+
+schemes:
+  PhalanxDuelClient:
+    build:
+      targets:
+        PhalanxDuelClient: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - PhalanxDuelClientTests
