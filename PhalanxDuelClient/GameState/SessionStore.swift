@@ -50,8 +50,8 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
     @Published public private(set) var debugLog: [DebugLogEntry] = []
     @Published public private(set) var lastSnapshotRefreshAt: Date?
 
-    @Published public private(set) var bootState: LoadState<NoData> = .idle
-    @Published public private(set) var bootTasks: [BootTask] = [
+    @Published public var bootState: LoadState<NoData> = .idle
+    @Published public var bootTasks: [BootTask] = [
         BootTask(id: "env", name: "Initializing Environment"),
         BootTask(id: "health", name: "Probing Server Health"),
         BootTask(id: "defaults", name: "Fetching Game Defaults"),
