@@ -40,7 +40,13 @@ schemes:
         PhalanxDuelClient: all
     run:
       config: Debug
+      environmentVariables:
+        PHALANX_DEBUG_LOG_PATH: /Users/mike/github.com/phalanxduel/game-swiftui/.debug_session.log
+        PHALANX_VERBOSE_LOGGING: "true"
     test:
       config: Debug
+      environmentVariables:
+        PHALANX_DEBUG_LOG_PATH: /Users/mike/github.com/phalanxduel/game-swiftui/.debug_session.log
+        PHALANX_VERBOSE_LOGGING: "true"
       targets:
         - PhalanxDuelClientTests
