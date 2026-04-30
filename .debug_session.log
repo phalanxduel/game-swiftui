@@ -1,0 +1,12 @@
+[4/29/2026, 9:12 PM] [SESSION] Configured Local Proxy - api=http://localhost:5173, ws=ws://localhost:5173/ws, docs=http://localhost:3001/docs/json
+[4/29/2026, 9:12 PM] [SESSION] Starting Boot Sequence
+[4/29/2026, 9:12 PM] [ERROR] Boot: /health failed - Failed to decode server response: The data couldn’t be read because it is missing.
+[4/29/2026, 9:13 PM] [SESSION] Boot Sequence Complete
+[4/29/2026, 9:13 PM] [SESSION] Applied Local Direct configuration - api=http://localhost:3001, ws=ws://localhost:3001/ws, docs=http://localhost:3001/docs/json
+[4/29/2026, 9:13 PM] [SESSION] Applied Local Direct configuration - api=http://localhost:3001, ws=ws://localhost:3001/ws, docs=http://localhost:3001/docs/json
+[4/29/2026, 9:13 PM] [SESSION] Applied Local Direct configuration - api=http://localhost:3001, ws=ws://localhost:3001/ws, docs=http://localhost:3001/docs/json
+[4/29/2026, 9:13 PM] [SESSION] Applied Custom configuration - api=http://localhost:3001, ws=ws://localhost:3001/ws, docs=http://localhost:3001/docs/json
+[4/29/2026, 9:13 PM] [REST] Refreshing server snapshot - http://localhost:3001
+[4/29/2026, 9:13 PM] [ERROR] Failed to fetch /health - Failed to decode server response: The data couldn’t be read because it is missing.
+[4/29/2026, 9:13 PM] [REST] Fetched /api/defaults - rows=2, columns=4, hand=4, LP=20
+[4/29/2026, 9:13 PM] [REST] Fetched /matches - activeMatches=0

@@ -87,7 +87,12 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
     }
 
     public var isBooting: Bool {
-        bootState.isLoading
+        switch bootState {
+        case .idle, .loading:
+            true
+        default:
+            false
+        }
     }
 
     public var isRefreshingSnapshot: Bool {
@@ -374,7 +379,24 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
     }
 
     private func appendLog(category: DebugLogEntry.Category, title: String, detail: String? = nil) {
-        debugLog.append(DebugLogEntry(category: category, title: title, detail: detail))
+        let entry = DebugLogEntry(category: category, title: title, detail: detail)
+        debugLog.append(entry)
+
+        // Remote Debugging Bridge: Write to a predictable file for the agent to tail
+        let logLine = "[\(entry.timestamp.formatted())] [\(category.rawValue.uppercased())] \(title)\(detail.map { " - \($0)" } ?? "")\n"
+        if let logPath = ProcessInfo.processInfo.environment["PHALANX_DEBUG_LOG_PATH"] {
+            let fileURL = URL(fileURLWithPath: logPath)
+            if let data = logLine.data(using: .utf8) {
+                if let fileHandle = try? FileHandle(forWritingTo: fileURL) {
+                    fileHandle.seekToEndOfFile()
+                    fileHandle.write(data)
+                    try? fileHandle.close()
+                } else {
+                    try? data.write(to: fileURL)
+                }
+            }
+        }
+
         if debugLog.count > 200 {
             debugLog.removeFirst(debugLog.count - 200)
         }

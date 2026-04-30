@@ -162,6 +162,27 @@ public nonisolated struct GameState: Codable, Equatable, Sendable {
         let index = row * columns + column
         return playerState.battlefield[safe: index] ?? nil
     }
+
+    // MARK: - Validation Helpers
+
+    public func isValidDeployment(playerIndex: Int, column: Int) -> Bool {
+        guard case .turnPhase(.DeploymentPhase) = phase else { return false }
+        guard activePlayerIndex == playerIndex else { return false }
+
+        // Deployment is valid if any row in the column is empty
+        for row in 0 ..< rows {
+            if battlefieldCard(playerIndex: playerIndex, row: row, column: column) == nil {
+                return true
+            }
+        }
+        return false
+    }
+
+    public func isValidAttackTarget(attackerColumn _: Int, defenderPlayerIndex _: Int, targetColumn: Int) -> Bool {
+        guard case .turnPhase(.AttackPhase) = phase else { return false }
+        // Any valid column on the opponent's side is a targetable chain
+        return targetColumn >= 0 && targetColumn < columns
+    }
 }
 
 public nonisolated struct PhalanxTurnResult: Codable, Equatable, Sendable {

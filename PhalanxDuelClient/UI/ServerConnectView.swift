@@ -10,7 +10,7 @@ public struct ServerConnectView: View {
     }
 
     public var body: some View {
-        Form {
+        List {
             Section("Preset Targets") {
                 ForEach(AppEnvironment.presets, id: \.name) { preset in
                     Button(preset.name) {
@@ -20,25 +20,35 @@ public struct ServerConnectView: View {
             }
 
             Section("Configuration") {
-                TextField("API Base URL", text: $sessionStore.serverBaseURLText)
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled()
-                    .keyboardType(.URL)
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("API Base URL")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    TextField("API Base URL", text: $sessionStore.serverBaseURLText)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+                        .keyboardType(.URL)
+                }
 
-                TextField("Documentation Base URL", text: $sessionStore.documentationBaseURLText)
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled()
-                    .keyboardType(.URL)
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Documentation Base URL")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    TextField("Documentation Base URL", text: $sessionStore.documentationBaseURLText)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+                        .keyboardType(.URL)
+                }
 
                 Button("Apply Custom Configuration") {
                     sessionStore.applyCustomConfiguration()
                 }
 
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: 4) {
                     endpointRow(title: "WebSocket", value: sessionStore.environment.webSocketURL.absoluteString)
                     endpointRow(title: "OpenAPI", value: sessionStore.environment.openAPIURL.absoluteString)
                 }
-                .font(.caption)
+                .font(.caption2.monospaced())
             }
 
             Section("Discovery") {
@@ -50,28 +60,32 @@ public struct ServerConnectView: View {
                 .disabled(sessionStore.isRefreshingSnapshot)
 
                 if let serverHealth = sessionStore.serverHealth {
-                    LabeledContent("Health", value: "\(serverHealth.status) | version \(serverHealth.version)")
-                    LabeledContent("Observed At", value: serverHealth.timestamp.formatted(date: .abbreviated, time: .standard))
+                    LabeledContent("Health", value: "\(serverHealth.status) | v\(serverHealth.version)")
                     LabeledContent("Region", value: serverHealth.observability.region)
                 }
 
                 if let serverDefaults = sessionStore.serverDefaults {
-                    LabeledContent("Default Battlefield", value: "\(serverDefaults.rows)x\(serverDefaults.columns)")
+                    LabeledContent("Battlefield", value: "\(serverDefaults.rows)x\(serverDefaults.columns)")
                     LabeledContent("Initial Draw", value: "\(serverDefaults.initialDraw)")
-                    LabeledContent("Starting Lifepoints", value: "\(serverDefaults.startingLifepoints)")
-                    LabeledContent("Damage Mode", value: serverDefaults.modeDamagePersistence.rawValue)
+                    LabeledContent("Lifepoints", value: "\(serverDefaults.startingLifepoints)")
                 }
             }
 
             Section("Session") {
-                TextField("Player Name", text: $sessionStore.localPlayerName)
-                    .textInputAutocapitalization(.words)
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Your Name")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    TextField("Player Name", text: $sessionStore.localPlayerName)
+                        .textInputAutocapitalization(.words)
+                }
 
                 Button("Create Match via POST /matches") {
                     Task {
                         await sessionStore.connectAndCreateMatch()
                     }
                 }
+                .buttonStyle(.borderedProminent)
 
                 VStack(alignment: .leading, spacing: 8) {
                     TextField("Match ID to join", text: $joinMatchID)
@@ -132,7 +146,7 @@ public struct ServerConnectView: View {
             }
 
             if let recentError = sessionStore.recentError {
-                Section {
+                Section("Last Error") {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(recentError.title)
                             .font(.headline)
@@ -140,8 +154,6 @@ public struct ServerConnectView: View {
                             .font(.subheadline)
                     }
                     .foregroundStyle(.red)
-                } header: {
-                    Text("Last Error")
                 }
             }
 
@@ -153,6 +165,7 @@ public struct ServerConnectView: View {
                 )
             }
         }
+        .listStyle(.insetGrouped)
         .navigationTitle("Server Connect")
     }
 

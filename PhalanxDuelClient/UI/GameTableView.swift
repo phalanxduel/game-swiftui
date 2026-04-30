@@ -34,6 +34,8 @@ public struct GameTableView: View {
                         revealHand: shouldRevealHand(for: playerIndex),
                         selectedCardId: selectedCardId,
                         selectedAttackerColumn: selectedAttackerColumn,
+                        validDeployColumns: validDeployColumns(for: playerIndex),
+                        validAttackColumns: validAttackColumns(for: playerIndex),
                         onCardSelected: { cardId in
                             if selectedCardId == cardId {
                                 selectedCardId = nil
@@ -51,12 +53,46 @@ public struct GameTableView: View {
         }
     }
 
+    private var displayOrder: [Int] {
+        guard let localPlayerIndex else {
+            return Array(gameState.players.indices)
+        }
+        let opponentIndex = localPlayerIndex == 0 ? 1 : 0
+        return [opponentIndex, localPlayerIndex]
+    }
+
+    private func validDeployColumns(for playerIndex: Int) -> Set<Int> {
+        guard let localPlayerIndex, playerIndex == localPlayerIndex, selectedCardId != nil else { return [] }
+        var valid = Set<Int>()
+        for col in 0 ..< gameState.columns {
+            if gameState.isValidDeployment(playerIndex: localPlayerIndex, column: col) {
+                valid.insert(col)
+            }
+        }
+        return valid
+    }
+
+    private func validAttackColumns(for playerIndex: Int) -> Set<Int> {
+        guard let localPlayerIndex, let attackerCol = selectedAttackerColumn else { return [] }
+        // If we have an attacker selected, the opponent's columns are valid targets
+        if playerIndex != localPlayerIndex {
+            var valid = Set<Int>()
+            for col in 0 ..< gameState.columns {
+                if gameState.isValidAttackTarget(attackerColumn: attackerCol, defenderPlayerIndex: playerIndex, targetColumn: col) {
+                    valid.insert(col)
+                }
+            }
+            return valid
+        }
+        return []
+    }
+
     private func handleSlotSelection(playerIndex: Int, row: Int, col: Int) {
         guard let localPlayerIndex else { return }
 
         // 1. Deployment (to local board)
         if let selectedCardId, playerIndex == localPlayerIndex {
-            if case .turnPhase(.DeploymentPhase) = gameState.phase {
+            if gameState.isValidDeployment(playerIndex: localPlayerIndex, column: col) {
                 let action = Action(
                     type: .deploy,
                     playerIndex: localPlayerIndex,
@@ -86,7 +122,7 @@ public struct GameTableView: View {
 
         // 3. Attack Execution (to opponent board)
         if let attackerCol = selectedAttackerColumn, playerIndex != localPlayerIndex {
-            if case .turnPhase(.AttackPhase) = gameState.phase {
+            if gameState.isValidAttackTarget(attackerColumn: attackerCol, defenderPlayerIndex: playerIndex, targetColumn: col) {
                 let action = Action(
                     type: .attack,
                     playerIndex: localPlayerIndex,
@@ -100,32 +136,18 @@ public struct GameTableView: View {
         }
     }
 
-    private var displayOrder: [Int] {
-        guard let localPlayerIndex else {
-            return Array(gameState.players.indices)
-        }
-
-        let opponentIndex = localPlayerIndex == 0 ? 1 : 0
-        return [opponentIndex, localPlayerIndex]
-    }
-
     private func sectionTitle(for playerIndex: Int) -> String {
         if localPlayerIndex == playerIndex {
             return "You"
         }
-
         if sessionRole == .spectator {
             return "Player \(playerIndex + 1)"
         }
-
         return "Opponent"
     }
 
     private func shouldRevealHand(for playerIndex: Int) -> Bool {
-        guard sessionRole == .player else {
-            return false
-        }
-
+        guard sessionRole == .player else { return false }
         return localPlayerIndex == playerIndex
     }
 }
@@ -139,6 +161,8 @@ private struct PlayerFieldView: View {
     let revealHand: Bool
     let selectedCardId: String?
     let selectedAttackerColumn: Int?
+    let validDeployColumns: Set<Int>
+    let validAttackColumns: Set<Int>
     let onCardSelected: (String) -> Void
     let onSlotSelected: (Int, Int) -> Void
 
@@ -178,9 +202,14 @@ private struct PlayerFieldView: View {
                             let row = index / columns
                             let col = index % columns
                             let isAttacker = row == 0 && selectedAttackerColumn == col && isActivePlayer
+
+                            let isValidDeploy = validDeployColumns.contains(col)
+                            let isValidAttack = validAttackColumns.contains(col)
+
                             BattlefieldSlotView(
                                 slot: playerState.battlefield[safe: index] ?? nil,
-                                isSelected: isAttacker
+                                isSelected: isAttacker,
+                                isValidTarget: isValidDeploy || isValidAttack
                             )
                             .onTapGesture {
                                 onSlotSelected(row, col)
@@ -230,13 +259,23 @@ private struct PlayerFieldView: View {
 private struct BattlefieldSlotView: View {
     let slot: BattlefieldCard?
     let isSelected: Bool
+    let isValidTarget: Bool
 
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
             .fill(slot == nil ? Color.slotBackground : Color.white)
             .overlay {
+                if isValidTarget {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color.successStatus.opacity(0.1))
+                }
+            }
+            .overlay {
                 RoundedRectangle(cornerRadius: 10)
-                    .strokeBorder(isSelected ? Color.primaryAction : slotBorderColor, lineWidth: isSelected ? 3 : 1.5)
+                    .strokeBorder(
+                        isSelected ? Color.primaryAction : (isValidTarget ? Color.successStatus : slotBorderColor),
+                        lineWidth: (isSelected || isValidTarget) ? 3 : 1.5
+                    )
             }
             .frame(minHeight: 96)
             .overlay(alignment: .center) {
@@ -273,7 +312,6 @@ private struct BattlefieldSlotView: View {
         guard let slot else {
             return Color.cardBorder
         }
-
         return slot.card.suit.isRed ? Color.suitRed : Color.suitBlack
     }
 }

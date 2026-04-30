@@ -10,6 +10,7 @@ public struct ContentView: View {
             Group {
                 if sessionStore.isBooting {
                     BootView(sessionStore: sessionStore)
+                        .toolbar(.hidden, for: .navigationBar)
                 } else if sessionStore.hasActiveSession {
                     GameSessionView(sessionStore: sessionStore)
                 } else {
