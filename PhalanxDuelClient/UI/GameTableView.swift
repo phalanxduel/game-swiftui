@@ -277,31 +277,40 @@ private struct BattlefieldSlotView: View {
                         lineWidth: (isSelected || isValidTarget) ? 3 : 1.5
                     )
             }
-            .frame(minHeight: 96)
+            .frame(minHeight: 104)
             .overlay(alignment: .center) {
                 if let slot {
-                    VStack(spacing: AppSpacing.tiny) {
-                        Text(slot.faceDown ? "Face Down" : slot.card.shortLabel)
-                            .font(.headline)
-                            .foregroundStyle(slot.card.suit.isRed ? Color.suitRed : Color.suitBlack)
+                    ZStack(alignment: .topTrailing) {
+                        PhxCardView(
+                            card: slot.card,
+                            isFaceUp: !slot.faceDown,
+                            isSelected: isSelected,
+                            isHighlighted: isValidTarget
+                        )
 
-                        Text("HP \(slot.currentHp)")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-
-                        Text("r\(slot.position.row) c\(slot.position.col)")
-                            .font(.caption2)
-                            .foregroundStyle(.tertiary)
+                        // Health badge overlay
+                        Text("\(slot.currentHp)")
+                            .font(.system(size: 11, weight: .bold))
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Color.red)
+                            .clipShape(Capsule())
+                            .offset(x: 4, y: -4)
                     }
-                    .padding(AppSpacing.small - 2)
                     .accessibilityElement(children: .combine)
                     .accessibilityLabel("\(slot.card.face) of \(slot.card.suit.rawValue)")
                     .accessibilityValue("\(slot.currentHp) health points")
                 } else {
-                    Text("Empty")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .accessibilityLabel("Empty slot")
+                    VStack(spacing: 4) {
+                        Image(systemName: "plus.square.dashed")
+                            .font(.system(size: 20))
+                            .foregroundStyle(.secondary.opacity(0.5))
+                        Text("EMPTY")
+                            .font(.system(size: 9, weight: .bold))
+                            .foregroundStyle(.tertiary)
+                    }
+                    .accessibilityLabel("Empty slot")
                 }
             }
             .accessibilityAddTraits(.isButton)
@@ -321,22 +330,11 @@ private struct VisibleHandCardView: View {
     let isSelected: Bool
 
     var body: some View {
-        VStack(spacing: AppSpacing.tiny) {
-            Text(card.face)
-                .font(.headline)
-            Text(card.suit.symbol)
-                .foregroundStyle(card.suit.isRed ? Color.suitRed : Color.suitBlack)
-            Text(card.type.rawValue)
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-        }
-        .frame(width: 64, height: 92)
-        .background(isSelected ? Color.primaryAction.opacity(0.15) : Color.secondary.opacity(0.12))
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-        .overlay {
-            RoundedRectangle(cornerRadius: 10)
-                .strokeBorder(isSelected ? Color.primaryAction : Color.cardBorder, lineWidth: isSelected ? 2 : 1)
-        }
+        PhxCardView(
+            card: card,
+            isFaceUp: true,
+            isSelected: isSelected
+        )
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(card.face) of \(card.suit.rawValue)")
         .accessibilityAddTraits(.isButton)

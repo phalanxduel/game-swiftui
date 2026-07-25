@@ -19,6 +19,16 @@ public extension Color {
 
     static let suitRed = Color.red
     static let suitBlack = Color.primary
+
+    static let amberHighlight = Color.orange
+    static let goldAccent = Color.yellow
+    static let emeraldGreen = Color.green
+
+#if os(iOS)
+    static let cardBackground = Color(uiColor: .systemBackground)
+#else
+    static let cardBackground = Color(nsColor: .windowBackgroundColor)
+#endif
 }
 
 public extension ShapeStyle where Self == Color {

@@ -21,6 +21,7 @@
 		7C8E3016D2D157074635979E /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BDAA448BCF85ED461BA914 /* Messages.swift */; };
 		7E453CA9246C5F0345475BC9 /* RestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C0D880C5CCA25AAD686CA0 /* RestClient.swift */; };
 		89E560B9834BD7169879AA20 /* PhalanxDuelClientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEEB59B88FA957075026CA4 /* PhalanxDuelClientUITests.swift */; };
+		9608A6D680EA0E4482030DE4 /* PhxCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E325B7C7913124B332C130B5 /* PhxCardView.swift */; };
 		97661C541BCFB0DE2384877C /* BootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F9C9C140E543462833311D /* BootView.swift */; };
 		99C4D3335695972B91050FF7 /* DebugLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5015C0B9C012FFEB6681B6 /* DebugLogView.swift */; };
 		BD2BD8C3B8C25E9E4B814E11 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C172E323249F7A3C112DF481 /* Environment.swift */; };
@@ -82,6 +83,7 @@
 		D9E1233DFC6A64CECC0F82A8 /* PhalanxDuelClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhalanxDuelClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBA71DCF521E63383064EE42 /* PhalanxDuelClientApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhalanxDuelClientApp.swift; sourceTree = "<group>"; };
 		DBEEB59B88FA957075026CA4 /* PhalanxDuelClientUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhalanxDuelClientUITests.swift; sourceTree = "<group>"; };
+		E325B7C7913124B332C130B5 /* PhxCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhxCardView.swift; sourceTree = "<group>"; };
 		EBC128BF4313838631816C9D /* PhalanxDuelClientUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhalanxDuelClientUITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -194,6 +196,7 @@
 				AC5015C0B9C012FFEB6681B6 /* DebugLogView.swift */,
 				8FC1C65724125A7564235075 /* GameSessionView.swift */,
 				B14CA0883EBC2B1CBC4EA897 /* GameTableView.swift */,
+				E325B7C7913124B332C130B5 /* PhxCardView.swift */,
 				39B0DE50FFB8336A7B3CCF9D /* ServerConnectView.swift */,
 			);
 			path = UI;
@@ -378,6 +381,7 @@
 				7C8E3016D2D157074635979E /* Messages.swift in Sources */,
 				6F3047914B51CE015B969BF8 /* Models.swift in Sources */,
 				103934629DB5D24B7B2DCCE7 /* PhalanxDuelClientApp.swift in Sources */,
+				9608A6D680EA0E4482030DE4 /* PhxCardView.swift in Sources */,
 				7E453CA9246C5F0345475BC9 /* RestClient.swift in Sources */,
 				2AF55F6E8236114C36CC170C /* ServerConnectView.swift in Sources */,
 				620D4865512C8FB08E3E06B2 /* SessionStore.swift in Sources */,
