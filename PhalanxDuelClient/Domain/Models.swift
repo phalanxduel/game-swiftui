@@ -91,6 +91,16 @@ public nonisolated enum VictoryType: String, Codable, Equatable, Sendable {
     case cardDepletion
     case forfeit
     case passLimit
+    case repetitionDraw
+    case noProgressDraw
+    case turnLimitDraw
+
+    public var isDraw: Bool {
+        switch self {
+        case .repetitionDraw, .noProgressDraw, .turnLimitDraw: true
+        case .lpDepletion, .cardDepletion, .forfeit, .passLimit: false
+        }
+    }
 }
 
 public nonisolated enum EventType: String, Codable, Equatable, Sendable {

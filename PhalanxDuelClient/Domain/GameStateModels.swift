@@ -123,7 +123,8 @@ public nonisolated struct TransactionLogEntry: Codable, Equatable, Sendable {
 }
 
 public nonisolated struct MatchOutcome: Codable, Equatable, Sendable {
-    public let winnerIndex: Int
+    /// nil for draw outcomes (repetitionDraw, noProgressDraw, turnLimitDraw).
+    public let winnerIndex: Int?
     public let victoryType: VictoryType
     public let turnNumber: Int
 }

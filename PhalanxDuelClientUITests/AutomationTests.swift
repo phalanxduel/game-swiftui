@@ -290,7 +290,9 @@ final class AutomationTests: XCTestCase {
             let victoryType = try textValue(in: app, identifier: "game.victory-type", timeout: 10)
             let turnCount = try integerValue(in: app, identifier: "game.final-turn")
             let actionCount = try integerValue(in: app, identifier: "game.action-count")
-            let winnerIndex = [player0, player1].first(where: { $0.name == winnerName })?.index
+            let drawVictoryTypes: Set<String> = ["repetitionDraw", "noProgressDraw", "turnLimitDraw"]
+            let isDraw = drawVictoryTypes.contains(victoryType)
+            let matchedWinner = [player0, player1].first(where: { $0.name == winnerName })
             if finalHoldSeconds > 0 {
                 Thread.sleep(forTimeInterval: TimeInterval(finalHoldSeconds))
             }
@@ -301,9 +303,10 @@ final class AutomationTests: XCTestCase {
             guard performedAttack else {
                 throw ProofError.invalidEvidence("no attack action was driven through the native UI")
             }
-            guard let winnerIndex else {
+            guard matchedWinner != nil || isDraw else {
                 throw ProofError.invalidEvidence("winner \(winnerName) does not match either rendered player")
             }
+            let winnerIndex = matchedWinner?.index
             guard actionCount >= nativeActionCount, turnCount > 0 else {
                 throw ProofError.invalidEvidence(
                     "turn/action counts are inconsistent (turns=\(turnCount), authoritativeActions=\(actionCount), nativeActions=\(nativeActionCount))"
@@ -444,6 +447,9 @@ final class AutomationTests: XCTestCase {
     ) throws -> XCUIElement {
         let deadline = Date().addingTimeInterval(timeout)
         while Date() < deadline {
+            if app.state != .runningForeground {
+                app.activate()
+            }
             let matches = app.descendants(matching: .any)
                 .matching(predicate)
                 .allElementsBoundByIndex

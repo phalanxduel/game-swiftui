@@ -19,7 +19,7 @@ public struct GameSessionView: View {
                         .accessibilityIdentifier("game.game-over")
 
                     LabeledContent("Winner") {
-                        Text(state.players[safe: outcome.winnerIndex]?.player.name ?? "Player \(outcome.winnerIndex + 1)")
+                        Text(outcome.winnerIndex.flatMap { state.players[safe: $0]?.player.name } ?? "Draw")
                             .accessibilityIdentifier("game.winner-name")
                     }
                     LabeledContent("Victory") {
@@ -51,24 +51,6 @@ public struct GameSessionView: View {
                                 .accessibilityIdentifier("game.turn-hash")
                         }
                     }
-                }
-            }
-
-            if automationEnabled,
-               let state = sessionStore.currentState,
-               state.phase != .gameOver {
-                Section("Live Battlefield") {
-                    GameTableView(
-                        gameState: state,
-                        localPlayerIndex: sessionStore.localPlayerIndex,
-                        sessionRole: sessionStore.sessionRole,
-                        validActions: sessionStore.validActions,
-                        onAction: { action in
-                            sessionStore.sendAction(action)
-                        }
-                    )
-                    .listRowInsets(EdgeInsets())
-                    .padding(.vertical, AppSpacing.medium)
                 }
             }
 
@@ -158,7 +140,10 @@ public struct GameSessionView: View {
                         LabeledContent("turnHash", value: latestTurnResult)
                     }
                     if let outcome = state.outcome {
-                        LabeledContent("Outcome", value: "\(outcome.victoryType.rawValue) | winnerIndex \(outcome.winnerIndex)")
+                        LabeledContent(
+                            "Outcome",
+                            value: "\(outcome.victoryType.rawValue) | winnerIndex \(outcome.winnerIndex.map(String.init) ?? "none")"
+                        )
                     }
                 }
 
@@ -214,8 +199,32 @@ public struct GameSessionView: View {
             if automationEnabled,
                let state = sessionStore.currentState,
                state.phase != .gameOver {
-                automationHUD(for: state)
+                VStack(spacing: 0) {
+                    automationHUD(for: state)
+                    automationBoard(for: state)
+                }
             }
+        }
+    }
+
+    /// Pinned above the scrollable list, alongside the HUD, so the
+    /// battlefield stays visible to a human watcher instead of scrolling
+    /// out of view inside the List.
+    @ViewBuilder
+    private func automationBoard(for state: GameState) -> some View {
+        GameTableView(
+            gameState: state,
+            localPlayerIndex: sessionStore.localPlayerIndex,
+            sessionRole: sessionStore.sessionRole,
+            validActions: sessionStore.validActions,
+            onAction: { action in
+                sessionStore.sendAction(action)
+            }
+        )
+        .padding(.vertical, AppSpacing.medium)
+        .background(.background)
+        .overlay(alignment: .bottom) {
+            Divider()
         }
     }
 

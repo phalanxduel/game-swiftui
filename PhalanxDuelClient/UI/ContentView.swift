@@ -59,16 +59,10 @@ public struct ContentView: View {
                 return
             }
 
-            let visibleFrame = screen.visibleFrame
-            let width = min(1_200, visibleFrame.width - 80)
-            let height = min(900, visibleFrame.height - 80)
-            let frame = NSRect(
-                x: visibleFrame.midX - width / 2,
-                y: visibleFrame.midY - height / 2,
-                width: width,
-                height: height
-            )
-            window.setFrame(frame, display: true)
+            // Automation cannot interact with the window itself, so it is
+            // maximized on launch: fill the visible screen area rather than
+            // a fixed size, guaranteeing the full board stays on-screen.
+            window.setFrame(screen.visibleFrame, display: true)
             window.makeKeyAndOrderFront(nil)
             NSApplication.shared.activate(ignoringOtherApps: true)
         }
