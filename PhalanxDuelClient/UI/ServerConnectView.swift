@@ -4,6 +4,9 @@ public struct ServerConnectView: View {
     @ObservedObject public var sessionStore: SessionStore
     @State private var joinMatchID: String = ""
     @State private var watchMatchID: String = ""
+    @State private var showStoreSheet: Bool = false
+    @State private var showLadderSheet: Bool = false
+    @State private var showProfileSheet: Bool = false
 
     public init(sessionStore: SessionStore) {
         self.sessionStore = sessionStore
@@ -11,6 +14,28 @@ public struct ServerConnectView: View {
 
     public var body: some View {
         List {
+            Section("Store & Career Hub") {
+                Button("Open In-App Cosmetic Store") {
+                    showStoreSheet = true
+                }
+                .sheet(isPresented: $showStoreSheet) {
+                    StoreView()
+                }
+
+                Button("Open Global Ladder") {
+                    showLadderSheet = true
+                }
+                .sheet(isPresented: $showLadderSheet) {
+                    LeaderboardView()
+                }
+
+                Button("Open Player Profile") {
+                    showProfileSheet = true
+                }
+                .sheet(isPresented: $showProfileSheet) {
+                    ProfileView(gamertag: sessionStore.localPlayerName)
+                }
+            }
             Section("Preset Targets") {
                 ForEach(AppEnvironment.presets, id: \.name) { preset in
                     Button(preset.name) {
