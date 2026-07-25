@@ -17,6 +17,7 @@
 		53E416108DEE548918928E53 /* PhalanxDuelClientUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC128BF4313838631816C9D /* PhalanxDuelClientUITestsLaunchTests.swift */; };
 		5AF23B257E0490ADE2318EC9 /* PhalanxDuelClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9765EC158FBF894EC74266 /* PhalanxDuelClientTests.swift */; };
 		5B4D26B6E2197006875877F5 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA5F6EC93CB58EC6E20B337 /* AppTheme.swift */; };
+		5C551FD637C11D72E53A7E72 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = FFBBBF361563DFE377D2E8F2 /* PrivacyInfo.xcprivacy */; };
 		620D4865512C8FB08E3E06B2 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93085BE6B8AEA17D145A6B86 /* SessionStore.swift */; };
 		6F3047914B51CE015B969BF8 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D80A6563C130CD30B84AF58 /* Models.swift */; };
 		7C8E3016D2D157074635979E /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BDAA448BCF85ED461BA914 /* Messages.swift */; };
@@ -89,6 +90,7 @@
 		E325B7C7913124B332C130B5 /* PhxCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhxCardView.swift; sourceTree = "<group>"; };
 		EBC128BF4313838631816C9D /* PhalanxDuelClientUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhalanxDuelClientUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		F1F62CF271730D057352C310 /* HapticAndAudioEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticAndAudioEngine.swift; sourceTree = "<group>"; };
+		FFBBBF361563DFE377D2E8F2 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				AAA62E8F8CBBC9178DFCCA24 /* Assets.xcassets */,
+				FFBBBF361563DFE377D2E8F2 /* PrivacyInfo.xcprivacy */,
 				0F4965E0E0BF5D26110415E6 /* App */,
 				EBE20FD8D38AF165A2196FD1 /* Debug */,
 				B62A1374EE5C60C13245084E /* Domain */,
@@ -354,6 +357,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C710E2297D2D2FD2ABA1175E /* Assets.xcassets in Resources */,
+				5C551FD637C11D72E53A7E72 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
