@@ -32,6 +32,7 @@
 		CFB5906A833B90120ED17F74 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 476C4094C223A550BE5C7743 /* SnapshotTesting */; };
 		D55E56A7B9C0407BB2E063AC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86350352A91B17BF0E3DD1AF /* ContentView.swift */; };
 		D69A0C8B6CDA0594878973DB /* failureState.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 701C5A4B27B0F7073511428F /* failureState.1.png */; };
+		D79C023B31909DA81C5F7682 /* CombatBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD63D61EAED5CD489E8E838 /* CombatBannerView.swift */; };
 		DB4FC9EAE04A63501F3BB246 /* ContractCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070A7A62DEE25FF83A1E9A72 /* ContractCoding.swift */; };
 		E69BAF282CB559D5AB64C41E /* initialState.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E966B1EC816D5042CB5AF0B /* initialState.1.png */; };
 		FC68161CF99773DF67BC6AB0 /* GameStateModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED6D6700B6E565DB0DFB9D6 /* GameStateModels.swift */; };
@@ -75,6 +76,7 @@
 		AAA62E8F8CBBC9178DFCCA24 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AC5015C0B9C012FFEB6681B6 /* DebugLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugLogView.swift; sourceTree = "<group>"; };
 		B14CA0883EBC2B1CBC4EA897 /* GameTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTableView.swift; sourceTree = "<group>"; };
+		BAD63D61EAED5CD489E8E838 /* CombatBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatBannerView.swift; sourceTree = "<group>"; };
 		C172E323249F7A3C112DF481 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		C6D1D2B039C2D26143826F36 /* BootViewSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootViewSnapshotTests.swift; sourceTree = "<group>"; };
 		D0F9C9C140E543462833311D /* BootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootView.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 			children = (
 				3DA5F6EC93CB58EC6E20B337 /* AppTheme.swift */,
 				D0F9C9C140E543462833311D /* BootView.swift */,
+				BAD63D61EAED5CD489E8E838 /* CombatBannerView.swift */,
 				86350352A91B17BF0E3DD1AF /* ContentView.swift */,
 				AC5015C0B9C012FFEB6681B6 /* DebugLogView.swift */,
 				8FC1C65724125A7564235075 /* GameSessionView.swift */,
@@ -370,6 +373,7 @@
 			files = (
 				5B4D26B6E2197006875877F5 /* AppTheme.swift in Sources */,
 				97661C541BCFB0DE2384877C /* BootView.swift in Sources */,
+				D79C023B31909DA81C5F7682 /* CombatBannerView.swift in Sources */,
 				D55E56A7B9C0407BB2E063AC /* ContentView.swift in Sources */,
 				DB4FC9EAE04A63501F3BB246 /* ContractCoding.swift in Sources */,
 				0376C447F1F5878D76EB5BD2 /* DebugLogEntry.swift in Sources */,

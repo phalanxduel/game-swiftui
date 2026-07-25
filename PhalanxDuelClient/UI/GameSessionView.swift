@@ -47,6 +47,15 @@ public struct GameSessionView: View {
                 }
             }
 
+            if sessionStore.latestTurnResult != nil {
+                Section("Tactical Combat Resolution") {
+                    CombatBannerView(
+                        turnResult: sessionStore.latestTurnResult,
+                        events: sessionStore.events
+                    )
+                }
+            }
+
             if let state = sessionStore.currentState {
                 Section("Authoritative GameState") {
                     LabeledContent("phase", value: state.phase.displayName)
@@ -80,7 +89,7 @@ public struct GameSessionView: View {
                             sessionStore.sendAction(action)
                         }
                     )
-                    .listRowInsets(EdgeInsets()) // Allow the grid to take full width
+                    .listRowInsets(EdgeInsets())
                     .padding(.vertical, AppSpacing.medium)
                 }
             } else {
