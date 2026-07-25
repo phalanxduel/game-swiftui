@@ -53,6 +53,7 @@ schemes:
         PhalanxDuelClient: all
     run:
       config: Debug
+      storeKitConfiguration: PhalanxDuelClient/PhalanxStore.storekit
       environmentVariables:
         PHALANX_DEBUG_LOG_PATH: /Users/mike/github.com/phalanxduel/game-swiftui/.debug_session.log
         PHALANX_VERBOSE_LOGGING: "true"

@@ -1,0 +1,76 @@
+{
+  "identifier" : "PhalanxStoreConfig",
+  "nonRenewingSubscriptions" : [ ],
+  "products" : [
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "10000001",
+      "localizations" : [
+        {
+          "description" : "Exclusive gold card frame accent, title badge, and early access supporter perks.",
+          "displayName" : "Founders Supporter Pass",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.phalanxduel.supporter_pass_v1",
+      "referenceName" : "Founders Supporter Pass",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "2.99",
+      "familyShareable" : false,
+      "internalID" : "10000002",
+      "localizations" : [
+        {
+          "description" : "Cyberpunk animated suit emblems and electric blue column glow effects.",
+          "displayName" : "Neon Cyber Spades Deck",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.phalanxduel.skin_cyber_spades",
+      "referenceName" : "Neon Cyber Spades Deck",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [ ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "20000001",
+      "localizations" : [ ],
+      "name" : "Phalanx Pro Subscriptions",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [ ],
+          "codeOffers" : [ ],
+          "displayPrice" : "1.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "30000001",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Monthly Pro Pass with double XP, exclusive monthly card skins, and priority matchmaking.",
+              "displayName" : "Phalanx Pro Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.phalanxduel.battle_pass_monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Phalanx Pro Monthly",
+          "subscriptionGroupID" : "20000001",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}

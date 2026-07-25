@@ -26,6 +26,7 @@
 		6F3047914B51CE015B969BF8 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D80A6563C130CD30B84AF58 /* Models.swift */; };
 		7C8E3016D2D157074635979E /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BDAA448BCF85ED461BA914 /* Messages.swift */; };
 		7E453CA9246C5F0345475BC9 /* RestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C0D880C5CCA25AAD686CA0 /* RestClient.swift */; };
+		80E47716FF12C6DB6BFCC49D /* PhalanxStore.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 6CB6B3ABFAEDEC184EDEC7C9 /* PhalanxStore.storekit */; };
 		89E560B9834BD7169879AA20 /* PhalanxDuelClientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEEB59B88FA957075026CA4 /* PhalanxDuelClientUITests.swift */; };
 		9608A6D680EA0E4482030DE4 /* PhxCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E325B7C7913124B332C130B5 /* PhxCardView.swift */; };
 		97661C541BCFB0DE2384877C /* BootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F9C9C140E543462833311D /* BootView.swift */; };
@@ -79,6 +80,7 @@
 		597EECFCCAE6B635991FBDA0 /* ReplayViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplayViewer.swift; sourceTree = "<group>"; };
 		5ED6D6700B6E565DB0DFB9D6 /* GameStateModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateModels.swift; sourceTree = "<group>"; };
 		67C0D880C5CCA25AAD686CA0 /* RestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestClient.swift; sourceTree = "<group>"; };
+		6CB6B3ABFAEDEC184EDEC7C9 /* PhalanxStore.storekit */ = {isa = PBXFileReference; path = PhalanxStore.storekit; sourceTree = "<group>"; };
 		701C5A4B27B0F7073511428F /* failureState.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = failureState.1.png; sourceTree = "<group>"; };
 		742F243CE9C0E3C706FB9615 /* DebugLogEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugLogEntry.swift; sourceTree = "<group>"; };
 		86350352A91B17BF0E3DD1AF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				AAA62E8F8CBBC9178DFCCA24 /* Assets.xcassets */,
+				6CB6B3ABFAEDEC184EDEC7C9 /* PhalanxStore.storekit */,
 				FFBBBF361563DFE377D2E8F2 /* PrivacyInfo.xcprivacy */,
 				0F4965E0E0BF5D26110415E6 /* App */,
 				EBE20FD8D38AF165A2196FD1 /* Debug */,
@@ -378,6 +381,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C710E2297D2D2FD2ABA1175E /* Assets.xcassets in Resources */,
+				80E47716FF12C6DB6BFCC49D /* PhalanxStore.storekit in Resources */,
 				5C551FD637C11D72E53A7E72 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
