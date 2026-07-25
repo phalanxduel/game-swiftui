@@ -7,6 +7,9 @@ public struct ServerConnectView: View {
     @State private var showStoreSheet: Bool = false
     @State private var showLadderSheet: Bool = false
     @State private var showProfileSheet: Bool = false
+    @State private var showMatchmakingSheet: Bool = false
+    @State private var showReplaySheet: Bool = false
+    @State private var showSocialSheet: Bool = false
 
     public init(sessionStore: SessionStore) {
         self.sessionStore = sessionStore
@@ -14,6 +17,30 @@ public struct ServerConnectView: View {
 
     public var body: some View {
         List {
+            Section("Matchmaking & Play") {
+                Button("Find Ranked 1v1 Match") {
+                    showMatchmakingSheet = true
+                }
+                .buttonStyle(.borderedProminent)
+                .sheet(isPresented: $showMatchmakingSheet) {
+                    MatchmakingQueueView(sessionStore: sessionStore)
+                }
+
+                Button("Launch Match Replay Viewer") {
+                    showReplaySheet = true
+                }
+                .sheet(isPresented: $showReplaySheet) {
+                    ReplayViewer()
+                }
+
+                Button("Open Community Activity Feed") {
+                    showSocialSheet = true
+                }
+                .sheet(isPresented: $showSocialSheet) {
+                    SocialFeedView()
+                }
+            }
+
             Section("Store & Career Hub") {
                 Button("Open In-App Cosmetic Store") {
                     showStoreSheet = true

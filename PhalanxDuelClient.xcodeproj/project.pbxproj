@@ -9,10 +9,12 @@
 /* Begin PBXBuildFile section */
 		0376C447F1F5878D76EB5BD2 /* DebugLogEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742F243CE9C0E3C706FB9615 /* DebugLogEntry.swift */; };
 		103934629DB5D24B7B2DCCE7 /* PhalanxDuelClientApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA71DCF521E63383064EE42 /* PhalanxDuelClientApp.swift */; };
+		17D75B256FFF9E3CF5CD93FD /* SocialFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4B242F152EBDAA0298FDA2 /* SocialFeedView.swift */; };
 		22CF6EEFD77CACAD5755984A /* AutomationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9354C558376650FC7DC8FAC0 /* AutomationTests.swift */; };
 		22F86FD1C53E1B338ACD5791 /* loadingTasks.1.png in Resources */ = {isa = PBXBuildFile; fileRef = D70AAFF5E7FA33DE9BC1165B /* loadingTasks.1.png */; };
 		2AF55F6E8236114C36CC170C /* ServerConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B0DE50FFB8336A7B3CCF9D /* ServerConnectView.swift */; };
 		31709710E4B889925392E239 /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D61E35C90279246D72DC9D /* LeaderboardView.swift */; };
+		3BF1593C01D50CE7D6406146 /* ReplayViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597EECFCCAE6B635991FBDA0 /* ReplayViewer.swift */; };
 		4B46D12E93B640E7595BA909 /* HapticAndAudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F62CF271730D057352C310 /* HapticAndAudioEngine.swift */; };
 		4EAAF29C459E32DFF921D18B /* BootViewSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D1D2B039C2D26143826F36 /* BootViewSnapshotTests.swift */; };
 		53E416108DEE548918928E53 /* PhalanxDuelClientUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC128BF4313838631816C9D /* PhalanxDuelClientUITestsLaunchTests.swift */; };
@@ -28,6 +30,7 @@
 		9608A6D680EA0E4482030DE4 /* PhxCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E325B7C7913124B332C130B5 /* PhxCardView.swift */; };
 		97661C541BCFB0DE2384877C /* BootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F9C9C140E543462833311D /* BootView.swift */; };
 		99C4D3335695972B91050FF7 /* DebugLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5015C0B9C012FFEB6681B6 /* DebugLogView.swift */; };
+		B1B7D4D8400FC241AFF61CF9 /* MatchmakingQueueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8324547FCD0F85B68E07CCE /* MatchmakingQueueView.swift */; };
 		B85691E72D25E3F3CC815E81 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1648344DD280E2DA2A77B749 /* ProfileView.swift */; };
 		BD2BD8C3B8C25E9E4B814E11 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C172E323249F7A3C112DF481 /* Environment.swift */; };
 		C176B577B839C4FFEEA164D5 /* GameSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC1C65724125A7564235075 /* GameSessionView.swift */; };
@@ -65,6 +68,7 @@
 		070A7A62DEE25FF83A1E9A72 /* ContractCoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractCoding.swift; sourceTree = "<group>"; };
 		1648344DD280E2DA2A77B749 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		1AF7A846D56066FC9E2C298B /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
+		1D4B242F152EBDAA0298FDA2 /* SocialFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialFeedView.swift; sourceTree = "<group>"; };
 		1D80A6563C130CD30B84AF58 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		2B912E356ADCCD638F5689FF /* StoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreView.swift; sourceTree = "<group>"; };
 		30BDAA448BCF85ED461BA914 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
@@ -72,6 +76,7 @@
 		3DA5F6EC93CB58EC6E20B337 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		3E966B1EC816D5042CB5AF0B /* initialState.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = initialState.1.png; sourceTree = "<group>"; };
 		4DE40BD2333B3F349CCCDCDA /* WebSocketClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketClient.swift; sourceTree = "<group>"; };
+		597EECFCCAE6B635991FBDA0 /* ReplayViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplayViewer.swift; sourceTree = "<group>"; };
 		5ED6D6700B6E565DB0DFB9D6 /* GameStateModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateModels.swift; sourceTree = "<group>"; };
 		67C0D880C5CCA25AAD686CA0 /* RestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestClient.swift; sourceTree = "<group>"; };
 		701C5A4B27B0F7073511428F /* failureState.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = failureState.1.png; sourceTree = "<group>"; };
@@ -98,6 +103,7 @@
 		E325B7C7913124B332C130B5 /* PhxCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhxCardView.swift; sourceTree = "<group>"; };
 		EBC128BF4313838631816C9D /* PhalanxDuelClientUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhalanxDuelClientUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		F1F62CF271730D057352C310 /* HapticAndAudioEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticAndAudioEngine.swift; sourceTree = "<group>"; };
+		F8324547FCD0F85B68E07CCE /* MatchmakingQueueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchmakingQueueView.swift; sourceTree = "<group>"; };
 		FFBBBF361563DFE377D2E8F2 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -214,9 +220,12 @@
 				B14CA0883EBC2B1CBC4EA897 /* GameTableView.swift */,
 				F1F62CF271730D057352C310 /* HapticAndAudioEngine.swift */,
 				E0D61E35C90279246D72DC9D /* LeaderboardView.swift */,
+				F8324547FCD0F85B68E07CCE /* MatchmakingQueueView.swift */,
 				E325B7C7913124B332C130B5 /* PhxCardView.swift */,
 				1648344DD280E2DA2A77B749 /* ProfileView.swift */,
+				597EECFCCAE6B635991FBDA0 /* ReplayViewer.swift */,
 				39B0DE50FFB8336A7B3CCF9D /* ServerConnectView.swift */,
+				1D4B242F152EBDAA0298FDA2 /* SocialFeedView.swift */,
 				2B912E356ADCCD638F5689FF /* StoreView.swift */,
 			);
 			path = UI;
@@ -403,14 +412,17 @@
 				CADD77873ADE7A2EE5764CCB /* GameTableView.swift in Sources */,
 				4B46D12E93B640E7595BA909 /* HapticAndAudioEngine.swift in Sources */,
 				31709710E4B889925392E239 /* LeaderboardView.swift in Sources */,
+				B1B7D4D8400FC241AFF61CF9 /* MatchmakingQueueView.swift in Sources */,
 				7C8E3016D2D157074635979E /* Messages.swift in Sources */,
 				6F3047914B51CE015B969BF8 /* Models.swift in Sources */,
 				103934629DB5D24B7B2DCCE7 /* PhalanxDuelClientApp.swift in Sources */,
 				9608A6D680EA0E4482030DE4 /* PhxCardView.swift in Sources */,
 				B85691E72D25E3F3CC815E81 /* ProfileView.swift in Sources */,
+				3BF1593C01D50CE7D6406146 /* ReplayViewer.swift in Sources */,
 				7E453CA9246C5F0345475BC9 /* RestClient.swift in Sources */,
 				2AF55F6E8236114C36CC170C /* ServerConnectView.swift in Sources */,
 				620D4865512C8FB08E3E06B2 /* SessionStore.swift in Sources */,
+				17D75B256FFF9E3CF5CD93FD /* SocialFeedView.swift in Sources */,
 				69518368C47C50BF12E2C1C2 /* StoreManager.swift in Sources */,
 				D36599C384C1BBCDCFC2F9DA /* StoreView.swift in Sources */,
 				C9A346C63A988D4BCF413B51 /* WebSocketClient.swift in Sources */,
