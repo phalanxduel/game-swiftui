@@ -47,6 +47,8 @@
 		DB4FC9EAE04A63501F3BB246 /* ContractCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070A7A62DEE25FF83A1E9A72 /* ContractCoding.swift */; };
 		E69BAF282CB559D5AB64C41E /* initialState.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E966B1EC816D5042CB5AF0B /* initialState.1.png */; };
 		FC68161CF99773DF67BC6AB0 /* GameStateModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED6D6700B6E565DB0DFB9D6 /* GameStateModels.swift */; };
+		09178AE7CCDE1B9191200596 /* CombatModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA78ABA41182BFEE814CCA3 /* CombatModels.swift */; };
+		F274DADE8B686AE6FFB198A1 /* NarrationTickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AC53AA797B1E2DF5EF2700 /* NarrationTickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +89,8 @@
 		4DE40BD2333B3F349CCCDCDA /* WebSocketClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketClient.swift; sourceTree = "<group>"; };
 		597EECFCCAE6B635991FBDA0 /* ReplayViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplayViewer.swift; sourceTree = "<group>"; };
 		5ED6D6700B6E565DB0DFB9D6 /* GameStateModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateModels.swift; sourceTree = "<group>"; };
+		FAA78ABA41182BFEE814CCA3 /* CombatModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatModels.swift; sourceTree = "<group>"; };
+		B9AC53AA797B1E2DF5EF2700 /* NarrationTickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NarrationTickerView.swift; sourceTree = "<group>"; };
 		67C0D880C5CCA25AAD686CA0 /* RestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestClient.swift; sourceTree = "<group>"; };
 		6CB6B3ABFAEDEC184EDEC7C9 /* PhalanxStore.storekit */ = {isa = PBXFileReference; path = PhalanxStore.storekit; sourceTree = "<group>"; };
 		701C5A4B27B0F7073511428F /* failureState.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = failureState.1.png; sourceTree = "<group>"; };
@@ -234,6 +238,7 @@
 				F1F62CF271730D057352C310 /* HapticAndAudioEngine.swift */,
 				E0D61E35C90279246D72DC9D /* LeaderboardView.swift */,
 				F8324547FCD0F85B68E07CCE /* MatchmakingQueueView.swift */,
+				B9AC53AA797B1E2DF5EF2700 /* NarrationTickerView.swift */,
 				E325B7C7913124B332C130B5 /* PhxCardView.swift */,
 				1648344DD280E2DA2A77B749 /* ProfileView.swift */,
 				597EECFCCAE6B635991FBDA0 /* ReplayViewer.swift */,
@@ -248,6 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				070A7A62DEE25FF83A1E9A72 /* ContractCoding.swift */,
+				FAA78ABA41182BFEE814CCA3 /* CombatModels.swift */,
 				5ED6D6700B6E565DB0DFB9D6 /* GameStateModels.swift */,
 				30BDAA448BCF85ED461BA914 /* Messages.swift */,
 				1D80A6563C130CD30B84AF58 /* Models.swift */,
@@ -443,6 +449,7 @@
 				5B4D26B6E2197006875877F5 /* AppTheme.swift in Sources */,
 				97661C541BCFB0DE2384877C /* BootView.swift in Sources */,
 				D79C023B31909DA81C5F7682 /* CombatBannerView.swift in Sources */,
+				09178AE7CCDE1B9191200596 /* CombatModels.swift in Sources */,
 				D55E56A7B9C0407BB2E063AC /* ContentView.swift in Sources */,
 				DB4FC9EAE04A63501F3BB246 /* ContractCoding.swift in Sources */,
 				0376C447F1F5878D76EB5BD2 /* DebugLogEntry.swift in Sources */,
@@ -455,6 +462,7 @@
 				31709710E4B889925392E239 /* LeaderboardView.swift in Sources */,
 				B1B7D4D8400FC241AFF61CF9 /* MatchmakingQueueView.swift in Sources */,
 				7C8E3016D2D157074635979E /* Messages.swift in Sources */,
+				F274DADE8B686AE6FFB198A1 /* NarrationTickerView.swift in Sources */,
 				6F3047914B51CE015B969BF8 /* Models.swift in Sources */,
 				103934629DB5D24B7B2DCCE7 /* PhalanxDuelClientApp.swift in Sources */,
 				9608A6D680EA0E4482030DE4 /* PhxCardView.swift in Sources */,

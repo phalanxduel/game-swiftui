@@ -112,6 +112,14 @@ public struct GameSessionView: View {
                 }
             }
 
+            if !automationEnabled, let state = sessionStore.currentState {
+                Section("Narration") {
+                    NarrationTickerView(state: state)
+                        .listRowInsets(EdgeInsets())
+                        .padding(.vertical, AppSpacing.small)
+                }
+            }
+
             if let state = sessionStore.currentState {
                 Section("Authoritative GameState") {
                     LabeledContent("phase") {
@@ -225,6 +233,11 @@ public struct GameSessionView: View {
         .overlay(alignment: .bottom) {
             Divider()
         }
+
+        NarrationTickerView(state: state)
+            .padding(.horizontal, AppSpacing.medium)
+            .padding(.bottom, AppSpacing.small)
+            .background(.background)
     }
 
     /// Pinned above the scrollable list so automation controls stay hittable

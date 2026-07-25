@@ -120,6 +120,7 @@ public nonisolated struct TransactionLogEntry: Codable, Equatable, Sendable {
     public let stateHashAfter: String
     public let timestamp: Date
     public let turnHash: String?
+    public let details: TransactionDetail
 }
 
 public nonisolated struct MatchOutcome: Codable, Equatable, Sendable {
