@@ -25,6 +25,15 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
     }
 
     private enum PendingConnectionAction: Equatable {
+        case createBot(
+            playerName: String,
+            opponent: String,
+            gameOptions: GameOptions?,
+            rngSeed: Int?,
+            matchParams: CreateMatchParamsPartial?,
+            isAgent: Bool?,
+            msgId: String
+        )
         case join(matchId: String, playerName: String)
         case watch(matchId: String)
     }
@@ -40,6 +49,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
 
     @Published public private(set) var sessionRole: SessionRole?
     @Published public private(set) var currentState: GameState?
+    @Published public private(set) var validActions: [Action] = []
     @Published public private(set) var latestTurnResult: PhalanxTurnResult?
     @Published public private(set) var events: [PhalanxEvent] = []
     @Published public var localPlayerId: String?
@@ -74,6 +84,8 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         self.environment = environment
         self.clock = clock
         self.uuidGenerator = uuidGenerator
+        localPlayerName = ProcessInfo.processInfo.environment["PHALANX_PLAYER_NAME"]
+            ?? "Native SwiftUI Player"
         serverBaseURLText = environment.apiBaseURL.absoluteString
         documentationBaseURLText = environment.documentationBaseURL.absoluteString
         webSocketClient = WebSocketClient(environment: environment)
@@ -248,6 +260,44 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         }
     }
 
+    public func connectAndCreateBotMatch(
+        opponent: String = "bot-random",
+        gameOptions: GameOptions? = nil,
+        rngSeed: Int? = nil,
+        matchParams: CreateMatchParamsPartial? = nil,
+        isAgent: Bool? = nil
+    ) {
+        let trimmedName = localPlayerName.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedName.isEmpty else {
+            recentError = UserFacingError(title: "Required", message: "Player name is required before creating a match.")
+            return
+        }
+
+        let environment = ProcessInfo.processInfo.environment
+        let configuredStartingLifepoints = environment["PHALANX_MATCH_STARTING_LIFEPOINTS"].flatMap(Int.init)
+        let configuredDamageMode = environment["PHALANX_MATCH_DAMAGE_MODE"].flatMap(DamageMode.init(rawValue:))
+        let configuredSeed = environment["PHALANX_MATCH_RNG_SEED"].flatMap(Int.init)
+        let configuredIsAgent = ["1", "true"].contains(environment["PHALANX_AUTOMATION"]?.lowercased() ?? "")
+        let resolvedGameOptions = gameOptions ?? configuredStartingLifepoints.map {
+            GameOptions(
+                damageMode: configuredDamageMode ?? serverDefaults?.modeDamagePersistence ?? .classic,
+                startingLifepoints: $0
+            )
+        }
+
+        connectForPendingAction(
+            .createBot(
+                playerName: trimmedName,
+                opponent: opponent,
+                gameOptions: resolvedGameOptions,
+                rngSeed: rngSeed ?? configuredSeed,
+                matchParams: matchParams,
+                isAgent: isAgent ?? configuredIsAgent,
+                msgId: uuidGenerator.makeUUID().uuidString
+            )
+        )
+    }
+
     public func connectAndJoinMatch(matchId: String) async {
         let trimmedMatchID = matchId.trimmingCharacters(in: .whitespacesAndNewlines)
         let trimmedName = localPlayerName.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -332,6 +382,8 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         resetSessionState(clearMatchID: true)
 
         switch action {
+        case .createBot:
+            break
         case let .join(matchId, _), let .watch(matchId):
             activeMatchId = matchId
         }
@@ -350,6 +402,24 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         }
 
         switch pendingConnectionAction {
+        case let .createBot(playerName, opponent, gameOptions, rngSeed, matchParams, isAgent, msgId):
+            sessionRole = .player
+            webSocketClient.send(
+                message: .createMatch(
+                    playerName: playerName,
+                    gameOptions: gameOptions,
+                    rngSeed: rngSeed,
+                    opponent: opponent,
+                    matchParams: matchParams,
+                    isAgent: isAgent,
+                    msgId: msgId
+                )
+            )
+            appendLog(
+                category: .websocket,
+                title: "Sent createMatch",
+                detail: "playerName=\(playerName), opponent=\(opponent), rngSeed=\(rngSeed.map(String.init) ?? "server")"
+            )
         case let .join(matchId, playerName):
             sessionRole = .player
             activeMatchId = matchId
@@ -367,6 +437,7 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
 
     private func resetSessionState(clearMatchID: Bool) {
         currentState = nil
+        validActions.removeAll()
         latestTurnResult = nil
         events.removeAll()
         localPlayerId = nil
@@ -461,6 +532,9 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         appendLog(category: .serverMessage, title: "Received \(message.messageType)", detail: message.debugSummary)
 
         switch message {
+        case let .ack(ackedMsgId):
+            verboseLog("Received transport ACK", context: ["ackedMsgId": ackedMsgId])
+
         case let .matchCreated(matchId, playerId, playerIndex):
             activeMatchId = matchId
             localPlayerId = playerId
@@ -482,12 +556,13 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
             localPlayerIndex = nil
             recentError = nil
 
-        case let .gameState(matchId, result, spectatorCount):
+        case let .gameState(matchId, result, viewModel, spectatorCount):
             activeMatchId = matchId
             latestTurnResult = result
-            currentState = result.postState
+            currentState = viewModel?.postState ?? result.postState
+            validActions = viewModel?.validActions ?? []
             self.spectatorCount = spectatorCount ?? 0
-            appendEvents(result.events ?? [])
+            appendEvents(viewModel?.events ?? result.events ?? [])
             recentError = nil
 
         case let .actionError(error, code), let .matchError(error, code):
@@ -505,8 +580,10 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         case let .authError(error):
             recentError = UserFacingError(title: "Authentication Error", message: error)
 
-        case .ping:
-            // Heartbeat, just log silently or ignore
+        case let .ping(_, msgId):
+            webSocketClient.send(message: .pong(timestamp: clock.now, replyTo: msgId))
+
+        case .pong:
             break
 
         case let .unknown(type):

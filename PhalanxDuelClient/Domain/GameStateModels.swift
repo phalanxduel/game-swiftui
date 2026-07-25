@@ -195,6 +195,16 @@ public nonisolated struct PhalanxTurnResult: Codable, Equatable, Sendable {
     public let turnHash: String?
 }
 
+public nonisolated struct TurnViewModel: Codable, Equatable, Sendable {
+    public let matchId: String
+    public let viewerIndex: Int?
+    public let preState: GameState
+    public let postState: GameState
+    public let action: Action
+    public let events: [PhalanxEvent]?
+    public let validActions: [Action]
+}
+
 public nonisolated enum BootTaskStatus: String, Codable, Equatable, Sendable {
     case pending
     case loading

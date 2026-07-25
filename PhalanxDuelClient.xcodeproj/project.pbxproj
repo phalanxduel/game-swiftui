@@ -13,6 +13,7 @@
 		22CF6EEFD77CACAD5755984A /* AutomationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9354C558376650FC7DC8FAC0 /* AutomationTests.swift */; };
 		22F86FD1C53E1B338ACD5791 /* loadingTasks.1.png in Resources */ = {isa = PBXBuildFile; fileRef = D70AAFF5E7FA33DE9BC1165B /* loadingTasks.1.png */; };
 		2AF55F6E8236114C36CC170C /* ServerConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B0DE50FFB8336A7B3CCF9D /* ServerConnectView.swift */; };
+		2CA6426CC7A9722D6FBD5DC0 /* PhalanxDuelClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9765EC158FBF894EC74266 /* PhalanxDuelClientTests.swift */; };
 		31709710E4B889925392E239 /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D61E35C90279246D72DC9D /* LeaderboardView.swift */; };
 		3BF1593C01D50CE7D6406146 /* ReplayViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597EECFCCAE6B635991FBDA0 /* ReplayViewer.swift */; };
 		4B46D12E93B640E7595BA909 /* HapticAndAudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F62CF271730D057352C310 /* HapticAndAudioEngine.swift */; };
@@ -49,6 +50,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1562596DC3F487329FC3EF7B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 036ACBE9AEBE9135C65E687F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8680488DE01308A768C29F65;
+			remoteInfo = PhalanxDuelClient;
+		};
 		4D154F5DF7178A02004F8771 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 036ACBE9AEBE9135C65E687F /* Project object */;
@@ -84,6 +92,7 @@
 		701C5A4B27B0F7073511428F /* failureState.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = failureState.1.png; sourceTree = "<group>"; };
 		742F243CE9C0E3C706FB9615 /* DebugLogEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugLogEntry.swift; sourceTree = "<group>"; };
 		86350352A91B17BF0E3DD1AF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		8A91D5644BED99109EE1125F /* PhalanxDuelClientContractTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhalanxDuelClientContractTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A9765EC158FBF894EC74266 /* PhalanxDuelClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhalanxDuelClientTests.swift; sourceTree = "<group>"; };
 		8FC1C65724125A7564235075 /* GameSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSessionView.swift; sourceTree = "<group>"; };
 		93085BE6B8AEA17D145A6B86 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
@@ -153,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				AA31817998A4CD49E5B5081F /* PhalanxDuelClient.app */,
+				8A91D5644BED99109EE1125F /* PhalanxDuelClientContractTests.xctest */,
 				D9E1233DFC6A64CECC0F82A8 /* PhalanxDuelClientTests.xctest */,
 				D3B525CA5CB9B66D4EBFCCCE /* PhalanxDuelClientUITests.xctest */,
 			);
@@ -288,6 +298,24 @@
 			productReference = D9E1233DFC6A64CECC0F82A8 /* PhalanxDuelClientTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		6F79B6834FB81E1CEB879F08 /* PhalanxDuelClientContractTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0DDF6D0E7BD3A3083DD2BD83 /* Build configuration list for PBXNativeTarget "PhalanxDuelClientContractTests" */;
+			buildPhases = (
+				0A11D7AA240BA162886D8A1A /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				258953E87EDCA7C0C3384D3F /* PBXTargetDependency */,
+			);
+			name = PhalanxDuelClientContractTests;
+			packageProductDependencies = (
+			);
+			productName = PhalanxDuelClientContractTests;
+			productReference = 8A91D5644BED99109EE1125F /* PhalanxDuelClientContractTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		8680488DE01308A768C29F65 /* PhalanxDuelClient */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9119E93084C3FCE1DA4B912D /* Build configuration list for PBXNativeTarget "PhalanxDuelClient" */;
@@ -360,6 +388,7 @@
 			targets = (
 				8680488DE01308A768C29F65 /* PhalanxDuelClient */,
 				2DC50558D9341E65316BACDF /* PhalanxDuelClientTests */,
+				6F79B6834FB81E1CEB879F08 /* PhalanxDuelClientContractTests */,
 				891C89FB998690CD9BE14C97 /* PhalanxDuelClientUITests */,
 			);
 		};
@@ -389,6 +418,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0A11D7AA240BA162886D8A1A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2CA6426CC7A9722D6FBD5DC0 /* PhalanxDuelClientTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5CA0CBE3AE6E5A66213E96B6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -445,6 +482,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		258953E87EDCA7C0C3384D3F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8680488DE01308A768C29F65 /* PhalanxDuelClient */;
+			targetProxy = 1562596DC3F487329FC3EF7B /* PBXContainerItemProxy */;
+		};
 		AECA694543E53140C1F0DA98 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8680488DE01308A768C29F65 /* PhalanxDuelClient */;
@@ -458,6 +500,24 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		04F494BFAE51CA858CC14C9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.phalanxduel.PhalanxDuelClientContractTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhalanxDuelClient.app/Contents/MacOS/PhalanxDuelClient";
+			};
+			name = Release;
+		};
 		076CF2CF628849F2F826EDAF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -473,6 +533,24 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.phalanxduel.PhalanxDuelClientUITests;
 				SDKROOT = macosx;
 				TEST_TARGET_NAME = PhalanxDuelClient;
+			};
+			name = Debug;
+		};
+		1A984661A71AD9A49BE1FA7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.phalanxduel.PhalanxDuelClientContractTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhalanxDuelClient.app/Contents/MacOS/PhalanxDuelClient";
 			};
 			name = Debug;
 		};
@@ -694,6 +772,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0DDF6D0E7BD3A3083DD2BD83 /* Build configuration list for PBXNativeTarget "PhalanxDuelClientContractTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A984661A71AD9A49BE1FA7E /* Debug */,
+				04F494BFAE51CA858CC14C9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		35B26D03B246CD7B591B6224 /* Build configuration list for PBXNativeTarget "PhalanxDuelClientTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

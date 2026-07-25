@@ -1,4 +1,7 @@
 import SwiftUI
+#if os(macOS)
+import AppKit
+#endif
 
 public struct ContentView: View {
     @StateObject private var sessionStore = SessionStore()
@@ -37,5 +40,38 @@ public struct ContentView: View {
                 }
             }
         }
+#if os(macOS)
+        .onAppear {
+            placeAutomationWindowOnPrimaryScreen()
+        }
+#endif
     }
+
+#if os(macOS)
+    private func placeAutomationWindowOnPrimaryScreen() {
+        guard ProcessInfo.processInfo.environment["PHALANX_AUTOMATION"] == "true" else {
+            return
+        }
+
+        DispatchQueue.main.async {
+            guard let screen = NSScreen.screens.first,
+                  let window = NSApplication.shared.windows.first else {
+                return
+            }
+
+            let visibleFrame = screen.visibleFrame
+            let width = min(1_200, visibleFrame.width - 80)
+            let height = min(900, visibleFrame.height - 80)
+            let frame = NSRect(
+                x: visibleFrame.midX - width / 2,
+                y: visibleFrame.midY - height / 2,
+                width: width,
+                height: height
+            )
+            window.setFrame(frame, display: true)
+            window.makeKeyAndOrderFront(nil)
+            NSApplication.shared.activate(ignoringOtherApps: true)
+        }
+    }
+#endif
 }

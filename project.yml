@@ -34,6 +34,17 @@ targets:
     settings:
       base:
         GENERATE_INFOPLIST_FILE: YES
+  PhalanxDuelClientContractTests:
+    type: bundle.unit-test
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: PhalanxDuelClientTests/PhalanxDuelClientTests.swift
+    dependencies:
+      - target: PhalanxDuelClient
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
   PhalanxDuelClientUITests:
     type: bundle.ui-testing
     platform: macOS
@@ -64,4 +75,17 @@ schemes:
         PHALANX_VERBOSE_LOGGING: "true"
       targets:
         - PhalanxDuelClientTests
+        - PhalanxDuelClientUITests
+  PhalanxDuelClientUIProof:
+    build:
+      targets:
+        PhalanxDuelClient: all
+        PhalanxDuelClientContractTests: [test]
+        PhalanxDuelClientUITests: [test]
+    test:
+      config: Debug
+      environmentVariables:
+        PHALANX_QA_CONFIG_PATH: "$(PHALANX_QA_CONFIG_FILE)"
+      targets:
+        - PhalanxDuelClientContractTests
         - PhalanxDuelClientUITests

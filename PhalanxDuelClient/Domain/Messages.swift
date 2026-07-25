@@ -47,12 +47,15 @@ public nonisolated enum ClientMessage: Encodable, Sendable {
         gameOptions: GameOptions? = nil,
         rngSeed: Int? = nil,
         opponent: String? = nil,
-        matchParams: CreateMatchParamsPartial? = nil
+        matchParams: CreateMatchParamsPartial? = nil,
+        isAgent: Bool? = nil,
+        msgId: String
     )
     case joinMatch(matchId: String, playerName: String, msgId: String)
     case watchMatch(matchId: String, msgId: String)
     case action(matchId: String, action: Action, msgId: String)
     case authenticate(token: String)
+    case pong(timestamp: Date, replyTo: String?)
 
     private enum CodingKeys: String, CodingKey {
         case type
@@ -61,23 +64,28 @@ public nonisolated enum ClientMessage: Encodable, Sendable {
         case rngSeed
         case opponent
         case matchParams
+        case isAgent
         case matchId
         case action
         case token
         case msgId
+        case timestamp
+        case replyTo
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         switch self {
-        case let .createMatch(playerName, gameOptions, rngSeed, opponent, matchParams):
+        case let .createMatch(playerName, gameOptions, rngSeed, opponent, matchParams, isAgent, msgId):
             try container.encode("createMatch", forKey: .type)
             try container.encode(playerName, forKey: .playerName)
             try container.encodeIfPresent(gameOptions, forKey: .gameOptions)
             try container.encodeIfPresent(rngSeed, forKey: .rngSeed)
             try container.encodeIfPresent(opponent, forKey: .opponent)
             try container.encodeIfPresent(matchParams, forKey: .matchParams)
+            try container.encodeIfPresent(isAgent, forKey: .isAgent)
+            try container.encode(msgId, forKey: .msgId)
         case let .joinMatch(matchId, playerName, msgId):
             try container.encode("joinMatch", forKey: .type)
             try container.encode(matchId, forKey: .matchId)
@@ -97,6 +105,10 @@ public nonisolated enum ClientMessage: Encodable, Sendable {
         case let .authenticate(token):
             try container.encode("authenticate", forKey: .type)
             try container.encode(token, forKey: .token)
+        case let .pong(timestamp, replyTo):
+            try container.encode("pong", forKey: .type)
+            try container.encode(timestamp, forKey: .timestamp)
+            try container.encodeIfPresent(replyTo, forKey: .replyTo)
         }
     }
 }
@@ -110,8 +122,14 @@ public nonisolated struct AuthenticatedUser: Codable, Equatable, Sendable {
 }
 
 public nonisolated enum ServerMessage: Decodable, Sendable {
+    case ack(ackedMsgId: String)
     case matchCreated(matchId: String, playerId: String, playerIndex: Int)
-    case gameState(matchId: String, result: PhalanxTurnResult, spectatorCount: Int?)
+    case gameState(
+        matchId: String,
+        result: PhalanxTurnResult,
+        viewModel: TurnViewModel?,
+        spectatorCount: Int?
+    )
     case actionError(error: String, code: String)
     case matchError(error: String, code: String)
     case matchJoined(matchId: String, playerId: String, playerIndex: Int)
@@ -120,7 +138,8 @@ public nonisolated enum ServerMessage: Decodable, Sendable {
     case opponentReconnected(matchId: String)
     case authenticated(user: AuthenticatedUser)
     case authError(error: String)
-    case ping
+    case ping(timestamp: Date, msgId: String?)
+    case pong(timestamp: Date, replyTo: String?)
     case unknown(type: String)
 
     private enum CodingKeys: String, CodingKey {
@@ -129,11 +148,16 @@ public nonisolated enum ServerMessage: Decodable, Sendable {
         case playerId
         case playerIndex
         case result
+        case viewModel
         case spectatorCount
         case error
         case code
         case spectatorId
         case user
+        case ackedMsgId
+        case timestamp
+        case msgId
+        case replyTo
     }
 
     public init(from decoder: Decoder) throws {
@@ -141,6 +165,8 @@ public nonisolated enum ServerMessage: Decodable, Sendable {
         let type = try container.decode(String.self, forKey: .type)
 
         switch type {
+        case "ack":
+            self = try .ack(ackedMsgId: container.decode(String.self, forKey: .ackedMsgId))
         case "matchCreated":
             self = try .matchCreated(
                 matchId: container.decode(String.self, forKey: .matchId),
@@ -151,6 +177,7 @@ public nonisolated enum ServerMessage: Decodable, Sendable {
             self = try .gameState(
                 matchId: container.decode(String.self, forKey: .matchId),
                 result: container.decode(PhalanxTurnResult.self, forKey: .result),
+                viewModel: container.decodeIfPresent(TurnViewModel.self, forKey: .viewModel),
                 spectatorCount: container.decodeIfPresent(Int.self, forKey: .spectatorCount)
             )
         case "actionError":
@@ -183,7 +210,15 @@ public nonisolated enum ServerMessage: Decodable, Sendable {
         case "auth_error", "authError":
             self = try .authError(error: container.decode(String.self, forKey: .error))
         case "ping":
-            self = .ping
+            self = try .ping(
+                timestamp: container.decode(Date.self, forKey: .timestamp),
+                msgId: container.decodeIfPresent(String.self, forKey: .msgId)
+            )
+        case "pong":
+            self = try .pong(
+                timestamp: container.decode(Date.self, forKey: .timestamp),
+                replyTo: container.decodeIfPresent(String.self, forKey: .replyTo)
+            )
         default:
             self = .unknown(type: type)
         }
@@ -191,6 +226,8 @@ public nonisolated enum ServerMessage: Decodable, Sendable {
 
     public var messageType: String {
         switch self {
+        case .ack:
+            "ack"
         case .matchCreated:
             "matchCreated"
         case .gameState:
@@ -213,6 +250,8 @@ public nonisolated enum ServerMessage: Decodable, Sendable {
             "authError"
         case .ping:
             "ping"
+        case .pong:
+            "pong"
         case let .unknown(type):
             type
         }
@@ -220,13 +259,15 @@ public nonisolated enum ServerMessage: Decodable, Sendable {
 
     public var debugSummary: String {
         switch self {
+        case let .ack(ackedMsgId):
+            "ackedMsgId=\(ackedMsgId)"
         case let .matchCreated(matchId, _, playerIndex):
             "matchId=\(matchId), playerIndex=\(playerIndex)"
         case let .matchJoined(matchId, _, playerIndex):
             "matchId=\(matchId), playerIndex=\(playerIndex)"
         case let .spectatorJoined(matchId, spectatorId):
             "matchId=\(matchId), spectatorId=\(spectatorId)"
-        case let .gameState(matchId, result, spectatorCount):
+        case let .gameState(matchId, result, _, spectatorCount):
             "matchId=\(matchId), phase=\(result.postState.phase.displayName), turn=\(result.postState.turnNumber), spectatorCount=\(spectatorCount ?? 0)"
         case let .actionError(error, code),
              let .matchError(error, code):
@@ -239,8 +280,10 @@ public nonisolated enum ServerMessage: Decodable, Sendable {
             "user=\(user.name), elo=\(user.elo)"
         case let .authError(error):
             error
-        case .ping:
-            "keep-alive"
+        case let .ping(_, msgId):
+            "keep-alive msgId=\(msgId ?? "none")"
+        case let .pong(_, replyTo):
+            "keep-alive replyTo=\(replyTo ?? "none")"
         case let .unknown(type):
             "type=\(type)"
         }

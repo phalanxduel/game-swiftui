@@ -17,6 +17,24 @@ public struct ServerConnectView: View {
 
     public var body: some View {
         List {
+            if automationEnabled {
+                Section("Automation Proof") {
+                    Label(
+                        "HEADS-UP UI AUTOMATION",
+                        systemImage: "eye.fill"
+                    )
+                    .font(.headline.monospaced())
+                    .foregroundStyle(.blue)
+                    .accessibilityIdentifier("automation.launch-panel")
+
+                    Text("Every action remains visible and uses the live WebSocket session.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+
+                    sessionControls
+                }
+            }
+
             Section("Matchmaking & Play") {
                 Button("Find Ranked 1v1 Match") {
                     showMatchmakingSheet = true
@@ -114,6 +132,7 @@ public struct ServerConnectView: View {
                     }
                 }
                 .disabled(sessionStore.isRefreshingSnapshot)
+                .accessibilityIdentifier("session.probe-server")
 
                 if let serverHealth = sessionStore.serverHealth {
                     LabeledContent("Health", value: "\(serverHealth.status) | v\(serverHealth.version)")
@@ -127,52 +146,9 @@ public struct ServerConnectView: View {
                 }
             }
 
-            Section("Session") {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Your Name")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    TextField("Player Name", text: $sessionStore.localPlayerName)
-#if os(iOS)
-                        .textInputAutocapitalization(.words)
-#endif
-                }
-
-                Button("Create Match via POST /matches") {
-                    Task {
-                        await sessionStore.connectAndCreateMatch()
-                    }
-                }
-                .buttonStyle(.borderedProminent)
-
-                VStack(alignment: .leading, spacing: 8) {
-                    TextField("Match ID to join", text: $joinMatchID)
-#if os(iOS)
-                        .textInputAutocapitalization(.never)
-#endif
-                        .autocorrectionDisabled()
-
-                    Button("Join Match") {
-                        Task {
-                            await sessionStore.connectAndJoinMatch(matchId: joinMatchID)
-                        }
-                    }
-                    .disabled(joinMatchID.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                }
-
-                VStack(alignment: .leading, spacing: 8) {
-                    TextField("Match ID to watch", text: $watchMatchID)
-#if os(iOS)
-                        .textInputAutocapitalization(.never)
-#endif
-                        .autocorrectionDisabled()
-
-                    Button("Watch Match") {
-                        Task {
-                            await sessionStore.connectAndWatchMatch(matchId: watchMatchID)
-                        }
-                    }
-                    .disabled(watchMatchID.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            if !automationEnabled {
+                Section("Session") {
+                    sessionControls
                 }
             }
 
@@ -233,6 +209,7 @@ public struct ServerConnectView: View {
         .listStyle(.sidebar)
 #endif
         .navigationTitle("Server Connect")
+        .accessibilityIdentifier("server-connect")
     }
 
     private func endpointRow(title: String, value: String) -> some View {
@@ -242,6 +219,74 @@ public struct ServerConnectView: View {
             Text(value)
                 .textSelection(.enabled)
         }
+    }
+
+    @ViewBuilder
+    private var sessionControls: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Your Name")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            TextField("Player Name", text: $sessionStore.localPlayerName)
+#if os(iOS)
+                .textInputAutocapitalization(.words)
+#endif
+                .accessibilityIdentifier("session.player-name")
+        }
+
+        Button("Play Bot (Random)") {
+            sessionStore.connectAndCreateBotMatch(opponent: "bot-random")
+        }
+        .buttonStyle(.borderedProminent)
+        .accessibilityIdentifier("session.create-bot-random")
+
+        Button("Play Bot (Heuristic)") {
+            sessionStore.connectAndCreateBotMatch(opponent: "bot-heuristic")
+        }
+        .accessibilityIdentifier("session.create-bot-heuristic")
+
+        Button("Create Match via POST /matches") {
+            Task {
+                await sessionStore.connectAndCreateMatch()
+            }
+        }
+        .buttonStyle(.borderedProminent)
+
+        VStack(alignment: .leading, spacing: 8) {
+            TextField("Match ID to join", text: $joinMatchID)
+#if os(iOS)
+                .textInputAutocapitalization(.never)
+#endif
+                .autocorrectionDisabled()
+                .accessibilityIdentifier("session.join-match-id")
+
+            Button("Join Match") {
+                Task {
+                    await sessionStore.connectAndJoinMatch(matchId: joinMatchID)
+                }
+            }
+            .disabled(joinMatchID.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            .accessibilityIdentifier("session.join-match")
+        }
+
+        VStack(alignment: .leading, spacing: 8) {
+            TextField("Match ID to watch", text: $watchMatchID)
+#if os(iOS)
+                .textInputAutocapitalization(.never)
+#endif
+                .autocorrectionDisabled()
+
+            Button("Watch Match") {
+                Task {
+                    await sessionStore.connectAndWatchMatch(matchId: watchMatchID)
+                }
+            }
+            .disabled(watchMatchID.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+        }
+    }
+
+    private var automationEnabled: Bool {
+        ProcessInfo.processInfo.environment["PHALANX_AUTOMATION"] == "true"
     }
 
     private func matchSummary(_ match: ActiveMatchSummary) -> String {

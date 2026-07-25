@@ -42,6 +42,60 @@ struct PhalanxDuelClientTests {
         #expect(object["msgId"] as? String == "test-msg-id-123")
     }
 
+    @Test("bot createMatch encodes reliable identity and automation metadata")
+    func botCreateMatchEncoding() throws {
+        let payload = ClientMessage.createMatch(
+            playerName: "Native Proof",
+            gameOptions: GameOptions(damageMode: .cumulative, startingLifepoints: 20),
+            rngSeed: 2_026_072_401,
+            opponent: "bot-random",
+            isAgent: true,
+            msgId: "00000000-0000-0000-0000-000000000123"
+        )
+
+        let data = try ContractCoding.makeEncoder().encode(payload)
+        let object = try #require(JSONSerialization.jsonObject(with: data) as? [String: Any])
+
+        #expect(object["type"] as? String == "createMatch")
+        #expect(object["playerName"] as? String == "Native Proof")
+        #expect(object["opponent"] as? String == "bot-random")
+        #expect(object["rngSeed"] as? Int == 2_026_072_401)
+        #expect(object["isAgent"] as? Bool == true)
+        #expect(object["msgId"] as? String == "00000000-0000-0000-0000-000000000123")
+    }
+
+    @Test("transport ACK and ping messages decode without becoming protocol errors")
+    func transportMessageDecoding() throws {
+        let ackJSON = """
+        {
+          "type": "ack",
+          "ackedMsgId": "00000000-0000-0000-0000-000000000123"
+        }
+        """
+        let pingJSON = """
+        {
+          "type": "ping",
+          "msgId": "00000000-0000-0000-0000-000000000456",
+          "timestamp": "2026-07-25T01:00:00.000Z"
+        }
+        """
+
+        let ack = try ContractCoding.makeDecoder().decode(ServerMessage.self, from: Data(ackJSON.utf8))
+        let ping = try ContractCoding.makeDecoder().decode(ServerMessage.self, from: Data(pingJSON.utf8))
+
+        guard case let .ack(ackedMsgId) = ack else {
+            Issue.record("Expected an ACK message")
+            return
+        }
+        guard case let .ping(_, msgId) = ping else {
+            Issue.record("Expected a ping message")
+            return
+        }
+
+        #expect(ackedMsgId == "00000000-0000-0000-0000-000000000123")
+        #expect(msgId == "00000000-0000-0000-0000-000000000456")
+    }
+
     @Test("gameState decodes row-major battlefield state and redacted opponent counts")
     func gameStateDecoding() throws {
         let json = """
@@ -244,7 +298,7 @@ struct PhalanxDuelClientTests {
 
         let message = try ContractCoding.makeDecoder().decode(ServerMessage.self, from: Data(json.utf8))
 
-        guard case let .gameState(matchID, result, spectatorCount) = message else {
+        guard case let .gameState(matchID, result, _, spectatorCount) = message else {
             Issue.record("Expected a gameState message")
             return
         }
