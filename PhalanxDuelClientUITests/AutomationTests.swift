@@ -183,6 +183,10 @@ final class AutomationTests: XCTestCase {
                 identifier: "automation.local-player-index",
                 timeout: 30
             )
+            let localPlayerIndex = try integerValue(
+                in: app,
+                identifier: "automation.local-player-index"
+            )
             matchId = try textValue(
                 in: app,
                 identifier: "automation.match-id",
@@ -229,21 +233,12 @@ final class AutomationTests: XCTestCase {
                 }
 
                 let beforeAction = stateSignature(in: app)
-                let actionButton = try waitForHittableElement(
+                let actionType = try performBoardAction(
                     in: app,
-                    predicate: NSPredicate(
-                        format: "identifier == %@",
-                        "automation.perform-next-action"
-                    ),
-                    timeout: 20
+                    phase: phase,
+                    localPlayerIndex: localPlayerIndex,
+                    actionDelayMilliseconds: actionDelayMilliseconds
                 )
-                let actionType = (actionButton.value as? String) ?? ""
-                guard ["deploy", "attack", "pass", "reinforce"].contains(actionType) else {
-                    throw ProofError.invalidEvidence(
-                        "automation hook exposed an unknown action '\(actionType)' during \(phase)"
-                    )
-                }
-                actionButton.tap()
                 nativeActionCount += 1
                 performedDeployment = performedDeployment || actionType == "deploy"
                 performedAttack = performedAttack || actionType == "attack"
@@ -445,8 +440,22 @@ final class AutomationTests: XCTestCase {
         predicate: NSPredicate,
         timeout: TimeInterval
     ) throws -> XCUIElement {
+        guard let match = firstHittableElement(in: app, predicate: predicate, timeout: timeout) else {
+            throw ProofError.missingElement("hittable element matching \(predicate.predicateFormat)")
+        }
+        return match
+    }
+
+    /// Same polling as `waitForHittableElement`, but returns nil on timeout
+    /// instead of throwing — used to probe whether an optional board action
+    /// (attack, reinforce) is available this turn before committing to it.
+    private func firstHittableElement(
+        in app: XCUIApplication,
+        predicate: NSPredicate,
+        timeout: TimeInterval
+    ) -> XCUIElement? {
         let deadline = Date().addingTimeInterval(timeout)
-        while Date() < deadline {
+        repeat {
             if app.state != .runningForeground {
                 app.activate()
             }
@@ -457,9 +466,164 @@ final class AutomationTests: XCTestCase {
                 return match
             }
             Thread.sleep(forTimeInterval: 0.1)
+        } while Date() < deadline
+        return nil
+    }
+
+    /// Performs the turn's action by tapping the real board elements a human
+    /// player would tap (hand card then battlefield slot, or attacker slot
+    /// then target slot) rather than a synthetic dispatch hook, mirroring
+    /// GameTableView's own interaction protocol.
+    private func performBoardAction(
+        in app: XCUIApplication,
+        phase: String,
+        localPlayerIndex: Int,
+        actionDelayMilliseconds: Int
+    ) throws -> String {
+        let opponentIndex = localPlayerIndex == 0 ? 1 : 0
+
+        switch phase {
+        case "DeploymentPhase":
+            return try performDeploy(
+                in: app,
+                localPlayerIndex: localPlayerIndex,
+                actionDelayMilliseconds: actionDelayMilliseconds
+            )
+        case "AttackPhase":
+            if let action = try performAttack(
+                in: app,
+                localPlayerIndex: localPlayerIndex,
+                opponentIndex: opponentIndex,
+                actionDelayMilliseconds: actionDelayMilliseconds
+            ) {
+                return action
+            }
+            return try performPass(in: app)
+        case "ReinforcementPhase":
+            if let action = performReinforce(in: app, localPlayerIndex: localPlayerIndex) {
+                return action
+            }
+            return try performPass(in: app)
+        default:
+            return try performPass(in: app)
+        }
+    }
+
+    private func performDeploy(
+        in app: XCUIApplication,
+        localPlayerIndex: Int,
+        actionDelayMilliseconds: Int
+    ) throws -> String {
+        let card = try findHittableHandCard(
+            in: app,
+            playerIndex: localPlayerIndex,
+            value: "deploy",
+            timeout: 20
+        )
+        card.tap()
+        watchPause(milliseconds: actionDelayMilliseconds)
+
+        let slot = try waitForHittableElement(
+            in: app,
+            predicate: NSPredicate(
+                format: "identifier BEGINSWITH %@ AND value == %@",
+                "game.slot.\(localPlayerIndex).", "deploy-target"
+            ),
+            timeout: 10
+        )
+        slot.tap()
+        return "deploy"
+    }
+
+    /// Returns nil (rather than throwing) when no reinforce-eligible hand
+    /// card exists this turn, so the caller can fall back to pass.
+    private func performReinforce(in app: XCUIApplication, localPlayerIndex: Int) -> String? {
+        guard let card = firstHittableElement(
+            in: app,
+            predicate: NSPredicate(
+                format: "identifier BEGINSWITH %@ AND value == %@",
+                "game.hand-card.\(localPlayerIndex).", "reinforce"
+            ),
+            timeout: 3
+        ) else {
+            return nil
+        }
+        card.tap()
+        return "reinforce"
+    }
+
+    /// Returns nil (rather than throwing) when no attacker is available this
+    /// turn, so the caller can fall back to pass.
+    private func performAttack(
+        in app: XCUIApplication,
+        localPlayerIndex: Int,
+        opponentIndex: Int,
+        actionDelayMilliseconds: Int
+    ) throws -> String? {
+        guard let attacker = firstHittableElement(
+            in: app,
+            predicate: NSPredicate(
+                format: "identifier BEGINSWITH %@ AND value == %@",
+                "game.slot.\(localPlayerIndex).", "attacker"
+            ),
+            timeout: 3
+        ) else {
+            return nil
+        }
+        attacker.tap()
+        watchPause(milliseconds: actionDelayMilliseconds)
+
+        let target = try waitForHittableElement(
+            in: app,
+            predicate: NSPredicate(
+                format: "identifier BEGINSWITH %@ AND value == %@",
+                "game.slot.\(opponentIndex).", "attack-target"
+            ),
+            timeout: 10
+        )
+        target.tap()
+        return "attack"
+    }
+
+    private func performPass(in app: XCUIApplication) throws -> String {
+        let passButton = try findHittableElement(
+            in: app,
+            predicate: NSPredicate(format: "identifier == %@", "game.pass")
+        )
+        passButton.tap()
+        return "pass"
+    }
+
+    /// Hand cards live in a horizontal ScrollView that lays out every card
+    /// (not lazily), so an eligible card can exist without being hittable if
+    /// it is scrolled off to the side — swipe the hand's own scroll view
+    /// (identified by `game.hand-scroll.<playerIndex>`) to bring it into view.
+    private func findHittableHandCard(
+        in app: XCUIApplication,
+        playerIndex: Int,
+        value: String,
+        timeout: TimeInterval
+    ) throws -> XCUIElement {
+        let predicate = NSPredicate(
+            format: "identifier BEGINSWITH %@ AND value == %@",
+            "game.hand-card.\(playerIndex).", value
+        )
+        if let match = firstHittableElement(in: app, predicate: predicate, timeout: 3) {
+            return match
         }
 
-        throw ProofError.missingElement("hittable element matching \(predicate.predicateFormat)")
+        let handScroll = app.scrollViews["game.hand-scroll.\(playerIndex)"]
+        if handScroll.waitForExistence(timeout: 3), handScroll.isHittable {
+            for _ in 0 ..< 12 {
+                if let match = firstHittableElement(in: app, predicate: predicate, timeout: 0.3) {
+                    return match
+                }
+                handScroll.swipeLeft()
+                Thread.sleep(forTimeInterval: 0.1)
+            }
+        }
+
+        return try waitForHittableElement(in: app, predicate: predicate, timeout: timeout)
     }
 
     private func findHittableElement(

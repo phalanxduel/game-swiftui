@@ -35,6 +35,10 @@ public struct GameTableView: View {
                         rows: gameState.rows,
                         columns: gameState.columns,
                         isActivePlayer: gameState.activePlayerIndex == playerIndex,
+                        // The opponent's rows render back-to-front so both players'
+                        // front line (row 0, used for attacking) meets at the shared
+                        // boundary between the two fields, like a dueling table.
+                        isOpponent: playerIndex != viewerIndex,
                         revealHand: shouldRevealHand(for: playerIndex),
                         selectedCardId: selectedCardId,
                         selectedAttackerColumn: selectedAttackerColumn,
@@ -87,12 +91,15 @@ public struct GameTableView: View {
         }
     }
 
+    /// The board always renders from player-0's perspective when there is no
+    /// local player (spectators), matching the browser reference client.
+    private var viewerIndex: Int {
+        localPlayerIndex ?? 0
+    }
+
     private var displayOrder: [Int] {
-        guard let localPlayerIndex else {
-            return Array(gameState.players.indices)
-        }
-        let opponentIndex = localPlayerIndex == 0 ? 1 : 0
-        return [opponentIndex, localPlayerIndex]
+        let opponentIndex = viewerIndex == 0 ? 1 : 0
+        return [opponentIndex, viewerIndex]
     }
 
     private func validDeployColumns(for playerIndex: Int) -> Set<Int> {
@@ -222,6 +229,7 @@ private struct PlayerFieldView: View {
     let rows: Int
     let columns: Int
     let isActivePlayer: Bool
+    let isOpponent: Bool
     let revealHand: Bool
     let selectedCardId: String?
     let selectedAttackerColumn: Int?
@@ -233,6 +241,25 @@ private struct PlayerFieldView: View {
 
     private var gridColumns: [GridItem] {
         Array(repeating: GridItem(.flexible(), spacing: AppSpacing.small), count: max(columns, 1))
+    }
+
+    private struct GridCell: Hashable {
+        let row: Int
+        let col: Int
+    }
+
+    /// Row 0 (the front line, used for attacking) renders adjacent to the
+    /// shared boundary between the two players' fields: last for the
+    /// opponent (rendered above), first for the viewer (rendered below).
+    /// LazyVGrid only flattens a `ForEach` that is its direct child, so the
+    /// visual (row, col) order is precomputed into one flat sequence rather
+    /// than nesting a `ForEach` inside another `ForEach`.
+    private var cellOrder: [GridCell] {
+        let rowsAscending = Array(0 ..< max(rows, 1))
+        let visualRows = isOpponent ? rowsAscending.reversed() : Array(rowsAscending)
+        return visualRows.flatMap { row in
+            (0 ..< max(columns, 1)).map { col in GridCell(row: row, col: col) }
+        }
     }
 
     var body: some View {
@@ -265,9 +292,10 @@ private struct PlayerFieldView: View {
                         .font(.subheadline.weight(.semibold))
 
                     LazyVGrid(columns: gridColumns, spacing: AppSpacing.small) {
-                        ForEach(0 ..< (rows * columns), id: \.self) { index in
-                            let row = index / columns
-                            let col = index % columns
+                        ForEach(cellOrder, id: \.self) { cell in
+                            let row = cell.row
+                            let col = cell.col
+                            let index = row * columns + col
                             let isAttacker = row == 0 && selectedAttackerColumn == col && isActivePlayer
 
                             let isValidDeploy = validDeployColumns.contains(col)
@@ -318,6 +346,7 @@ private struct PlayerFieldView: View {
                                 }
                                 .padding(.vertical, AppSpacing.tiny / 2)
                             }
+                            .accessibilityIdentifier("game.hand-scroll.\(playerIndex)")
                         }
                     } else {
                         Text("Hidden hand: \(playerState.visibleHandCount) card(s)")

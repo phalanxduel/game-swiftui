@@ -2,7 +2,6 @@ import SwiftUI
 
 public struct GameSessionView: View {
     @ObservedObject public var sessionStore: SessionStore
-    @State private var lastAutomationAction = "Waiting for the first legal action"
 
     public init(sessionStore: SessionStore) {
         self.sessionStore = sessionStore
@@ -274,24 +273,7 @@ public struct GameSessionView: View {
 
             hudField("Match", state.matchId, id: "automation.match-id")
 
-            if let action = nextAutomationAction(for: state) {
-                Button("Perform \(automationSummary(for: action))") {
-                    lastAutomationAction = automationSummary(for: action)
-                    sessionStore.sendAction(action)
-                }
-                .buttonStyle(.borderedProminent)
-                .accessibilityIdentifier("automation.perform-next-action")
-                .accessibilityValue(action.type.rawValue)
-            } else {
-                ProgressView(
-                    state.activePlayerIndex == sessionStore.localPlayerIndex
-                        ? "Waiting for projected legal actions"
-                        : "Opponent is acting"
-                )
-                .controlSize(.small)
-            }
-
-            Text(lastAutomationAction)
+            Text(lastActionDescription(for: state))
                 .font(.caption.monospaced())
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
@@ -322,45 +304,25 @@ public struct GameSessionView: View {
         state.transactionLog?.filter { $0.action.type != .systemInit }.count ?? 0
     }
 
-    private func nextAutomationAction(for state: GameState) -> Action? {
-        guard sessionStore.sessionRole == .player,
-              state.activePlayerIndex == sessionStore.localPlayerIndex else {
-            return nil
+    private func lastActionDescription(for state: GameState) -> String {
+        guard let entry = state.transactionLog?.last(where: { $0.action.type != .systemInit }) else {
+            return "Waiting for the first action"
         }
-
-        let preferredTypes: [ActionType] = switch state.phase {
-        case .turnPhase(.DeploymentPhase):
-            [.deploy]
-        case .turnPhase(.AttackPhase):
-            [.attack, .pass]
-        case .turnPhase(.ReinforcementPhase):
-            [.reinforce, .pass]
-        default:
-            [.pass, .deploy, .attack, .reinforce]
-        }
-
-        for actionType in preferredTypes {
-            if let action = sessionStore.validActions.first(where: { $0.type == actionType }) {
-                return action
-            }
-        }
-        return nil
-    }
-
-    private func automationSummary(for action: Action) -> String {
+        let action = entry.action
+        let by = action.playerIndex.map { "P\($0 + 1)" } ?? "System"
         switch action.type {
         case .deploy:
-            "deploy \(action.cardId ?? "card") to column \(action.column ?? -1)"
+            return "\(by) deployed \(action.cardId ?? "a card") to column \(action.column ?? -1)"
         case .attack:
-            "attack \(action.attackingColumn ?? -1) → \(action.defendingColumn ?? -1)"
+            return "\(by) attacked \(action.attackingColumn ?? -1) → \(action.defendingColumn ?? -1)"
         case .reinforce:
-            "reinforce with \(action.cardId ?? "card")"
+            return "\(by) reinforced with \(action.cardId ?? "a card")"
         case .pass:
-            "pass"
+            return "\(by) passed"
         case .forfeit:
-            "forfeit"
+            return "\(by) forfeited"
         case .systemInit:
-            "system initialization"
+            return "system initialization"
         }
     }
 
