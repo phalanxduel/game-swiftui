@@ -37,6 +37,7 @@ public struct GameTableView: View {
                         validDeployColumns: validDeployColumns(for: playerIndex),
                         validAttackColumns: validAttackColumns(for: playerIndex),
                         onCardSelected: { cardId in
+                            HapticAndAudioEngine.shared.playCardSelectedHaptic()
                             if selectedCardId == cardId {
                                 selectedCardId = nil
                             } else {
@@ -74,7 +75,6 @@ public struct GameTableView: View {
 
     private func validAttackColumns(for playerIndex: Int) -> Set<Int> {
         guard let localPlayerIndex, let attackerCol = selectedAttackerColumn else { return [] }
-        // If we have an attacker selected, the opponent's columns are valid targets
         if playerIndex != localPlayerIndex {
             var valid = Set<Int>()
             for col in 0 ..< gameState.columns {
@@ -93,6 +93,7 @@ public struct GameTableView: View {
         // 1. Deployment (to local board)
         if let selectedCardId, playerIndex == localPlayerIndex {
             if gameState.isValidDeployment(playerIndex: localPlayerIndex, column: col) {
+                HapticAndAudioEngine.shared.playDeployHaptic()
                 let action = Action(
                     type: .deploy,
                     playerIndex: localPlayerIndex,
@@ -109,6 +110,7 @@ public struct GameTableView: View {
         if playerIndex == localPlayerIndex, row == 0 {
             if case .turnPhase(.AttackPhase) = gameState.phase {
                 if let _ = gameState.battlefieldCard(playerIndex: localPlayerIndex, row: 0, column: col) {
+                    HapticAndAudioEngine.shared.playCardSelectedHaptic()
                     if selectedAttackerColumn == col {
                         selectedAttackerColumn = nil
                     } else {
@@ -123,6 +125,7 @@ public struct GameTableView: View {
         // 3. Attack Execution (to opponent board)
         if let attackerCol = selectedAttackerColumn, playerIndex != localPlayerIndex {
             if gameState.isValidAttackTarget(attackerColumn: attackerCol, defenderPlayerIndex: playerIndex, targetColumn: col) {
+                HapticAndAudioEngine.shared.playAttackHaptic()
                 let action = Action(
                     type: .attack,
                     playerIndex: localPlayerIndex,
