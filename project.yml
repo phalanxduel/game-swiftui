@@ -8,8 +8,8 @@ packages:
 targets:
   PhalanxDuelClient:
     type: application
-    platform: iOS
-    deploymentTarget: "17.0"
+    platform: macOS
+    deploymentTarget: "14.0"
     sources:
       - path: PhalanxDuelClient
     settings:
@@ -24,8 +24,8 @@ targets:
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
   PhalanxDuelClientTests:
     type: bundle.unit-test
-    platform: iOS
-    deploymentTarget: "17.0"
+    platform: macOS
+    deploymentTarget: "14.0"
     sources:
       - path: PhalanxDuelClientTests
     dependencies:
@@ -36,8 +36,8 @@ targets:
         GENERATE_INFOPLIST_FILE: YES
   PhalanxDuelClientUITests:
     type: bundle.ui-testing
-    platform: iOS
-    deploymentTarget: "17.0"
+    platform: macOS
+    deploymentTarget: "14.0"
     sources:
       - path: PhalanxDuelClientUITests
     dependencies:

@@ -331,7 +331,7 @@ private struct VisibleHandCardView: View {
                 .foregroundStyle(.secondary)
         }
         .frame(width: 64, height: 92)
-        .background(isSelected ? Color.primaryAction.opacity(0.15) : Color(.secondarySystemBackground))
+        .background(isSelected ? Color.primaryAction.opacity(0.15) : Color.secondary.opacity(0.12))
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .overlay {
             RoundedRectangle(cornerRadius: 10)

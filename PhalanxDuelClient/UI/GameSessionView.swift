@@ -97,8 +97,12 @@ public struct GameSessionView: View {
                 DebugLogView(entries: sessionStore.debugLog, events: sessionStore.events)
             }
         }
+#if os(iOS)
         .listStyle(.insetGrouped)
-        .navigationTitle("Game Session")
         .navigationBarTitleDisplayMode(.inline)
+#else
+        .listStyle(.sidebar)
+#endif
+        .navigationTitle("Game Session")
     }
 }

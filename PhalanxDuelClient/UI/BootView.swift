@@ -12,8 +12,13 @@ public struct BootView: View {
     public var body: some View {
         ZStack {
             // Background
+#if os(iOS)
             Color(uiColor: .systemBackground)
                 .ignoresSafeArea()
+#else
+            Color(nsColor: .windowBackgroundColor)
+                .ignoresSafeArea()
+#endif
 
             VStack(spacing: 40) {
                 Spacer()

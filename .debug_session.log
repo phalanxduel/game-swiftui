@@ -1,101 +1,13 @@
-[4/29/2026, 9:12 PM] [SESSION] Configured Local Proxy - api=http://localhost:5173, ws=ws://localhost:5173/ws, docs=http://localhost:3001/docs/json
-[4/29/2026, 9:12 PM] [SESSION] Starting Boot Sequence
-[4/29/2026, 9:12 PM] [ERROR] Boot: /health failed - Failed to decode server response: The data couldn’t be read because it is missing.
-[4/29/2026, 9:13 PM] [SESSION] Boot Sequence Complete
-[4/29/2026, 9:13 PM] [SESSION] Applied Local Direct configuration - api=http://localhost:3001, ws=ws://localhost:3001/ws, docs=http://localhost:3001/docs/json
-[4/29/2026, 9:13 PM] [SESSION] Applied Local Direct configuration - api=http://localhost:3001, ws=ws://localhost:3001/ws, docs=http://localhost:3001/docs/json
-[4/29/2026, 9:13 PM] [SESSION] Applied Local Direct configuration - api=http://localhost:3001, ws=ws://localhost:3001/ws, docs=http://localhost:3001/docs/json
-[4/29/2026, 9:13 PM] [SESSION] Applied Custom configuration - api=http://localhost:3001, ws=ws://localhost:3001/ws, docs=http://localhost:3001/docs/json
-[4/29/2026, 9:13 PM] [REST] Refreshing server snapshot - http://localhost:3001
-[4/29/2026, 9:13 PM] [ERROR] Failed to fetch /health - Failed to decode server response: The data couldn’t be read because it is missing.
-[4/29/2026, 9:13 PM] [REST] Fetched /api/defaults - rows=2, columns=4, hand=4, LP=20
-[4/29/2026, 9:13 PM] [REST] Fetched /matches - activeMatches=0
-[4/29/2026, 9:17 PM] [SESSION] Applied Custom configuration - api=http://localhost:3001, ws=ws://localhost:3001/ws, docs=http://localhost:3001/docs/json
-[4/29/2026, 9:17 PM] [REST] Refreshing server snapshot - http://localhost:3001
-[4/29/2026, 9:17 PM] [ERROR] Failed to fetch /health - Failed to decode server response: The data couldn’t be read because it is missing.
-[4/29/2026, 9:17 PM] [REST] Fetched /api/defaults - rows=2, columns=4, hand=4, LP=20
-[4/29/2026, 9:17 PM] [REST] Fetched /matches - activeMatches=1
-[Apr 29, 2026 at 9:52:49 PM] [SESSION] Configured Local Proxy | api=http://localhost:5173, ws=ws://localhost:5173/ws, docs=http://localhost:3001/docs/json
-[Apr 29, 2026 at 9:52:49 PM] [SESSION] Starting Boot Sequence
-[Apr 29, 2026 at 9:52:51 PM] [SESSION] Boot Sequence Complete
-[Apr 29, 2026 at 9:52:59 PM] [SESSION] Applied Local Direct configuration | api=http://localhost:3001, ws=ws://localhost:3001/ws, docs=http://localhost:3001/docs/json
-[Apr 29, 2026 at 9:53:00 PM] [SESSION] Applied Local Direct configuration | api=http://localhost:3001, ws=ws://localhost:3001/ws, docs=http://localhost:3001/docs/json
-[Apr 29, 2026 at 9:53:01 PM] [SESSION] Applied Custom configuration | api=http://localhost:3001, ws=ws://localhost:3001/ws, docs=http://localhost:3001/docs/json
-[Apr 29, 2026 at 9:53:04 PM] [REST] Refreshing server snapshot | http://localhost:3001
-[Apr 29, 2026 at 9:53:04 PM] [REST] Fetched /health | status=ok, version=1.0.0-rev.1, region=local
-[Apr 29, 2026 at 9:53:04 PM] [REST] Fetched /api/defaults | rows=2, columns=4, hand=4, LP=20
-[Apr 29, 2026 at 9:53:04 PM] [REST] Fetched /matches | activeMatches=5
-[Apr 29, 2026 at 9:53:08 PM] [WEBSOCKET] Opening WebSocket | ws://localhost:3001/ws
-[Apr 29, 2026 at 9:53:08 PM] [WEBSOCKET] Opening WebSocket | ws://localhost:3001/ws
-[Apr 29, 2026 at 9:53:08 PM] [WEBSOCKET] WebSocket state changed | Connecting
-[Apr 29, 2026 at 9:53:08 PM] [WEBSOCKET] WebSocket state changed | Connected
-[Apr 29, 2026 at 9:53:08 PM] [WEBSOCKET] Sent watchMatch | matchId=980d2a1f-f362-47b7-930b-8df81d5428d0
-[Apr 29, 2026 at 9:53:08 PM] [SERVERMESSAGE] Received matchError | [VALIDATION_ERROR] Invalid message format
-[Apr 29, 2026 at 9:53:27 PM] [SESSION] Disconnecting session | 980d2a1f-f362-47b7-930b-8df81d5428d0
-[Apr 29, 2026 at 9:53:27 PM] [ERROR] WebSocket error | The operation couldn’t be completed. Socket is not connected (Type: NSURLError)
-[VERBOSE] Error Context Dump [Context: connectionState=Connected, localPlayerIndex=nil, phase=nil, activeMatchId=nil]
-[Apr 29, 2026 at 9:53:27 PM] [WEBSOCKET] WebSocket state changed | Failed: The operation couldn’t be completed. Socket is not connected
-[Apr 29, 2026 at 9:53:27 PM] [WEBSOCKET] WebSocket state changed | Failed: The operation couldn’t be completed. Socket is not connected
-[Apr 29, 2026 at 9:53:30 PM] [REST] Refreshing server snapshot | http://localhost:3001
-[Apr 29, 2026 at 9:53:30 PM] [REST] Fetched /health | status=ok, version=1.0.0-rev.1, region=local
-[Apr 29, 2026 at 9:53:30 PM] [REST] Fetched /api/defaults | rows=2, columns=4, hand=4, LP=20
-[Apr 29, 2026 at 9:53:30 PM] [REST] Fetched /matches | activeMatches=5
-[Apr 29, 2026 at 9:53:38 PM] [WEBSOCKET] Opening WebSocket | ws://localhost:3001/ws
-[Apr 29, 2026 at 9:53:38 PM] [WEBSOCKET] Opening WebSocket | ws://localhost:3001/ws
-[Apr 29, 2026 at 9:53:38 PM] [WEBSOCKET] WebSocket state changed | Connecting
-[Apr 29, 2026 at 9:53:38 PM] [WEBSOCKET] WebSocket state changed | Connecting
-[Apr 29, 2026 at 9:53:38 PM] [WEBSOCKET] WebSocket state changed | Connecting
-[Apr 29, 2026 at 9:53:38 PM] [WEBSOCKET] WebSocket state changed | Connecting
-[Apr 29, 2026 at 9:53:38 PM] [WEBSOCKET] WebSocket state changed | Connected
-[Apr 29, 2026 at 9:53:38 PM] [WEBSOCKET] Sent watchMatch | matchId=980d2a1f-f362-47b7-930b-8df81d5428d0
-[Apr 29, 2026 at 9:53:38 PM] [SERVERMESSAGE] Received matchError | [VALIDATION_ERROR] Invalid message format
-[Apr 29, 2026 at 9:53:41 PM] [SESSION] Disconnecting session | 980d2a1f-f362-47b7-930b-8df81d5428d0
-[Apr 29, 2026 at 9:53:41 PM] [ERROR] WebSocket error | The operation couldn’t be completed. Socket is not connected (Type: NSURLError)
-[VERBOSE] Error Context Dump [Context: activeMatchId=nil, localPlayerIndex=nil, phase=nil, connectionState=Connected]
-[Apr 29, 2026 at 9:53:41 PM] [WEBSOCKET] WebSocket state changed | Failed: The operation couldn’t be completed. Socket is not connected
-[Apr 29, 2026 at 9:53:41 PM] [WEBSOCKET] WebSocket state changed | Failed: The operation couldn’t be completed. Socket is not connected
-[Apr 29, 2026 at 9:53:46 PM] [WEBSOCKET] Opening WebSocket | ws://localhost:3001/ws
-[Apr 29, 2026 at 9:53:46 PM] [WEBSOCKET] Opening WebSocket | ws://localhost:3001/ws
-[Apr 29, 2026 at 9:53:46 PM] [WEBSOCKET] WebSocket state changed | Connecting
-[Apr 29, 2026 at 9:53:46 PM] [WEBSOCKET] WebSocket state changed | Connecting
-[Apr 29, 2026 at 9:53:46 PM] [WEBSOCKET] WebSocket state changed | Connecting
-[Apr 29, 2026 at 9:53:46 PM] [WEBSOCKET] WebSocket state changed | Connecting
-[Apr 29, 2026 at 9:53:46 PM] [WEBSOCKET] WebSocket state changed | Connected
-[Apr 29, 2026 at 9:53:46 PM] [WEBSOCKET] Sent watchMatch | matchId=b61a3ee9-8b60-41dd-8126-b6a97e55b89d
-[Apr 29, 2026 at 9:53:46 PM] [SERVERMESSAGE] Received matchError | [VALIDATION_ERROR] Invalid message format
-[Apr 29, 2026 at 9:54:16 PM] [SERVERMESSAGE] Received ping | keep-alive
-[Apr 29, 2026 at 9:54:46 PM] [SERVERMESSAGE] Received ping | keep-alive
-[Apr 29, 2026 at 9:55:16 PM] [ERROR] WebSocket error | The operation couldn’t be completed. Socket is not connected (Type: NSURLError)
-[VERBOSE] Error Context Dump [Context: localPlayerIndex=nil, connectionState=Connected, activeMatchId=b61a3ee9-8b60-41dd-8126-b6a97e55b89d, phase=nil]
-[Apr 29, 2026 at 9:55:16 PM] [WEBSOCKET] WebSocket state changed | Failed: The operation couldn’t be completed. Socket is not connected
-[Apr 29, 2026 at 9:55:16 PM] [WEBSOCKET] WebSocket state changed | Disconnected
-[Apr 29, 2026 at 10:25:19 PM] [SESSION] Configured Local Proxy | api=http://localhost:5173, ws=ws://localhost:5173/ws, docs=http://localhost:3001/docs/json
-[Apr 29, 2026 at 10:25:19 PM] [SESSION] Starting Boot Sequence
-[Apr 29, 2026 at 10:25:21 PM] [SESSION] Boot Sequence Complete
-[Apr 29, 2026 at 10:41:27 PM] [SESSION] Applied Local Direct configuration | api=http://localhost:3001, ws=ws://localhost:3001/ws, docs=http://localhost:3001/docs/json
-[Apr 29, 2026 at 10:41:29 PM] [SESSION] Applied Custom configuration | api=http://localhost:3001, ws=ws://localhost:3001/ws, docs=http://localhost:3001/docs/json
-[Apr 29, 2026 at 10:41:32 PM] [REST] Refreshing server snapshot | http://localhost:3001
-[Apr 29, 2026 at 10:41:32 PM] [REST] Fetched /health | status=ok, version=1.0.0-rev.1, region=local
-[Apr 29, 2026 at 10:41:32 PM] [REST] Fetched /api/defaults | rows=2, columns=4, hand=4, LP=20
-[Apr 29, 2026 at 10:41:32 PM] [REST] Fetched /matches | activeMatches=4
-[Apr 29, 2026 at 10:41:36 PM] [WEBSOCKET] Opening WebSocket | ws://localhost:3001/ws
-[Apr 29, 2026 at 10:41:36 PM] [WEBSOCKET] Opening WebSocket | ws://localhost:3001/ws
-[Apr 29, 2026 at 10:41:36 PM] [WEBSOCKET] WebSocket state changed | Connecting
-[Apr 29, 2026 at 10:41:36 PM] [WEBSOCKET] WebSocket state changed | Connected
-[WS DEBUG] Sending message: {"matchId":"a9d169e8-441a-4b9a-a29a-0d3d22db0ac0","type":"watchMatch"}
-[Apr 29, 2026 at 10:41:36 PM] [WEBSOCKET] Sent watchMatch | matchId=a9d169e8-441a-4b9a-a29a-0d3d22db0ac0
-[WS DEBUG] Received message: {"type":"matchError","error":"Invalid message format","code":"VALIDATION_ERROR"}
-[Apr 29, 2026 at 10:41:36 PM] [SERVERMESSAGE] Received matchError | [VALIDATION_ERROR] Invalid message format
-[Apr 29, 2026 at 10:41:40 PM] [SESSION] Disconnecting session | a9d169e8-441a-4b9a-a29a-0d3d22db0ac0
-[Apr 29, 2026 at 10:41:40 PM] [ERROR] WebSocket error | The operation couldn’t be completed. Socket is not connected (Type: NSURLError)
-[VERBOSE] Error Context Dump [Context: localPlayerIndex=nil, connectionState=Connected, phase=nil, activeMatchId=nil]
-[Apr 29, 2026 at 10:41:40 PM] [WEBSOCKET] WebSocket state changed | Failed: The operation couldn’t be completed. Socket is not connected
-[Apr 29, 2026 at 10:41:40 PM] [WEBSOCKET] WebSocket state changed | Failed: The operation couldn’t be completed. Socket is not connected
-[Apr 29, 2026 at 10:41:50 PM] [ERROR] Create match failed | [API_ERROR] Body cannot be empty when content-type is set to 'application/json' (Type: PhalanxError)
-[VERBOSE] Error Context Dump [Context: localPlayerIndex=nil, connectionState=Failed: The operation couldn’t be completed. Socket is not connected, activeMatchId=nil, phase=nil]
-[Apr 29, 2026 at 10:41:57 PM] [ERROR] Create match failed | [API_ERROR] Body cannot be empty when content-type is set to 'application/json' (Type: PhalanxError)
-[VERBOSE] Error Context Dump [Context: localPlayerIndex=nil, connectionState=Failed: The operation couldn’t be completed. Socket is not connected, phase=nil, activeMatchId=nil]
-[Apr 29, 2026 at 10:41:58 PM] [ERROR] Create match failed | [API_ERROR] Body cannot be empty when content-type is set to 'application/json' (Type: PhalanxError)
-[VERBOSE] Error Context Dump [Context: localPlayerIndex=nil, connectionState=Failed: The operation couldn’t be completed. Socket is not connected, phase=nil, activeMatchId=nil]
-[Apr 29, 2026 at 10:41:59 PM] [ERROR] Create match failed | [API_ERROR] Body cannot be empty when content-type is set to 'application/json' (Type: PhalanxError)
-[VERBOSE] Error Context Dump [Context: phase=nil, localPlayerIndex=nil, connectionState=Failed: The operation couldn’t be completed. Socket is not connected, activeMatchId=nil]
+[Apr 30, 2026 at 5:37:42 PM] [SESSION] Configured Local Proxy | api=http://localhost:5173, ws=ws://localhost:5173/ws, docs=http://localhost:3001/docs/json
+[Apr 30, 2026 at 5:37:42 PM] [SESSION] Starting Boot Sequence
+[Apr 30, 2026 at 5:37:43 PM] [SESSION] Configured Local Proxy | api=http://localhost:5173, ws=ws://localhost:5173/ws, docs=http://localhost:3001/docs/json
+[Apr 30, 2026 at 5:37:43 PM] [SESSION] Starting Boot Sequence
+[Apr 30, 2026 at 5:37:43 PM] [SESSION] Configured Local Proxy | api=http://localhost:5173, ws=ws://localhost:5173/ws, docs=http://localhost:3001/docs/json
+[Apr 30, 2026 at 5:37:43 PM] [SESSION] Starting Boot Sequence
+[Apr 30, 2026 at 5:37:43 PM] [SESSION] Configured Local Proxy | api=http://localhost:5173, ws=ws://localhost:5173/ws, docs=http://localhost:3001/docs/json
+[Apr 30, 2026 at 5:37:43 PM] [SESSION] Starting Boot Sequence
+[Apr 30, 2026 at 5:38:14 PM] [SESSION] Configured Local Proxy | api=http://localhost:5173, ws=ws://localhost:5173/ws, docs=http://localhost:3001/docs/json
+[Apr 30, 2026 at 5:38:14 PM] [SESSION] Starting Boot Sequence
+[Apr 30, 2026 at 5:38:17 PM] [SESSION] Boot Sequence Complete
+[Apr 30, 2026 at 5:38:22 PM] [SESSION] Applied Local Direct configuration | api=http://localhost:3001, ws=ws://localhost:3001/ws, docs=http://localhost:3001/docs/json
+[Apr 30, 2026 at 5:38:24 PM] [SESSION] Applied Custom configuration | api=http://localhost:3001, ws=ws://localhost:3001/ws, docs=http://localhost:3001/docs/json

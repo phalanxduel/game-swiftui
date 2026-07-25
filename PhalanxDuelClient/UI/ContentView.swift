@@ -10,7 +10,9 @@ public struct ContentView: View {
             Group {
                 if sessionStore.isBooting {
                     BootView(sessionStore: sessionStore)
+#if os(iOS)
                         .toolbar(.hidden, for: .navigationBar)
+#endif
                 } else if sessionStore.hasActiveSession {
                     GameSessionView(sessionStore: sessionStore)
                 } else {
@@ -19,11 +21,19 @@ public struct ContentView: View {
             }
             .toolbar {
                 if !sessionStore.isBooting && sessionStore.hasActiveSession {
+#if os(iOS)
                     ToolbarItem(placement: .topBarLeading) {
                         Button("Disconnect") {
                             sessionStore.disconnect()
                         }
                     }
+#else
+                    ToolbarItem(placement: .navigation) {
+                        Button("Disconnect") {
+                            sessionStore.disconnect()
+                        }
+                    }
+#endif
                 }
             }
         }

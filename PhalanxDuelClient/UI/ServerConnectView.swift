@@ -25,9 +25,11 @@ public struct ServerConnectView: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                     TextField("API Base URL", text: $sessionStore.serverBaseURLText)
+#if os(iOS)
                         .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
                         .keyboardType(.URL)
+#endif
+                        .autocorrectionDisabled()
                 }
 
                 VStack(alignment: .leading, spacing: 8) {
@@ -35,9 +37,11 @@ public struct ServerConnectView: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                     TextField("Documentation Base URL", text: $sessionStore.documentationBaseURLText)
+#if os(iOS)
                         .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
                         .keyboardType(.URL)
+#endif
+                        .autocorrectionDisabled()
                 }
 
                 Button("Apply Custom Configuration") {
@@ -77,7 +81,9 @@ public struct ServerConnectView: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                     TextField("Player Name", text: $sessionStore.localPlayerName)
+#if os(iOS)
                         .textInputAutocapitalization(.words)
+#endif
                 }
 
                 Button("Create Match via POST /matches") {
@@ -89,7 +95,9 @@ public struct ServerConnectView: View {
 
                 VStack(alignment: .leading, spacing: 8) {
                     TextField("Match ID to join", text: $joinMatchID)
+#if os(iOS)
                         .textInputAutocapitalization(.never)
+#endif
                         .autocorrectionDisabled()
 
                     Button("Join Match") {
@@ -102,7 +110,9 @@ public struct ServerConnectView: View {
 
                 VStack(alignment: .leading, spacing: 8) {
                     TextField("Match ID to watch", text: $watchMatchID)
+#if os(iOS)
                         .textInputAutocapitalization(.never)
+#endif
                         .autocorrectionDisabled()
 
                     Button("Watch Match") {
@@ -165,7 +175,11 @@ public struct ServerConnectView: View {
                 )
             }
         }
+#if os(iOS)
         .listStyle(.insetGrouped)
+#else
+        .listStyle(.sidebar)
+#endif
         .navigationTitle("Server Connect")
     }
 
