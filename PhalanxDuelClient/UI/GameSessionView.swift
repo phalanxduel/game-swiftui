@@ -118,6 +118,7 @@ public struct GameSessionView: View {
                         .listRowInsets(EdgeInsets())
                         .padding(.vertical, AppSpacing.small)
                 }
+                .listRowBackground(Color.gameBackground)
             }
 
             if let state = sessionStore.currentState {
@@ -179,6 +180,7 @@ public struct GameSessionView: View {
                         .listRowInsets(EdgeInsets())
                         .padding(.vertical, AppSpacing.medium)
                     }
+                    .listRowBackground(Color.gameBackground)
                 }
             } else {
                 Section {
@@ -229,7 +231,7 @@ public struct GameSessionView: View {
             }
         )
         .padding(.vertical, AppSpacing.medium)
-        .background(.background)
+        .background(Color.gameBackground)
         .overlay(alignment: .bottom) {
             Divider()
         }
@@ -237,7 +239,7 @@ public struct GameSessionView: View {
         NarrationTickerView(state: state)
             .padding(.horizontal, AppSpacing.medium)
             .padding(.bottom, AppSpacing.small)
-            .background(.background)
+            .background(Color.gameBackground)
     }
 
     /// Pinned above the scrollable list so automation controls stay hittable
@@ -250,7 +252,7 @@ public struct GameSessionView: View {
                 systemImage: "eye.fill"
             )
             .font(.caption.monospaced().bold())
-            .foregroundStyle(.blue)
+            .foregroundStyle(Color.goldAccent)
             .accessibilityIdentifier("automation.game-panel")
 
             HStack(spacing: AppSpacing.medium) {
@@ -288,13 +290,13 @@ public struct GameSessionView: View {
 
             Text(lastActionDescription(for: state))
                 .font(.caption.monospaced())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.gameTextMuted)
                 .lineLimit(1)
                 .accessibilityIdentifier("automation.last-action")
         }
         .padding(AppSpacing.medium)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.regularMaterial)
+        .background(Color.gameSurfaceElevated)
         .overlay(alignment: .bottom) {
             Divider()
         }
@@ -305,9 +307,10 @@ public struct GameSessionView: View {
         HStack(spacing: 4) {
             Text(label)
                 .font(.caption2)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.gameTextDim)
             Text(value)
                 .font(.caption.monospaced())
+                .foregroundStyle(Color.gameTextPrimary)
                 .lineLimit(1)
                 .accessibilityIdentifier(id)
         }

@@ -78,10 +78,10 @@ public struct CombatBannerView: View {
 
     private func actionColor(for type: ActionType) -> Color {
         switch type {
-        case .deploy: return Color.blue
-        case .attack: return Color.red
+        case .deploy: return Color.neonOffense
+        case .attack: return Color.neonDefense
         case .pass: return Color.gray
-        case .reinforce: return Color.green
+        case .reinforce: return Color.goldAccent
         case .forfeit: return Color.purple
         case .systemInit: return Color.orange
         }

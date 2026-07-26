@@ -144,12 +144,13 @@ public struct NarrationTickerView: View {
             } label: {
                 HStack {
                     Text("NARRATION")
-                        .font(.caption.monospaced().bold())
+                        .font(.system(size: 11, weight: .bold, design: .monospaced))
+                        .tracking(1.2)
                     Spacer()
                     Image(systemName: isOpen ? "chevron.down" : "chevron.up")
                         .font(.caption2)
                 }
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.gameTextMuted)
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
@@ -161,7 +162,7 @@ public struct NarrationTickerView: View {
                         LazyVStack(alignment: .leading, spacing: 2) {
                             ForEach(Array(lines), id: \.id) { line in
                                 Text(line.text)
-                                    .font(.caption.monospaced())
+                                    .font(.system(size: 11, design: .monospaced))
                                     .fontWeight(line.style == .destroyed || line.style == .terminal ? .bold : .regular)
                                     .foregroundStyle(color(for: line))
                                     .id(line.id)
@@ -181,20 +182,24 @@ public struct NarrationTickerView: View {
             }
         }
         .padding(AppSpacing.small)
-        .background(Color.slotBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .background(Color.gameSurface)
+        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .strokeBorder(Color.gameBorder, lineWidth: 1)
+        }
     }
 
     private func color(for line: NarrationLine) -> Color {
         switch line.style {
-        case .destroyed: return .destructiveAction
+        case .destroyed: return .neonDefense
         case .lpDamage: return .warningStatus
         case .bonus: return .goldAccent
-        case .combo: return .amberHighlight
-        case .terminal: return .primary
+        case .combo: return .goldBright
+        case .terminal: return .gameTextPrimary
         case .normal:
-            guard let suit = line.suit else { return .secondary }
-            return suit.isRed ? .suitRed : .suitBlack
+            guard let suit = line.suit else { return .gameTextMuted }
+            return suit.accentColor
         }
     }
 }

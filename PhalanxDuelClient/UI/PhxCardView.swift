@@ -1,21 +1,27 @@
 import SwiftUI
 
+/// Ports client/src/game.tsx's CardView + client/src/style.css's .phx-card
+/// (rank/suit corners, suit-colored HP bar with fraction text, dim
+/// monospace type caption, suit-tinted glow border).
 public struct PhxCardView: View {
     public let card: Card?
     public let isFaceUp: Bool
     public let isSelected: Bool
     public let isHighlighted: Bool
+    public let currentHp: Int?
 
     public init(
         card: Card?,
         isFaceUp: Bool = true,
         isSelected: Bool = false,
-        isHighlighted: Bool = false
+        isHighlighted: Bool = false,
+        currentHp: Int? = nil
     ) {
         self.card = card
         self.isFaceUp = isFaceUp
         self.isSelected = isSelected
         self.isHighlighted = isHighlighted
+        self.currentHp = currentHp
     }
 
     public var body: some View {
@@ -27,107 +33,94 @@ public struct PhxCardView: View {
             }
         }
         .frame(width: 68, height: 98)
-        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-        .shadow(color: isSelected ? suitGlowColor.opacity(0.6) : Color.black.opacity(0.15), radius: isSelected ? 8 : 3, x: 0, y: 2)
+        .background(Color.gameCardSurface)
+        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .shadow(color: isSelected ? glowColor.opacity(0.7) : Color.black.opacity(0.3), radius: isSelected ? 10 : 4, x: 0, y: 2)
         .overlay {
-            RoundedRectangle(cornerRadius: 10, style: .continuous)
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
                 .strokeBorder(
-                    isSelected ? suitGlowColor : (isHighlighted ? Color.amberHighlight : Color.cardBorder),
+                    isSelected ? glowColor : (isHighlighted ? Color.goldBright : Color.gameBorder),
                     lineWidth: isSelected ? 2.5 : (isHighlighted ? 2 : 1)
                 )
         }
     }
 
     private func faceUpView(card: Card) -> some View {
-        ZStack {
-            // Background fill
-            LinearGradient(
-                colors: [Color.cardBackground, Color.cardBackground.opacity(0.95)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
+        let accent = card.suit.accentColor
+        return ZStack {
+            RadialGradient(
+                colors: [accent.opacity(0.16), Color.clear],
+                center: .top,
+                startRadius: 2,
+                endRadius: 56
             )
 
-            // Central suit watermark
-            Text(card.suit.symbol)
-                .font(.system(size: 42, weight: .black))
-                .foregroundStyle(suitColor.opacity(0.12))
-
-            // Corner Index - Top Left
             VStack(alignment: .leading, spacing: 0) {
-                Text(card.face)
-                    .font(.system(size: 13, weight: .bold, design: .rounded))
-                    .foregroundStyle(suitColor)
-                Text(card.suit.symbol)
-                    .font(.system(size: 11))
-                    .foregroundStyle(suitColor)
-            }
-            .padding(6)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-
-            // Center Face / Rank Icon
-            VStack(spacing: 2) {
-                Text(card.suit.symbol)
-                    .font(.system(size: 22, weight: .semibold))
-                    .foregroundStyle(suitColor)
-                if card.type == .ace {
-                    Text("ACE")
-                        .font(.system(size: 8, weight: .black))
-                        .foregroundStyle(Color.goldAccent)
-                        .padding(.horizontal, 4)
-                        .padding(.vertical, 1)
-                        .background(Color.goldAccent.opacity(0.15))
-                        .clipShape(Capsule())
+                HStack(alignment: .top) {
+                    Text(card.face)
+                        .font(.system(size: 20, weight: .black, design: .rounded))
+                        .foregroundStyle(accent)
+                    Spacer()
+                    Text(card.suit.symbol)
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(accent)
                 }
-            }
 
-            // Corner Index - Bottom Right (Rotated)
-            VStack(alignment: .trailing, spacing: 0) {
-                Text(card.face)
-                    .font(.system(size: 13, weight: .bold, design: .rounded))
-                    .foregroundStyle(suitColor)
-                Text(card.suit.symbol)
-                    .font(.system(size: 11))
-                    .foregroundStyle(suitColor)
+                Spacer(minLength: 2)
+
+                if let currentHp {
+                    hpBar(currentHp: currentHp, maxHp: card.value, accent: accent)
+                }
+
+                Text(card.type.rawValue.uppercased())
+                    .font(.system(size: 7, weight: .bold, design: .monospaced))
+                    .tracking(0.6)
+                    .foregroundStyle(Color.gameTextDim)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, 2)
             }
-            .rotationEffect(.degrees(180))
             .padding(6)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
         }
+    }
+
+    private func hpBar(currentHp: Int, maxHp: Int, accent: Color) -> some View {
+        let ratio = maxHp > 0 ? max(0, min(1, Double(currentHp) / Double(maxHp))) : 0
+        return GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                RoundedRectangle(cornerRadius: 4, style: .continuous)
+                    .fill(Color.black.opacity(0.45))
+                RoundedRectangle(cornerRadius: 4, style: .continuous)
+                    .fill(accent)
+                    .frame(width: geometry.size.width * ratio)
+                Text("\(currentHp)/\(maxHp)")
+                    .font(.system(size: 8, weight: .black, design: .monospaced))
+                    .foregroundStyle(.white)
+                    .shadow(color: .black.opacity(0.8), radius: 2)
+                    .frame(width: geometry.size.width, alignment: .center)
+            }
+        }
+        .frame(height: 14)
     }
 
     private var faceDownView: some View {
         ZStack {
-            // Card back gradient
             LinearGradient(
-                colors: [Color.indigo.opacity(0.85), Color.blue.opacity(0.95)],
+                colors: [Color.gameSurface, Color.gameCardSurface],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
 
-            // Shield emblem watermark
-            Image(systemName: "shield.fill")
-                .font(.system(size: 28))
-                .foregroundStyle(Color.white.opacity(0.25))
+            Image(systemName: "shield.lefthalf.filled")
+                .font(.system(size: 26))
+                .foregroundStyle(Color.goldAccent.opacity(0.35))
 
-            // Decorative inner border
-            RoundedRectangle(cornerRadius: 6, style: .continuous)
-                .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .strokeBorder(Color.goldAccent.opacity(0.25), lineWidth: 1)
                 .padding(5)
         }
     }
 
-    private var suitColor: Color {
-        guard let card = card else { return Color.primary }
-        return card.suit.isRed ? Color.suitRed : Color.suitBlack
-    }
-
-    private var suitGlowColor: Color {
-        guard let card = card else { return Color.blue }
-        switch card.suit {
-        case .hearts: return Color.red
-        case .diamonds: return Color.cyan
-        case .spades: return Color.purple
-        case .clubs: return Color.emeraldGreen
-        }
+    private var glowColor: Color {
+        card?.suit.accentColor ?? .goldAccent
     }
 }
