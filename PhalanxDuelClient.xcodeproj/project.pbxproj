@@ -10,8 +10,9 @@
 		0376C447F1F5878D76EB5BD2 /* DebugLogEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742F243CE9C0E3C706FB9615 /* DebugLogEntry.swift */; };
 		103934629DB5D24B7B2DCCE7 /* PhalanxDuelClientApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA71DCF521E63383064EE42 /* PhalanxDuelClientApp.swift */; };
 		17D75B256FFF9E3CF5CD93FD /* SocialFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4B242F152EBDAA0298FDA2 /* SocialFeedView.swift */; };
+		1B927B860B0543C902F67B27 /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACD411E723CB3E7B8F42F81 /* KeychainStore.swift */; };
+		1CC400C969CD4D3D135923E3 /* CalculationModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DC90AB3A4FA217B1FE3E61 /* CalculationModels.swift */; };
 		22CF6EEFD77CACAD5755984A /* AutomationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9354C558376650FC7DC8FAC0 /* AutomationTests.swift */; };
-		A737BFBB51F532CDDF0DAC3F /* AccessibilityAuditTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1041DB04FE0AD4682FFE58DD /* AccessibilityAuditTests.swift */; };
 		22F86FD1C53E1B338ACD5791 /* loadingTasks.1.png in Resources */ = {isa = PBXBuildFile; fileRef = D70AAFF5E7FA33DE9BC1165B /* loadingTasks.1.png */; };
 		2AF55F6E8236114C36CC170C /* ServerConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B0DE50FFB8336A7B3CCF9D /* ServerConnectView.swift */; };
 		2CA6426CC7A9722D6FBD5DC0 /* PhalanxDuelClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9765EC158FBF894EC74266 /* PhalanxDuelClientTests.swift */; };
@@ -19,6 +20,7 @@
 		3BF1593C01D50CE7D6406146 /* ReplayViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597EECFCCAE6B635991FBDA0 /* ReplayViewer.swift */; };
 		4B46D12E93B640E7595BA909 /* HapticAndAudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F62CF271730D057352C310 /* HapticAndAudioEngine.swift */; };
 		4EAAF29C459E32DFF921D18B /* BootViewSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D1D2B039C2D26143826F36 /* BootViewSnapshotTests.swift */; };
+		50B2337DB2DEC66DBE55EC4F /* AccessibilityAuditTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7C9E106FCFDFB17A590312 /* AccessibilityAuditTests.swift */; };
 		53E416108DEE548918928E53 /* PhalanxDuelClientUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC128BF4313838631816C9D /* PhalanxDuelClientUITestsLaunchTests.swift */; };
 		5AF23B257E0490ADE2318EC9 /* PhalanxDuelClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9765EC158FBF894EC74266 /* PhalanxDuelClientTests.swift */; };
 		5B4D26B6E2197006875877F5 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA5F6EC93CB58EC6E20B337 /* AppTheme.swift */; };
@@ -30,6 +32,8 @@
 		7E453CA9246C5F0345475BC9 /* RestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C0D880C5CCA25AAD686CA0 /* RestClient.swift */; };
 		80E47716FF12C6DB6BFCC49D /* PhalanxStore.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 6CB6B3ABFAEDEC184EDEC7C9 /* PhalanxStore.storekit */; };
 		89E560B9834BD7169879AA20 /* PhalanxDuelClientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEEB59B88FA957075026CA4 /* PhalanxDuelClientUITests.swift */; };
+		902ED4E2A8A57FBA8EDD13A2 /* NarrationTickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EE2C1945C0C2485E9D577D /* NarrationTickerView.swift */; };
+		9497591D10EC78E077599305 /* EngagementLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C06CEC28C9DE46D70803D51 /* EngagementLogView.swift */; };
 		9608A6D680EA0E4482030DE4 /* PhxCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E325B7C7913124B332C130B5 /* PhxCardView.swift */; };
 		97661C541BCFB0DE2384877C /* BootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F9C9C140E543462833311D /* BootView.swift */; };
 		99C4D3335695972B91050FF7 /* DebugLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5015C0B9C012FFEB6681B6 /* DebugLogView.swift */; };
@@ -47,11 +51,8 @@
 		D79C023B31909DA81C5F7682 /* CombatBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD63D61EAED5CD489E8E838 /* CombatBannerView.swift */; };
 		DB4FC9EAE04A63501F3BB246 /* ContractCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070A7A62DEE25FF83A1E9A72 /* ContractCoding.swift */; };
 		E69BAF282CB559D5AB64C41E /* initialState.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E966B1EC816D5042CB5AF0B /* initialState.1.png */; };
+		F466C5D3ACB0E8AE7B711635 /* CombatModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33933658DBCB09176ABC94C4 /* CombatModels.swift */; };
 		FC68161CF99773DF67BC6AB0 /* GameStateModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED6D6700B6E565DB0DFB9D6 /* GameStateModels.swift */; };
-		09178AE7CCDE1B9191200596 /* CombatModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA78ABA41182BFEE814CCA3 /* CombatModels.swift */; };
-		F274DADE8B686AE6FFB198A1 /* NarrationTickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AC53AA797B1E2DF5EF2700 /* NarrationTickerView.swift */; };
-		81827A5D93346C96B7EBFC90 /* CalculationModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD92E187388B30391B283F26 /* CalculationModels.swift */; };
-		6ED8AA0532706CA5D2B8547F /* EngagementLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E654F8A7A729F6195A8DB49A /* EngagementLogView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,40 +85,42 @@
 		1AF7A846D56066FC9E2C298B /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
 		1D4B242F152EBDAA0298FDA2 /* SocialFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialFeedView.swift; sourceTree = "<group>"; };
 		1D80A6563C130CD30B84AF58 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		27DC90AB3A4FA217B1FE3E61 /* CalculationModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculationModels.swift; sourceTree = "<group>"; };
 		2B912E356ADCCD638F5689FF /* StoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreView.swift; sourceTree = "<group>"; };
 		30BDAA448BCF85ED461BA914 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
+		33933658DBCB09176ABC94C4 /* CombatModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatModels.swift; sourceTree = "<group>"; };
 		39B0DE50FFB8336A7B3CCF9D /* ServerConnectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConnectView.swift; sourceTree = "<group>"; };
 		3DA5F6EC93CB58EC6E20B337 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		3E966B1EC816D5042CB5AF0B /* initialState.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = initialState.1.png; sourceTree = "<group>"; };
 		4DE40BD2333B3F349CCCDCDA /* WebSocketClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketClient.swift; sourceTree = "<group>"; };
 		597EECFCCAE6B635991FBDA0 /* ReplayViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplayViewer.swift; sourceTree = "<group>"; };
 		5ED6D6700B6E565DB0DFB9D6 /* GameStateModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateModels.swift; sourceTree = "<group>"; };
-		FAA78ABA41182BFEE814CCA3 /* CombatModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatModels.swift; sourceTree = "<group>"; };
-		B9AC53AA797B1E2DF5EF2700 /* NarrationTickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NarrationTickerView.swift; sourceTree = "<group>"; };
-		BD92E187388B30391B283F26 /* CalculationModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculationModels.swift; sourceTree = "<group>"; };
-		E654F8A7A729F6195A8DB49A /* EngagementLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngagementLogView.swift; sourceTree = "<group>"; };
 		67C0D880C5CCA25AAD686CA0 /* RestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestClient.swift; sourceTree = "<group>"; };
+		6C7C9E106FCFDFB17A590312 /* AccessibilityAuditTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityAuditTests.swift; sourceTree = "<group>"; };
 		6CB6B3ABFAEDEC184EDEC7C9 /* PhalanxStore.storekit */ = {isa = PBXFileReference; path = PhalanxStore.storekit; sourceTree = "<group>"; };
 		701C5A4B27B0F7073511428F /* failureState.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = failureState.1.png; sourceTree = "<group>"; };
 		742F243CE9C0E3C706FB9615 /* DebugLogEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugLogEntry.swift; sourceTree = "<group>"; };
+		7C06CEC28C9DE46D70803D51 /* EngagementLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngagementLogView.swift; sourceTree = "<group>"; };
 		86350352A91B17BF0E3DD1AF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8A91D5644BED99109EE1125F /* PhalanxDuelClientContractTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhalanxDuelClientContractTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A9765EC158FBF894EC74266 /* PhalanxDuelClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhalanxDuelClientTests.swift; sourceTree = "<group>"; };
 		8FC1C65724125A7564235075 /* GameSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSessionView.swift; sourceTree = "<group>"; };
 		93085BE6B8AEA17D145A6B86 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		9354C558376650FC7DC8FAC0 /* AutomationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomationTests.swift; sourceTree = "<group>"; };
-		1041DB04FE0AD4682FFE58DD /* AccessibilityAuditTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityAuditTests.swift; sourceTree = "<group>"; };
+		A5EE2C1945C0C2485E9D577D /* NarrationTickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NarrationTickerView.swift; sourceTree = "<group>"; };
 		AA31817998A4CD49E5B5081F /* PhalanxDuelClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhalanxDuelClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAA62E8F8CBBC9178DFCCA24 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AC5015C0B9C012FFEB6681B6 /* DebugLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugLogView.swift; sourceTree = "<group>"; };
 		B14CA0883EBC2B1CBC4EA897 /* GameTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTableView.swift; sourceTree = "<group>"; };
 		BAD63D61EAED5CD489E8E838 /* CombatBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatBannerView.swift; sourceTree = "<group>"; };
+		BDF051D744B73B42EF4125D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C172E323249F7A3C112DF481 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		C6D1D2B039C2D26143826F36 /* BootViewSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootViewSnapshotTests.swift; sourceTree = "<group>"; };
 		D0F9C9C140E543462833311D /* BootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootView.swift; sourceTree = "<group>"; };
 		D3B525CA5CB9B66D4EBFCCCE /* PhalanxDuelClientUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhalanxDuelClientUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D70AAFF5E7FA33DE9BC1165B /* loadingTasks.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loadingTasks.1.png; sourceTree = "<group>"; };
 		D9E1233DFC6A64CECC0F82A8 /* PhalanxDuelClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhalanxDuelClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DACD411E723CB3E7B8F42F81 /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
 		DBA71DCF521E63383064EE42 /* PhalanxDuelClientApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhalanxDuelClientApp.swift; sourceTree = "<group>"; };
 		DBEEB59B88FA957075026CA4 /* PhalanxDuelClientUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhalanxDuelClientUITests.swift; sourceTree = "<group>"; };
 		E0D61E35C90279246D72DC9D /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
@@ -183,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				C172E323249F7A3C112DF481 /* Environment.swift */,
+				DACD411E723CB3E7B8F42F81 /* KeychainStore.swift */,
 				67C0D880C5CCA25AAD686CA0 /* RestClient.swift */,
 				4DE40BD2333B3F349CCCDCDA /* WebSocketClient.swift */,
 			);
@@ -199,6 +203,7 @@
 				EBE20FD8D38AF165A2196FD1 /* Debug */,
 				B62A1374EE5C60C13245084E /* Domain */,
 				8DF0015B84815D86272BED23 /* GameState */,
+				82EA08CEC450A870FD959F81 /* Generated */,
 				2B77844104C743A91FCE4553 /* Networking */,
 				8E3A7E42CCF154FD78295CB1 /* UI */,
 			);
@@ -223,6 +228,14 @@
 			path = __Snapshots__;
 			sourceTree = "<group>";
 		};
+		82EA08CEC450A870FD959F81 /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				BDF051D744B73B42EF4125D8 /* Info.plist */,
+			);
+			path = Generated;
+			sourceTree = "<group>";
+		};
 		8DF0015B84815D86272BED23 /* GameState */ = {
 			isa = PBXGroup;
 			children = (
@@ -239,13 +252,13 @@
 				BAD63D61EAED5CD489E8E838 /* CombatBannerView.swift */,
 				86350352A91B17BF0E3DD1AF /* ContentView.swift */,
 				AC5015C0B9C012FFEB6681B6 /* DebugLogView.swift */,
+				7C06CEC28C9DE46D70803D51 /* EngagementLogView.swift */,
 				8FC1C65724125A7564235075 /* GameSessionView.swift */,
 				B14CA0883EBC2B1CBC4EA897 /* GameTableView.swift */,
 				F1F62CF271730D057352C310 /* HapticAndAudioEngine.swift */,
 				E0D61E35C90279246D72DC9D /* LeaderboardView.swift */,
 				F8324547FCD0F85B68E07CCE /* MatchmakingQueueView.swift */,
-				B9AC53AA797B1E2DF5EF2700 /* NarrationTickerView.swift */,
-				E654F8A7A729F6195A8DB49A /* EngagementLogView.swift */,
+				A5EE2C1945C0C2485E9D577D /* NarrationTickerView.swift */,
 				E325B7C7913124B332C130B5 /* PhxCardView.swift */,
 				1648344DD280E2DA2A77B749 /* ProfileView.swift */,
 				597EECFCCAE6B635991FBDA0 /* ReplayViewer.swift */,
@@ -259,9 +272,9 @@
 		B62A1374EE5C60C13245084E /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				27DC90AB3A4FA217B1FE3E61 /* CalculationModels.swift */,
+				33933658DBCB09176ABC94C4 /* CombatModels.swift */,
 				070A7A62DEE25FF83A1E9A72 /* ContractCoding.swift */,
-				FAA78ABA41182BFEE814CCA3 /* CombatModels.swift */,
-				BD92E187388B30391B283F26 /* CalculationModels.swift */,
 				5ED6D6700B6E565DB0DFB9D6 /* GameStateModels.swift */,
 				30BDAA448BCF85ED461BA914 /* Messages.swift */,
 				1D80A6563C130CD30B84AF58 /* Models.swift */,
@@ -281,8 +294,8 @@
 		EF7B2FEB50885402B490CEE6 /* PhalanxDuelClientUITests */ = {
 			isa = PBXGroup;
 			children = (
+				6C7C9E106FCFDFB17A590312 /* AccessibilityAuditTests.swift */,
 				9354C558376650FC7DC8FAC0 /* AutomationTests.swift */,
-				1041DB04FE0AD4682FFE58DD /* AccessibilityAuditTests.swift */,
 				DBEEB59B88FA957075026CA4 /* PhalanxDuelClientUITests.swift */,
 				EBC128BF4313838631816C9D /* PhalanxDuelClientUITestsLaunchTests.swift */,
 			);
@@ -445,8 +458,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50B2337DB2DEC66DBE55EC4F /* AccessibilityAuditTests.swift in Sources */,
 				22CF6EEFD77CACAD5755984A /* AutomationTests.swift in Sources */,
-				A737BFBB51F532CDDF0DAC3F /* AccessibilityAuditTests.swift in Sources */,
 				89E560B9834BD7169879AA20 /* PhalanxDuelClientUITests.swift in Sources */,
 				53E416108DEE548918928E53 /* PhalanxDuelClientUITestsLaunchTests.swift in Sources */,
 			);
@@ -458,24 +471,25 @@
 			files = (
 				5B4D26B6E2197006875877F5 /* AppTheme.swift in Sources */,
 				97661C541BCFB0DE2384877C /* BootView.swift in Sources */,
+				1CC400C969CD4D3D135923E3 /* CalculationModels.swift in Sources */,
 				D79C023B31909DA81C5F7682 /* CombatBannerView.swift in Sources */,
-				09178AE7CCDE1B9191200596 /* CombatModels.swift in Sources */,
-				81827A5D93346C96B7EBFC90 /* CalculationModels.swift in Sources */,
-				6ED8AA0532706CA5D2B8547F /* EngagementLogView.swift in Sources */,
+				F466C5D3ACB0E8AE7B711635 /* CombatModels.swift in Sources */,
 				D55E56A7B9C0407BB2E063AC /* ContentView.swift in Sources */,
 				DB4FC9EAE04A63501F3BB246 /* ContractCoding.swift in Sources */,
 				0376C447F1F5878D76EB5BD2 /* DebugLogEntry.swift in Sources */,
 				99C4D3335695972B91050FF7 /* DebugLogView.swift in Sources */,
+				9497591D10EC78E077599305 /* EngagementLogView.swift in Sources */,
 				BD2BD8C3B8C25E9E4B814E11 /* Environment.swift in Sources */,
 				C176B577B839C4FFEEA164D5 /* GameSessionView.swift in Sources */,
 				FC68161CF99773DF67BC6AB0 /* GameStateModels.swift in Sources */,
 				CADD77873ADE7A2EE5764CCB /* GameTableView.swift in Sources */,
 				4B46D12E93B640E7595BA909 /* HapticAndAudioEngine.swift in Sources */,
+				1B927B860B0543C902F67B27 /* KeychainStore.swift in Sources */,
 				31709710E4B889925392E239 /* LeaderboardView.swift in Sources */,
 				B1B7D4D8400FC241AFF61CF9 /* MatchmakingQueueView.swift in Sources */,
 				7C8E3016D2D157074635979E /* Messages.swift in Sources */,
-				F274DADE8B686AE6FFB198A1 /* NarrationTickerView.swift in Sources */,
 				6F3047914B51CE015B969BF8 /* Models.swift in Sources */,
+				902ED4E2A8A57FBA8EDD13A2 /* NarrationTickerView.swift in Sources */,
 				103934629DB5D24B7B2DCCE7 /* PhalanxDuelClientApp.swift in Sources */,
 				9608A6D680EA0E4482030DE4 /* PhxCardView.swift in Sources */,
 				B85691E72D25E3F3CC815E81 /* ProfileView.swift in Sources */,
@@ -583,6 +597,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PhalanxDuelClient/Generated/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -605,6 +620,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PhalanxDuelClient/Generated/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (

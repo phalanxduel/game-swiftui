@@ -45,6 +45,25 @@ public struct ContentView: View {
             placeAutomationWindowOnPrimaryScreen()
         }
 #endif
+        .onOpenURL { url in
+            handleIncomingURL(url)
+        }
+    }
+
+    /// Handles phalanxduel://auth?code=… — the desktop-app sign-in handoff
+    /// from an already-authenticated web session. See SessionStore's
+    /// exchangeHandoffCode and the web client's openInDesktopApp().
+    private func handleIncomingURL(_ url: URL) {
+        guard url.scheme == "phalanxduel", url.host == "auth" else { return }
+
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        guard let code = components?.queryItems?.first(where: { $0.name == "code" })?.value else {
+            return
+        }
+
+        Task {
+            await sessionStore.exchangeHandoffCode(code)
+        }
     }
 
 #if os(macOS)

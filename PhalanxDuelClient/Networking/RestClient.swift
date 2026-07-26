@@ -106,6 +106,23 @@ public nonisolated struct ServerDefaultsResponse: Codable, Equatable, Sendable {
     }
 }
 
+public nonisolated struct AuthenticatedAccount: Codable, Equatable, Sendable {
+    public let id: String
+    public let gamertag: String
+    public let suffix: Int
+    public let email: String
+    public let elo: Int
+
+    public var displayName: String {
+        "\(gamertag)#\(suffix)"
+    }
+}
+
+public nonisolated struct AuthResponse: Codable, Equatable, Sendable {
+    public let token: String
+    public let user: AuthenticatedAccount
+}
+
 public nonisolated struct ActiveMatchPlayerSummary: Codable, Equatable, Sendable {
     public let name: String
     public let connected: Bool
@@ -171,6 +188,50 @@ public final class RestClient {
     public func fetchDefaults() async throws -> ServerDefaultsResponse {
         var request = URLRequest(url: environment.defaultsURL)
         request.httpMethod = "GET"
+        return try await perform(request, expectingStatusCodes: Set([200]))
+    }
+
+    public func register(gamertag: String, email: String, password: String) async throws -> AuthResponse {
+        var request = URLRequest(url: environment.registerURL)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try? JSONSerialization.data(withJSONObject: [
+            "gamertag": gamertag,
+            "email": email,
+            "password": password
+        ])
+        return try await perform(request, expectingStatusCodes: Set([200]))
+    }
+
+    public func login(email: String, password: String) async throws -> AuthResponse {
+        var request = URLRequest(url: environment.loginURL)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try? JSONSerialization.data(withJSONObject: [
+            "email": email,
+            "password": password
+        ])
+        return try await perform(request, expectingStatusCodes: Set([200]))
+    }
+
+    /// Validates a persisted token and returns a freshly-signed one — used
+    /// to restore a session from Keychain on launch without re-prompting
+    /// for credentials. Mirrors the web client's restoreSession().
+    public func me(token: String) async throws -> AuthResponse {
+        var request = URLRequest(url: environment.meURL)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        return try await perform(request, expectingStatusCodes: Set([200]))
+    }
+
+    /// Exchanges a short-lived, single-use handoff code (minted by the web
+    /// client's "Open in Desktop App" action) for a real session token. The
+    /// session token itself is never placed in the phalanxduel:// URL.
+    public func exchangeHandoffCode(_ code: String) async throws -> AuthResponse {
+        var request = URLRequest(url: environment.handoffExchangeURL)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try? JSONSerialization.data(withJSONObject: ["code": code])
         return try await perform(request, expectingStatusCodes: Set([200]))
     }
 

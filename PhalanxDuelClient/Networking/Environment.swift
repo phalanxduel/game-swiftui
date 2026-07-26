@@ -110,6 +110,26 @@ public nonisolated struct AppEnvironment: Equatable, Sendable {
         matchesURL.appendingPathComponent("completed")
     }
 
+    public var registerURL: URL {
+        apiBaseURL.appendingPathComponent("api").appendingPathComponent("auth").appendingPathComponent("register")
+    }
+
+    public var loginURL: URL {
+        apiBaseURL.appendingPathComponent("api").appendingPathComponent("auth").appendingPathComponent("login")
+    }
+
+    public var meURL: URL {
+        apiBaseURL.appendingPathComponent("api").appendingPathComponent("auth").appendingPathComponent("me")
+    }
+
+    public var handoffExchangeURL: URL {
+        apiBaseURL
+            .appendingPathComponent("api")
+            .appendingPathComponent("auth")
+            .appendingPathComponent("handoff")
+            .appendingPathComponent("exchange")
+    }
+
     public var openAPIURL: URL {
         documentationBaseURL.appendingPathComponent("docs").appendingPathComponent("json")
     }

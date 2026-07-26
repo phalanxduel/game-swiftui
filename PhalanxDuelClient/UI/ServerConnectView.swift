@@ -10,6 +10,8 @@ public struct ServerConnectView: View {
     @State private var showMatchmakingSheet: Bool = false
     @State private var showReplaySheet: Bool = false
     @State private var showSocialSheet: Bool = false
+    @State private var loginEmail: String = ""
+    @State private var loginPassword: String = ""
 
     public init(sessionStore: SessionStore) {
         self.sessionStore = sessionStore
@@ -17,6 +19,10 @@ public struct ServerConnectView: View {
 
     public var body: some View {
         List {
+            Section("Account") {
+                accountSection
+            }
+
             if automationEnabled {
                 Section("Automation Proof") {
                     Label(
@@ -218,6 +224,59 @@ public struct ServerConnectView: View {
                 .fontWeight(.semibold)
             Text(value)
                 .textSelection(.enabled)
+        }
+    }
+
+    /// Real account state: signed in (via native login or a web-session
+    /// handoff) vs. guest. Registration itself is web-only — see
+    /// client/src/components/AuthPanel.tsx and TASK-366's notes — this app
+    /// only ever logs in an existing account or receives one via handoff.
+    @ViewBuilder
+    private var accountSection: some View {
+        if let account = sessionStore.account {
+            VStack(alignment: .leading, spacing: 4) {
+                Label(account.displayName, systemImage: "person.crop.circle.fill")
+                    .font(.headline)
+                    .accessibilityIdentifier("account.display-name")
+                Text("ELO \(account.elo) · \(account.email)")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            Button("Log Out", role: .destructive) {
+                sessionStore.logout()
+            }
+            .accessibilityIdentifier("account.logout")
+        } else {
+            Text("Signed out — playing as guest. Sign in with an existing account, or sign in on the web and use \"Open in Desktop App\".")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            if let authError = sessionStore.authError {
+                Text(authError.message)
+                    .font(.caption)
+                    .foregroundStyle(.red)
+            }
+
+            TextField("Email", text: $loginEmail)
+#if os(iOS)
+                .textInputAutocapitalization(.never)
+                .keyboardType(.emailAddress)
+#endif
+                .autocorrectionDisabled()
+                .accessibilityIdentifier("account.login-email")
+
+            SecureField("Password", text: $loginPassword)
+                .accessibilityIdentifier("account.login-password")
+
+            Button(sessionStore.isAuthenticating ? "Signing In…" : "Log In") {
+                Task {
+                    await sessionStore.login(email: loginEmail, password: loginPassword)
+                }
+            }
+            .buttonStyle(.borderedProminent)
+            .disabled(sessionStore.isAuthenticating || loginEmail.isEmpty || loginPassword.isEmpty)
+            .accessibilityIdentifier("account.login-submit")
         }
     }
 

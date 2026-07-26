@@ -60,6 +60,10 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
     @Published public private(set) var debugLog: [DebugLogEntry] = []
     @Published public private(set) var lastSnapshotRefreshAt: Date?
 
+    @Published public private(set) var account: AuthenticatedAccount?
+    @Published public var authError: UserFacingError?
+    @Published public private(set) var isAuthenticating: Bool = false
+
     @Published public var bootState: LoadState<NoData> = .idle
     @Published public var bootTasks: [BootTask] = [
         BootTask(id: "env", name: "Initializing Environment"),
@@ -196,6 +200,8 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         bootState = .loading
         appendLog(category: .session, title: "Starting Boot Sequence")
 
+        await restoreAccountFromKeychain()
+
         // 1. Initializing Environment (already done in init, but we'll mark it success)
         updateBootTask(id: "env", status: .loading)
         try? await Task.sleep(nanoseconds: 500_000_000) // Visual buffer
@@ -241,6 +247,69 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
             bootTasks[index].status = status
             bootTasks[index].errorMessage = error
         }
+    }
+
+    /// Restores a signed-in account from a token persisted in Keychain, if
+    /// any. Called once at launch; a failed/expired token is treated the
+    /// same as no session (falls back to guest/local-name play).
+    public func restoreAccountFromKeychain() async {
+        guard let token = KeychainStore.loadToken() else { return }
+        do {
+            let response = try await restClient.me(token: token)
+            applyAuthResponse(response)
+            appendLog(category: .session, title: "Restored session", detail: response.user.displayName)
+        } catch {
+            KeychainStore.clearToken()
+            appendLog(category: .session, title: "Persisted session expired or invalid", detail: "\(error)")
+        }
+    }
+
+    public func login(email: String, password: String) async {
+        let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedEmail.isEmpty, !password.isEmpty else {
+            authError = UserFacingError(title: "Required", message: "Email and password are required.")
+            return
+        }
+
+        isAuthenticating = true
+        defer { isAuthenticating = false }
+
+        do {
+            let response = try await restClient.login(email: trimmedEmail, password: password)
+            applyAuthResponse(response)
+        } catch {
+            authError = UserFacingError(title: "Login Failed", message: error.localizedDescription)
+        }
+    }
+
+    /// Exchanges a phalanxduel://auth?code=… handoff code (minted by an
+    /// already-authenticated web session) for a real session token. See
+    /// server/src/routes/auth.ts's /api/auth/handoff(/exchange) and the
+    /// web client's openInDesktopApp().
+    public func exchangeHandoffCode(_ code: String) async {
+        isAuthenticating = true
+        defer { isAuthenticating = false }
+
+        do {
+            let response = try await restClient.exchangeHandoffCode(code)
+            applyAuthResponse(response)
+            appendLog(category: .session, title: "Signed in via desktop handoff", detail: response.user.displayName)
+        } catch {
+            authError = UserFacingError(title: "Sign-In Failed", message: error.localizedDescription)
+        }
+    }
+
+    public func logout() {
+        KeychainStore.clearToken()
+        account = nil
+        appendLog(category: .session, title: "Logged out")
+    }
+
+    private func applyAuthResponse(_ response: AuthResponse) {
+        KeychainStore.saveToken(response.token)
+        account = response.user
+        localPlayerName = response.user.displayName
+        authError = nil
     }
 
     public func connectAndCreateMatch() async {
