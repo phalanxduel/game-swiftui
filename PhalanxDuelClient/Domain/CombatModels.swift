@@ -34,6 +34,7 @@ public nonisolated struct CombatLogEntry: Codable, Equatable, Sendable {
     public let totalLpDamage: Int
     public let steps: [CombatLogStep]
     public let comboCount: Int?
+    public let calculationProvenance: CalculationProvenance?
 }
 
 /// Mirrors the server's discriminated `TransactionDetailSchema` (shared/src/schema.ts) as a

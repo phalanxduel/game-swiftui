@@ -119,6 +119,13 @@ public struct GameSessionView: View {
                         .padding(.vertical, AppSpacing.small)
                 }
                 .listRowBackground(Color.gameBackground)
+
+                Section("Engagement Log") {
+                    EngagementLogView(state: state)
+                        .listRowInsets(EdgeInsets())
+                        .padding(.vertical, AppSpacing.small)
+                }
+                .listRowBackground(Color.gameBackground)
             }
 
             if let state = sessionStore.currentState {
@@ -237,6 +244,11 @@ public struct GameSessionView: View {
         }
 
         NarrationTickerView(state: state)
+            .padding(.horizontal, AppSpacing.medium)
+            .padding(.bottom, AppSpacing.small)
+            .background(Color.gameBackground)
+
+        EngagementLogView(state: state)
             .padding(.horizontal, AppSpacing.medium)
             .padding(.bottom, AppSpacing.small)
             .background(Color.gameBackground)
