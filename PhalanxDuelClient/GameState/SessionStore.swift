@@ -200,7 +200,9 @@ public final class SessionStore: ObservableObject, WebSocketClientDelegate {
         bootState = .loading
         appendLog(category: .session, title: "Starting Boot Sequence")
 
-        await restoreAccountFromKeychain()
+        if ProcessInfo.processInfo.environment["PHALANX_AUTOMATION"] != "true" {
+            await restoreAccountFromKeychain()
+        }
 
         // 1. Initializing Environment (already done in init, but we'll mark it success)
         updateBootTask(id: "env", status: .loading)
