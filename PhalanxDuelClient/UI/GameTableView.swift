@@ -427,6 +427,8 @@ private struct BattlefieldSlotView: View {
     let accessibilityIdentifier: String
     let accessibilityState: String
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     var body: some View {
         RoundedRectangle(cornerRadius: 12)
             .fill(slot == nil ? Color.gameSurfaceElevated.opacity(0.5) : Color.clear)
@@ -457,6 +459,11 @@ private struct BattlefieldSlotView: View {
                     .accessibilityElement(children: .combine)
                     .accessibilityLabel("\(slot.card.face) of \(slot.card.suit.rawValue)")
                     .accessibilityValue("\(slot.currentHp) health points")
+                    .transition(
+                        reduceMotion
+                            ? .opacity
+                            : .scale(scale: 0.5).combined(with: .opacity)
+                    )
                 } else {
                     Image(systemName: "plus")
                         .font(.system(size: 16, weight: .semibold))
@@ -464,6 +471,7 @@ private struct BattlefieldSlotView: View {
                         .accessibilityLabel("Empty slot")
                 }
             }
+            .animation(reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.7), value: slot?.card.id)
             .accessibilityElement(children: .ignore)
             .accessibilityIdentifier(accessibilityIdentifier)
             .accessibilityLabel(slot.map { "\($0.card.face) of \($0.card.suit.rawValue)" } ?? "Empty slot")
@@ -617,6 +625,7 @@ private struct DuelStatStripView: View {
 private struct CombatOverlayView: View {
     let gameState: GameState
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var phaseFlash: String?
     @State private var attackFlash: String?
     @State private var lastPhaseKey: String?
@@ -641,9 +650,9 @@ private struct CombatOverlayView: View {
             }
         }
         .allowsHitTesting(false)
-        .transition(.opacity.combined(with: .scale(scale: 0.9)))
-        .animation(.easeOut(duration: 0.2), value: phaseFlash)
-        .animation(.easeOut(duration: 0.2), value: attackFlash)
+        .transition(reduceMotion ? .opacity : .opacity.combined(with: .scale(scale: 0.9)))
+        .animation(reduceMotion ? nil : .easeOut(duration: 0.2), value: phaseFlash)
+        .animation(reduceMotion ? nil : .easeOut(duration: 0.2), value: attackFlash)
         .onChange(of: gameState.phase) { _, newPhase in
             handlePhaseChange(newPhase)
         }

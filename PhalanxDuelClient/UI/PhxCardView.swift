@@ -10,6 +10,9 @@ public struct PhxCardView: View {
     public let isHighlighted: Bool
     public let currentHp: Int?
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var shakeOffset: CGFloat = 0
+
     public init(
         card: Card?,
         isFaceUp: Bool = true,
@@ -42,6 +45,26 @@ public struct PhxCardView: View {
                     isSelected ? glowColor : (isHighlighted ? Color.goldBright : Color.gameBorder),
                     lineWidth: isSelected ? 2.5 : (isHighlighted ? 2 : 1)
                 )
+        }
+        .scaleEffect(isSelected ? 1.08 : 1.0)
+        .offset(x: shakeOffset)
+        .animation(reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.55), value: isSelected)
+        .onChange(of: currentHp) { oldValue, newValue in
+            guard !reduceMotion, let oldValue, let newValue, newValue < oldValue else { return }
+            shake()
+        }
+    }
+
+    /// A brief left-right wobble on damage — deliberately hand-rolled rather
+    /// than PhaseAnimator so its timing is trivially deterministic and
+    /// doesn't risk interacting with XCUITest's element-settling waits.
+    private func shake() {
+        let step = Animation.easeInOut(duration: 0.06)
+        let offsets: [CGFloat] = [-6, 6, -4, 0]
+        for (index, value) in offsets.enumerated() {
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.06) {
+                withAnimation(step) { shakeOffset = value }
+            }
         }
     }
 
@@ -92,6 +115,7 @@ public struct PhxCardView: View {
                 RoundedRectangle(cornerRadius: 4, style: .continuous)
                     .fill(accent)
                     .frame(width: geometry.size.width * ratio)
+                    .animation(reduceMotion ? nil : .easeOut(duration: 0.35), value: ratio)
                 Text("\(currentHp)/\(maxHp)")
                     .font(.system(size: 8, weight: .black, design: .monospaced))
                     .foregroundStyle(.white)

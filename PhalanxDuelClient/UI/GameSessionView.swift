@@ -211,6 +211,16 @@ public struct GameSessionView: View {
 #endif
         .navigationTitle("Game Session")
         .accessibilityIdentifier("game.session")
+        .onChange(of: sessionStore.currentState?.outcome?.winnerIndex) { _, winnerIndex in
+            guard sessionStore.currentState?.outcome != nil else { return }
+            if let localPlayerIndex = sessionStore.localPlayerIndex, let winnerIndex {
+                if winnerIndex == localPlayerIndex {
+                    HapticAndAudioEngine.shared.playVictoryHaptic()
+                } else {
+                    HapticAndAudioEngine.shared.playDefeatHaptic()
+                }
+            }
+        }
         .safeAreaInset(edge: .top, spacing: 0) {
             if automationEnabled,
                let state = sessionStore.currentState,

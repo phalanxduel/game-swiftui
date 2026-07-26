@@ -1,8 +1,18 @@
 import SwiftUI
 #if os(iOS)
 import UIKit
+#elseif os(macOS)
+import AppKit
 #endif
 
+/// Real trackpad haptics (NSHapticFeedbackManager) and system-sound-backed
+/// audio cues for the macOS build — this app's actual target. The iOS
+/// branches are kept for portability but are not exercised by this project.
+///
+/// Sound cues use bundled macOS system sounds (/System/Library/Sounds) as
+/// honest placeholders, not bespoke SFX: swap the `NSSound(named:)` string
+/// in each `play*` method for a custom asset name once real sound design
+/// exists, no call-site changes needed.
 @MainActor
 public final class HapticAndAudioEngine {
     public static let shared = HapticAndAudioEngine()
@@ -10,44 +20,72 @@ public final class HapticAndAudioEngine {
     private init() {}
 
     public func playCardSelectedHaptic() {
-#if os(iOS)
-        let generator = UISelectionFeedbackGenerator()
-        generator.selectionChanged()
-#endif
+        performHaptic(.generic)
+        playSound("Tink")
     }
 
     public func playDeployHaptic() {
-#if os(iOS)
-        let generator = UIImpactFeedbackGenerator(style: .medium)
-        generator.impactOccurred()
-#endif
+        performHaptic(.alignment)
+        playSound("Pop")
     }
 
     public func playAttackHaptic() {
-#if os(iOS)
-        let generator = UIImpactFeedbackGenerator(style: .heavy)
-        generator.impactOccurred()
-#endif
+        performHaptic(.levelChange)
+        playSound("Basso")
     }
 
     public func playReinforceHaptic() {
-#if os(iOS)
-        let generator = UIImpactFeedbackGenerator(style: .light)
-        generator.impactOccurred()
-#endif
+        performHaptic(.generic)
+        playSound("Pop")
     }
 
     public func playVictoryHaptic() {
-#if os(iOS)
-        let generator = UINotificationFeedbackGenerator()
-        generator.notificationOccurred(.success)
-#endif
+        performHaptic(.levelChange)
+        playSound("Hero")
     }
 
     public func playDefeatHaptic() {
+        performHaptic(.generic)
+        playSound("Sosumi")
+    }
+
+    private func performHaptic(_ pattern: HapticPattern) {
 #if os(iOS)
-        let generator = UINotificationFeedbackGenerator()
-        generator.notificationOccurred(.error)
+        switch pattern {
+        case .generic:
+            UISelectionFeedbackGenerator().selectionChanged()
+        case .alignment:
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        case .levelChange:
+            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+        }
+#elseif os(macOS)
+        NSHapticFeedbackManager.defaultPerformer.perform(
+            pattern.macPattern,
+            performanceTime: .now
+        )
+#endif
+    }
+
+    private func playSound(_ systemSoundName: String) {
+#if os(macOS)
+        NSSound(named: systemSoundName)?.play()
+#endif
+    }
+
+    private enum HapticPattern {
+        case generic
+        case alignment
+        case levelChange
+
+#if os(macOS)
+        var macPattern: NSHapticFeedbackManager.FeedbackPattern {
+            switch self {
+            case .generic: .generic
+            case .alignment: .alignment
+            case .levelChange: .levelChange
+            }
+        }
 #endif
     }
 }

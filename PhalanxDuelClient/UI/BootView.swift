@@ -60,7 +60,7 @@ public struct BootView: View {
                 Spacer()
 
                 // Version Info
-                Text("NATIVE iOS CLIENT v0.1.0")
+                Text("NATIVE macOS CLIENT v0.1.0-alpha.1")
                     .font(.caption2.monospaced())
                     .foregroundStyle(.secondary)
                     .padding(.bottom, 20)
