@@ -11,6 +11,7 @@ server is always authoritative; this app never invents gameplay logic locally.
 
 ```bash
 brew tap phalanxduel/tap
+brew trust phalanxduel/tap  # required once — Homebrew blocks unrecognized taps by default
 brew install --cask phalanx-duel-client
 ```
 
