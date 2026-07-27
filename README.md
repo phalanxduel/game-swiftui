@@ -42,6 +42,16 @@ To build a distributable, ad-hoc-signed `.app` the same way releases are cut:
 bin/archive-app.sh
 ```
 
+## Cutting a Release
+
+Push a tag matching `vX.Y.Z` (set `MARKETING_VERSION` in `project.yml` to match
+first) and [`.github/workflows/release.yml`](.github/workflows/release.yml)
+does the rest: runs `bin/archive-app.sh`, generates release notes from
+conventional-commit messages since the previous tag, creates the GitHub
+release with the zip attached, and bumps
+[`phalanxduel/homebrew-tap`](https://github.com/phalanxduel/homebrew-tap)'s
+`Casks/phalanx-duel-client.rb` `version`/`sha256` automatically.
+
 ## Compatibility
 
 On connect, the client checks the server's reported wire-format version
