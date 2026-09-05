@@ -607,7 +607,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = "0.1.0-alpha.1";
+				MARKETING_VERSION = "1.5.0";
 				PRODUCT_BUNDLE_IDENTIFIER = com.phalanxduel.PhalanxDuelClient;
 				SDKROOT = macosx;
 			};
@@ -632,7 +632,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = "0.1.0-alpha.1";
+				MARKETING_VERSION = "1.5.0";
 				PRODUCT_BUNDLE_IDENTIFIER = com.phalanxduel.PhalanxDuelClient;
 				SDKROOT = macosx;
 			};

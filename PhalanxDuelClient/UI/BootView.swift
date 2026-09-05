@@ -56,7 +56,7 @@ public struct BootView: View {
                 Spacer()
 
                 // Version Info
-                Text("NATIVE macOS CLIENT v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.1.0-alpha.1")")
+                Text("NATIVE macOS CLIENT v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.5.0")")
                     .font(.caption2.monospaced())
                     .foregroundStyle(Color.gameTextMuted)
                     .padding(.bottom, 20)
