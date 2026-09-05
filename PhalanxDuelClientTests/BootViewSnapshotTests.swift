@@ -1,4 +1,5 @@
 @testable import PhalanxDuelClient
+import AppKit
 import SnapshotTesting
 import SwiftUI
 import Testing
@@ -6,12 +7,45 @@ import Testing
 @MainActor
 @Suite("BootView Snapshot Tests")
 struct BootViewSnapshotTests {
+    private func snapshot(
+        _ view: some View,
+        named name: String,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        let hostingView = NSHostingView(rootView: view.frame(width: 390, height: 844))
+        hostingView.frame = CGRect(x: 0, y: 0, width: 390, height: 844)
+        hostingView.wantsLayer = true
+        hostingView.autoresizingMask = [.width, .height]
+        let window = NSWindow(
+            contentRect: hostingView.frame,
+            styleMask: [.borderless],
+            backing: .buffered,
+            defer: false
+        )
+        window.contentView = hostingView
+        window.setContentSize(hostingView.frame.size)
+        window.orderFrontRegardless()
+        window.displayIfNeeded()
+        hostingView.layoutSubtreeIfNeeded()
+        hostingView.displayIfNeeded()
+        RunLoop.main.run(until: Date().addingTimeInterval(0.05))
+        assertSnapshot(
+            of: hostingView,
+            as: .image,
+            file: file,
+            testName: name,
+            line: line
+        )
+        window.orderOut(nil)
+    }
+
     @Test("Initial state snapshot")
     func initialState() {
         let sessionStore = SessionStore()
         let view = BootView(sessionStore: sessionStore)
         // Note: In a real environment, we would use a fixed clock/seed to ensure determinism
-        assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13)))
+        snapshot(view, named: "initialState")
     }
 
     @Test("Loading tasks snapshot")
@@ -25,7 +59,7 @@ struct BootViewSnapshotTests {
         }
 
         let view = BootView(sessionStore: sessionStore)
-        assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13)))
+        snapshot(view, named: "loadingTasks")
     }
 
     @Test("Failure state snapshot")
@@ -37,6 +71,6 @@ struct BootViewSnapshotTests {
         }
 
         let view = BootView(sessionStore: sessionStore)
-        assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13)))
+        snapshot(view, named: "failureState")
     }
 }

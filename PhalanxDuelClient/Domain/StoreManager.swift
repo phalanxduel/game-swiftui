@@ -48,7 +48,7 @@ public class StoreManager: ObservableObject {
     }
 
     /// Fetches available product catalog from server and StoreKit
-    public func loadCatalog(serverURL: URL = URL(string: "http://127.0.0.1:3001")!) async {
+    public func loadCatalog(serverURL: URL = AppEnvironment.localProxy.apiBaseURL) async {
         let endpoint = serverURL.appendingPathComponent("api/store/products")
         do {
             let (data, response) = try await URLSession.shared.data(from: endpoint)
@@ -147,7 +147,7 @@ public class StoreManager: ObservableObject {
     }
 
     /// Direct test purchase for local simulation
-    public func simulatePurchase(item: StoreProductItem, userId: String = "local_player", serverURL: URL = URL(string: "http://127.0.0.1:3001")!) async -> Bool {
+    public func simulatePurchase(item: StoreProductItem, userId: String = "local_player", serverURL: URL = AppEnvironment.localProxy.apiBaseURL) async -> Bool {
         isProcessing = true
         defer { isProcessing = false }
 
@@ -168,7 +168,7 @@ public class StoreManager: ObservableObject {
         userId: String,
         transactionId: String,
         productId: String,
-        serverURL: URL = URL(string: "http://127.0.0.1:3001")!
+        serverURL: URL = AppEnvironment.localProxy.apiBaseURL
     ) async {
         let endpoint = serverURL.appendingPathComponent("api/store/verify-purchase")
         var request = URLRequest(url: endpoint)

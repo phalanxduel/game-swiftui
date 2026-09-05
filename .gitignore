@@ -1,0 +1,6 @@
+# Local build and diagnostics
+build/
+.debug_session.log
+
+# SnapshotTesting temporary names produced by failed or exploratory runs
+PhalanxDuelClientTests/__Snapshots__/**/snapshot-*.png

@@ -214,6 +214,10 @@ public struct ServerConnectView: View {
 #else
         .listStyle(.sidebar)
 #endif
+        .scrollContentBackground(.hidden)
+        .background(Color.gameBackground)
+        .tint(Color.goldAccent)
+        .foregroundStyle(Color.gameTextPrimary)
         .navigationTitle("Server Connect")
         .accessibilityIdentifier("server-connect")
     }

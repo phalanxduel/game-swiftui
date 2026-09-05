@@ -4,13 +4,13 @@ import Testing
 
 @Suite("Phalanx Duel Client Contract Tests")
 struct PhalanxDuelClientTests {
-    @Test("Local proxy preset reflects the live 5173 + 3001 split")
+    @Test("Local proxy preset uses the branded HTTPS game host")
     func localProxyPreset() {
         let environment = AppEnvironment.localProxy
 
-        #expect(environment.apiBaseURL.absoluteString == "http://localhost:5173")
-        #expect(environment.webSocketURL.absoluteString == "ws://localhost:5173/ws")
-        #expect(environment.openAPIURL.absoluteString == "http://localhost:3001/docs/json")
+        #expect(environment.apiBaseURL.absoluteString == "https://play.phalanxduel.localhost")
+        #expect(environment.webSocketURL.absoluteString == "wss://play.phalanxduel.localhost/ws")
+        #expect(environment.openAPIURL.absoluteString == "https://play.phalanxduel.localhost/docs/json")
     }
 
     @Test("Custom environment derives WebSocket and docs endpoints from API base")

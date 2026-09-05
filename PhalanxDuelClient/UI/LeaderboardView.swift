@@ -102,7 +102,7 @@ public struct LeaderboardView: View {
     private func fetchLadder() {
         isLoading = true
         Task {
-            let endpoint = URL(string: "http://127.0.0.1:3001/api/ladder")!
+            let endpoint = AppEnvironment.current.apiBaseURL.appendingPathComponent("api/ladder")
             do {
                 let (data, response) = try await URLSession.shared.data(from: endpoint)
                 guard let httpResp = response as? HTTPURLResponse, httpResp.statusCode == 200 else {

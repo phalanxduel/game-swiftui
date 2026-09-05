@@ -209,6 +209,10 @@ public struct GameSessionView: View {
 #else
         .listStyle(.sidebar)
 #endif
+        .scrollContentBackground(.hidden)
+        .background(Color.gameBackground)
+        .tint(Color.goldAccent)
+        .foregroundStyle(Color.gameTextPrimary)
         .navigationTitle("Game Session")
         .accessibilityIdentifier("game.session")
         .onChange(of: sessionStore.currentState?.outcome?.winnerIndex) { _, winnerIndex in

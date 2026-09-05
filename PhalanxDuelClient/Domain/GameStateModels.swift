@@ -121,6 +121,23 @@ public nonisolated struct TransactionLogEntry: Codable, Equatable, Sendable {
     public let timestamp: Date
     public let turnHash: String?
     public let details: TransactionDetail
+
+    enum CodingKeys: String, CodingKey {
+        case sequenceNumber, action, stateHashBefore, stateHashAfter, timestamp, turnHash, details
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let action = try container.decode(Action.self, forKey: .action)
+        self.sequenceNumber = try container.decode(Int.self, forKey: .sequenceNumber)
+        self.action = action
+        self.stateHashBefore = try container.decode(String.self, forKey: .stateHashBefore)
+        self.stateHashAfter = try container.decode(String.self, forKey: .stateHashAfter)
+        self.timestamp = try container.decode(Date.self, forKey: .timestamp)
+        self.turnHash = try container.decodeIfPresent(String.self, forKey: .turnHash)
+        self.details = try container.decodeIfPresent(TransactionDetail.self, forKey: .details)
+            ?? TransactionDetail(type: action.type)
+    }
 }
 
 public nonisolated struct MatchOutcome: Codable, Equatable, Sendable {

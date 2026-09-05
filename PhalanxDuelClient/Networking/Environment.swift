@@ -58,9 +58,9 @@ public nonisolated struct AppEnvironment: Equatable, Sendable {
 
     public static let localProxy = AppEnvironment(
         name: "Local Proxy",
-        apiBaseURL: URL(string: "http://localhost:5173")!,
-        webSocketURL: URL(string: "ws://localhost:5173/ws")!,
-        documentationBaseURL: URL(string: "http://localhost:3001")!
+        apiBaseURL: URL(string: "https://play.phalanxduel.localhost")!,
+        webSocketURL: URL(string: "wss://play.phalanxduel.localhost/ws")!,
+        documentationBaseURL: URL(string: "https://play.phalanxduel.localhost")!
     )
 
     public static let localDirect = AppEnvironment(

@@ -1,29 +1,43 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Phalanx Duel Client - Local Validation Loop
 # This script ensures the project is in a clean, buildable state.
 
-set -e
+set -euo pipefail
 
 echo "⚙️  Regenerating Project..."
 xcodegen generate
 
-echo "🎨 Formatting Code..."
-swiftformat . --quiet
+echo "🎨 Checking formatting..."
+changed_swift_files="$(git diff --name-only HEAD -- '*.swift'; git diff --name-only HEAD^ HEAD -- '*.swift' 2>/dev/null || true)"
+if [[ -n "$changed_swift_files" ]]; then
+  # The repository predates the current SwiftFormat rules. Check the files
+  # touched by this change without turning unrelated baseline debt into noise.
+  swiftformat $changed_swift_files --lint --quiet ||
+    echo "⚠️  SwiftFormat reported existing style debt; build and tests remain blocking."
+else
+  echo "   No changed Swift sources to format-check."
+fi
 
 echo "🛡️  Linting..."
 if command -v swiftlint >/dev/null; then
-  swiftlint --fix --quiet || echo "⚠️  swiftlint failed or crashed, continuing..."
+  swiftlint lint --lenient --quiet \
+    PhalanxDuelClient PhalanxDuelClientTests PhalanxDuelClientUITests ||
+    echo "⚠️  SwiftLint reported existing style debt; build and tests remain blocking."
 else
   echo "⚠️  swiftlint not found, skipping."
 fi
 
 echo "🏗️  Building Target..."
-# We use xcodebuild for the app target. 
-# Note: This requires the full Xcode SDK to be available in the local environment.
+# The app is a macOS target. Keep this gate aligned with the release workflow.
 xcodebuild build \
   -scheme PhalanxDuelClient \
-  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
   -quiet
 
-echo "✅ Check Complete."
+echo "🧪 Running fast contract tests..."
+xcodebuild test \
+  -scheme PhalanxDuelClient \
+  -only-testing:PhalanxDuelClientTests \
+  -quiet
+
+echo "✅ Fast check complete."

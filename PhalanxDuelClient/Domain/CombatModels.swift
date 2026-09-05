@@ -49,4 +49,26 @@ public nonisolated struct TransactionDetail: Codable, Equatable, Sendable {
     public let cardsDrawn: Int?
     public let reinforcementComplete: Bool?
     public let winnerIndex: Int?
+
+    public init(
+        type: ActionType,
+        gridIndex: Int? = nil,
+        combat: CombatLogEntry? = nil,
+        reinforcementTriggered: Bool? = nil,
+        victoryTriggered: Bool? = nil,
+        column: Int? = nil,
+        cardsDrawn: Int? = nil,
+        reinforcementComplete: Bool? = nil,
+        winnerIndex: Int? = nil
+    ) {
+        self.type = type
+        self.gridIndex = gridIndex
+        self.combat = combat
+        self.reinforcementTriggered = reinforcementTriggered
+        self.victoryTriggered = victoryTriggered
+        self.column = column
+        self.cardsDrawn = cardsDrawn
+        self.reinforcementComplete = reinforcementComplete
+        self.winnerIndex = winnerIndex
+    }
 }

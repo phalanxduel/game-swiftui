@@ -43,6 +43,16 @@ To build a distributable, ad-hoc-signed `.app` the same way releases are cut:
 bin/archive-app.sh
 ```
 
+Run the fast local gate before handing work to CI:
+
+```bash
+bin/check
+```
+
+For the broader macOS unit-test lane, use `bin/ci`. UI proof is a separate,
+heavier check because it needs a running local server and an interactive
+desktop session.
+
 ## Cutting a Release
 
 Push a tag matching `vX.Y.Z` (set `MARKETING_VERSION` in `project.yml` to match

@@ -12,13 +12,8 @@ public struct BootView: View {
     public var body: some View {
         ZStack {
             // Background
-#if os(iOS)
-            Color(uiColor: .systemBackground)
+            Color.gameBackground
                 .ignoresSafeArea()
-#else
-            Color(nsColor: .windowBackgroundColor)
-                .ignoresSafeArea()
-#endif
 
             VStack(spacing: 40) {
                 Spacer()
@@ -27,7 +22,7 @@ public struct BootView: View {
                 VStack(spacing: 16) {
                     Image(systemName: "shield.righthalf.filled")
                         .font(.system(size: 80))
-                        .foregroundStyle(.linearGradient(colors: [.blue, .purple], startPoint: .topLeading, endPoint: .bottomTrailing))
+                        .foregroundStyle(.linearGradient(colors: [.neonOffense, .goldBright], startPoint: .topLeading, endPoint: .bottomTrailing))
                         .scaleEffect(logoScale)
                         .onAppear {
                             withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
@@ -38,6 +33,7 @@ public struct BootView: View {
                     Text("PHALANX DUEL")
                         .font(.system(size: 28, weight: .black, design: .serif))
                         .tracking(4)
+                        .foregroundStyle(Color.gameTextPrimary)
                 }
 
                 // Boot Sequence Progress
@@ -49,10 +45,10 @@ public struct BootView: View {
                 .padding(30)
                 .background {
                     RoundedRectangle(cornerRadius: 24, style: .continuous)
-                        .fill(.ultraThinMaterial)
+                        .fill(Color.gameSurface)
                         .overlay {
                             RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                .stroke(.white.opacity(0.1), lineWidth: 1)
+                                .stroke(Color.gameBorderElevated, lineWidth: 1)
                         }
                 }
                 .padding(.horizontal, 40)
@@ -62,7 +58,7 @@ public struct BootView: View {
                 // Version Info
                 Text("NATIVE macOS CLIENT v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.1.0-alpha.1")")
                     .font(.caption2.monospaced())
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.gameTextMuted)
                     .padding(.bottom, 20)
             }
             .opacity(opacity)

@@ -1,0 +1,28 @@
+name: macOS Client CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: macos-client-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fast-check:
+    name: Fast macOS client check
+    runs-on: macos-15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Install local gate tools
+        run: brew install xcodegen swiftformat swiftlint
+
+      - name: Run repository gate
+        run: bin/check
