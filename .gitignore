@@ -4,3 +4,6 @@ build/
 
 # SnapshotTesting temporary names produced by failed or exploratory runs
 PhalanxDuelClientTests/__Snapshots__/**/snapshot-*.png
+
+# Release build output
+dist/
